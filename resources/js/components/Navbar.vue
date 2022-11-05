@@ -3,7 +3,7 @@
         <header class="">
             <!-- TOP NAV -->
 
-            <nav class="py-2 px-1 md:px-4 bg-red-800" id="top-nav">
+            <nav class="py-2 px-1 md:px-4 bg-red-800 fixed top-0 w-full border-2 border-red-600" id="top-nav">
                 <div class="flex justify-between items-center">
                     <a href="" class="flex items-center">
                         <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-10" alt="Flowbite Logo" />
@@ -48,7 +48,7 @@
 
             <!-- BOTTOM NAV -->
 
-            <nav class="py-2 px-1 md:px-4 bg-red-800 hidden md:block" id="bottom-nav">
+            <nav class="py-2 px-1 mt-[60px] md:px-4 bg-red-800 hidden md:block" id="bottom-nav">
                 <div class="flex flex-wrap justify-between items-center mx-auto">
                     <div class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul class="flex flex-col md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">

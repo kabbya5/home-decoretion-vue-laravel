@@ -20,6 +20,10 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.2.0",
-        "vue-router": "^4.1.6"
+        "add": "^2.0.6",
+        "or": "^0.2.0",
+        "vue-owl-carousel": "^2.0.3",
+        "vue-router": "^4.1.6",
+        "yarn": "^1.22.19"
     }
 }
