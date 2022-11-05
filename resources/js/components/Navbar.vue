@@ -1,9 +1,9 @@
 <template>
-    <div class="z-10 w-full">
+    <div class="w-full">
         <header class="">
             <!-- TOP NAV -->
 
-            <nav class="py-2 px-1 md:px-4 bg-red-800 fixed top-0 w-full border-2 border-red-600" id="top-nav">
+            <nav class="py-3 px-1 z-10 bg-white md:px-4 fixed top-0 w-full border-b-2 border-gray-200" id="top-nav">
                 <div class="flex justify-between items-center">
                     <a href="" class="flex items-center">
                         <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-10" alt="Flowbite Logo" />
@@ -14,10 +14,10 @@
                             <li class="border-2 px-2 w-full md:w-96 xl:w-[600px]">
                                 <form action="" class="w-full">
                                     <div class="flex items-center">
-                                        <input type="search" class="px-4 text-white font-bold bg-transparent w-full py-2 
+                                        <input type="search" class="px-4 text-green-800 font-bold bg-transparent w-full py-2 
                                             focus:outline-none"
                                             placeholder="Search..">
-                                            <i class="fa-solid fa-magnifying-glass text-white font-bold text-2xl"></i>
+                                            <i class="fa-solid fa-magnifying-glass text-green-800 font-bold text-2xl"></i>
                                     </div>
                                 </form>
                             </li>
@@ -28,19 +28,19 @@
                         <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                            
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-solid fa-cart-shopping fa-2x"></i>
                                 </a>
                             </li>
                             <li class="">
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-regular fa-heart fa-2x"></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <button @click='responsiveNav = !responsiveNav' type="button" class="inline-flex justify-center items-center mr-2 
-                        transition duration-300 text-white font-bold hover:text-gray-900">
+                        transition duration-300 text-green-800 font-bold hover:text-gray-900">
                         <i class="fa-solid fa-bars fa-2x"></i>
                     </button>
                 </div>
@@ -48,26 +48,26 @@
 
             <!-- BOTTOM NAV -->
 
-            <nav class="py-2 px-1 mt-[60px] md:px-4 bg-red-800 hidden md:block" id="bottom-nav">
+            <nav class="py-2 px-1 mt-[70px] md:px-4 hidden md:block" id="bottom-nav">
                 <div class="flex flex-wrap justify-between items-center mx-auto">
                     <div class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul class="flex flex-col md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                             <li>
-                                <router-link to="/" href="#" class="block py-2 pr-4 pl-3 text-white font-bold  rounded md:bg-transparent md:p-0">
+                                <router-link to="/" href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
                                     Home
                                 </router-link>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">About</a>
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">About</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Contact</a>
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Contact</a>
                             </li>
                             <li>
-                                <router-link to="/login" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                <router-link to="/login" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     login / register
                                 </router-link>
                             </li>
@@ -76,17 +76,17 @@
                     <div class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul class="flex flex-col items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-regular fa-user"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-regular fa-heart"></i>
                                 </a>
                             </li>
@@ -97,7 +97,7 @@
 
             <!-- RESPONSIVE NAV  -->
 
-            <div v-if="responsiveNav" id="responsive-nav" class="fixed shadow-md">
+            <div v-if="responsiveNav" id="responsive-nav" class="fixed shadow-md bg-white z-50">
                 <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2inline-flex justify-center items-center mr-2 
                     transition duration-300 text-black hover:text-gray-900"> 
                     <i class="fa-solid fa-xmark fa-2x"></i>
@@ -107,7 +107,7 @@
                         <li class="px-2 py-1">
                             <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                 <i class="fa-solid fa-cart-shopping fa-2x relative">
-                                    <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                    <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
                                          22
                                     </span>
                                 </i>
@@ -117,7 +117,7 @@
                         <li>
                             <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                 <i class="fa-regular fa-heart fa-2x relative">
-                                    <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                    <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
                                          22
                                     </span>
                                 </i>
@@ -132,7 +132,7 @@
                         </li>
                     </ul>
                     <div class="button flex justify-center border-b-2 border-gray-200 pb-3">
-                        <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-white uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
+                        <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-green-800 uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
                              {{ menuBtn }} 
                         </button>
                     </div>

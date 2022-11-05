@@ -1,22 +1,67 @@
 <template>
     <div>
         <!-- Banner  -->
-        <div class="w-full bg-red-800" id="hero">
-            <div class="">
-                <div class=" py-4">
+        <div class="w-full my-4" id="hero">
+            <div class="owl-carousel owl-theme">
+                <div class="py-4 item">
                     <div class="w-full mx-auto lg:w-2/3 flex flex-col-reverse items-center justify-center md:flex-row">
-                        <div class="w-1/2 flex flex-col items-center justify-center">
-                            <h2 class="slider-title text-white font-bold uppercase">
-                                Contrary to popular belief
+                        <div class="w-full md:w-1/2 my-6 ml-2 flex flex-col items-center justify-center">
+                            <h2 class="slider-title font-bold uppercase">
+                                Contrary to popular belief type and scrambled
                             </h2>
-                            <p class="text-center text-gray-200">
+                            <p class="text-center mt-4 font-semibold">
+                                printer took a galley of type and scrambled it to make 
                                 printer took a galley of type and scrambled it to make 
                             </p>
-                            <button type="button" class="uppercase text-white my-6 px-4 py-2 text-sm rounded-md border-2 border-white">
+                            <button type="button" class="btn uppercase my-6 px-4 py-2 text-sm rounded-md 
+                            border-2 font-bold border-green-800 text-green-800
+                            trnasition duration-300 hover:bg-green-800 hover:text-white">
                                 SHOW NOW    
                             </button>
                         </div>
-                        <div class="img py-4 px-2 md:px-4 flex justify-center w-1/2">
+                        <div class="img w-full md:w-1/2 mt-[70px] md:my-4 mr-4 px-2 md:px-4 flex justify-center">
+                            <img class="w-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ7l2FsFt9HGz_3FLxxoi6aqxY2aHQakFovw&usqp=CAU" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="py-4 item">
+                    <div class="w-full mx-auto lg:w-2/3 flex flex-col-reverse items-center justify-center md:flex-row">
+                        <div class="w-full md:w-1/2 my-6 mx-2 md:mx-4 flex flex-col items-center justify-center">
+                            <h2 class="slider-title font-bold uppercase">
+                                Contrary to popular belief type and scrambled
+                            </h2>
+                            <p class="text-center mt-4 font-semibold">
+                                printer took a galley of type and scrambled it to make 
+                                printer took a galley of type and scrambled it to make 
+                            </p>
+                            <button type="button" class="btn uppercase my-6 px-4 py-2 text-sm rounded-md 
+                            border-2 font-bold border-green-800 text-green-800
+                            trnasition duration-300 hover:bg-green-800 hover:text-white">
+                                SHOW NOW    
+                            </button>
+                        </div>
+                        <div class="img w-full md:w-1/2 mt-[70px] md:my-4 mr-4 px-2 md:px-4 flex justify-center">
+                            <img class="w-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ7l2FsFt9HGz_3FLxxoi6aqxY2aHQakFovw&usqp=CAU" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="py-4 item">
+                    <div class="w-full mx-auto lg:w-2/3 flex flex-col-reverse items-center justify-center md:flex-row">
+                        <div class="w-full md:w-1/2 my-6 ml-2 flex flex-col items-center justify-center">
+                            <h2 class="slider-title font-bold uppercase">
+                                Contrary to popular belief type and scrambled
+                            </h2>
+                            <p class="text-center mt-4 font-semibold">
+                                printer took a galley of type and scrambled it to make 
+                                printer took a galley of type and scrambled it to make 
+                            </p>
+                            <button type="button" class="btn uppercase my-6 px-4 py-2 text-sm rounded-md 
+                            border-2 font-bold border-green-800 text-green-800
+                            trnasition duration-300 hover:bg-green-800 hover:text-white">
+                                SHOW NOW    
+                            </button>
+                        </div>
+                        <div class="img w-full md:w-1/2 mt-[70px] md:my-4 mr-4 px-2 md:px-4 flex justify-center">
                             <img class="w-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ7l2FsFt9HGz_3FLxxoi6aqxY2aHQakFovw&usqp=CAU" alt="">
                         </div>
                     </div>
