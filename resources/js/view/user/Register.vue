@@ -124,7 +124,7 @@ export default{
             axios.post(url, this.user)
             .then(res => {
                 console.log(this.user);
-                this.$router.push('/home');
+                this.$router.push('/');
             })
             .catch(error =>{  
                 this.errors = error.response.data.errors;

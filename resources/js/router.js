@@ -4,6 +4,10 @@ import Index from './view/Index.vue';
 import Login from './view/user/Login.vue';
 import Register from './view/user/Register.vue';
 
+// Admin 
+
+import CategoryIndex from './view/admin/category/CategoryIndex.vue';
+
 
 const routes = [
   {
@@ -15,12 +19,13 @@ const routes = [
   },
   {
     path:"/register", name:'register', component: Register,
-  }
-  // {
-  //     name:"userProfle", path: "/profile/:userId", 
-  //     component: UserProflie, 
-  //     meta:{title:'Profile'}
-  // },
+  },
+
+  // admin section 
+  {
+      name:"adminCategory", path: "/admin/category/index", 
+      component: CategoryIndex, 
+  },
   // {
   //   name:"UserLogin", path:"/login",
   //   component:Login,

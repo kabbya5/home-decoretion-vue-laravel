@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminBashbordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,12 +13,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//admin 
+
+Route::get('/admin/dashboard/',[AdminBashbordController::class,'index']);
+
 Auth::routes();
+
 Route::get('/', function () {
     return view('home');
 });
-
+Route::get('/admin/{any}', [AdminBashbordController::class,'index'])
+  ->where('any','.*');
+  
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])
   ->where('any','.*')->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
