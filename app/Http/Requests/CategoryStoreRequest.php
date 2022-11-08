@@ -13,7 +13,7 @@ class CategoryStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,23 @@ class CategoryStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $rule =  [
+            'categoryName' => 'required|min:5|unique:categories',
+        //     'categoryImgName' => 'required',
+            ];
+        switch($this->method()){
+            case "PATCH":
+            case "PUT": 
+                $rule['categoryName'] = 'required|min:5|unique:categories,categoryName,'.$this->category->id;
+        }
+        return $rule;
+    }
+    public function messages()
+    {
         return [
-            //
+            'categoryName.required' => 'Categegory Name is Required',
+            'categoryImg.required' => "Category image is Required",
+            // 'categoryImgName.required' => "Category image name is Required",
         ];
     }
 }

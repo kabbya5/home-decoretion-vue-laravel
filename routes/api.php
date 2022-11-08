@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\NavbarRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('/navbar/request/',[NavbarRequestController::class,'navbarRequest']);
+Route::get('/navbar/category',[NavbarRequestController::class,'getNavbarCategory']);
+
+Route::get('/get/cateogry/index',[HomePageController::class,'getCategory']);
 
 // Admin 
 Route::resource('admin/category',CategoryController::class);

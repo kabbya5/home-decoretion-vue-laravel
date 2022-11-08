@@ -91,6 +91,7 @@ export default{
             show:false,
             hide:true,
             childSideBar:false,
+            navCats:[],
         }
     },
     methods:{
@@ -98,7 +99,8 @@ export default{
             this.show = !this.show;
             this.hide = !this.hide;
         }
-    }
+    },
+   
 }
 
 </script>

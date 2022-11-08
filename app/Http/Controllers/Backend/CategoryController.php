@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Image;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $uploadPath;
+
+    public function __construct()
+    {
+        // $this->middleware('auth');
+        $this->uploadPath = public_path('/media/category/');
+    }
+
     public function index()
     {
         $categories = Category::orderBy('viewCount','DESC')->get();
@@ -27,27 +32,82 @@ class CategoryController extends Controller
         return response()->json([$categories,$categoriesCount]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $data = $this->handelRequest($request);
+        dd($data);
+        // Category::create($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    private function  handelRequest($request){
+
+        $input = $request->all();
+        if($request->hasFile('categoryImg')){
+            if($request->oldImg){
+                $this->deleteOldcategoryImg($request->oldImg);
+                
+            }
+            $image = $request->get('categoryImg');
+            $tmpImageNmae = $this->categoryImgName();   
+            $categoryImgName = $tmpImageNmae. '.' .$image->getClientOriginalExtension();
+
+            Image::make($image)->resize(200,200)->save(
+                $this->uploadPath . $categoryImgName
+            );
+            $input['categoryImg'] = "media/category/" . $categoryImgName;
+        }
+        $input['slug'] = $input['categoryName'];
+        
+        unset($input['oldImg']);
+        return $input;
+
+        // $input = $request->all();
+        // if($request->hasFile('categorycategoryImg')){
+        //     if($request->oldcategoryImg){
+        //         $this->deleteOldcategoryImg($request->oldcategoryImg);
+        //     }
+        //     $position = strpos($request->cateogrycategoryImg, ';');
+        //     $sub = substr($request->cateogrycategoryImg, 0, $position);
+        //     $ext = explode('/',$sub)[1];
+
+        //     $tmpImageNmae = $this->categoryImgName(); 
+        //     $categoryImgName = $tmpImageNmae. '.' .$ext;
+
+        //     Image::make($request->cateogrycategoryImg)->resize(500,500)->save(
+        //         $this->uploadPath . $categoryImgName
+        //     );
+   
+        //     $input['categorycategoryImg'] = "media/category/" . $categoryImgName;
+        // }
+        // $input['slug'] = $input['categoryName'];
+
+        // unset($input['oldcategoryImg']);
+
+        // return $input;
     }
 
+    private function deleteOldcategoryImg($oldImg){
+        unlink($oldImg);
+    }
+
+    private function categoryImgName(){
+        $charectere = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
+        $number = '123456789';
+        $newCharecter = explode(',',$charectere);
+        $charectere = implode('',$newCharecter);
+        $char = '';
+        
+        for($i=1; $i <= 10;$i++){
+          if($i <6){
+            $char .= $charectere[rand(0,25)];
+          }elseif($i<=9 && $i >= 5){
+            $char .= $number[rand(0,8)];
+          }elseif($i == 10){
+            $char .= $charectere[rand(0,25)];
+          }
+        }     
+        return $char;
+    }
     /**
      * Display the specified resource.
      *

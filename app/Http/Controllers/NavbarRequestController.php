@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 
 class NavbarRequestController extends Controller
 {
-    public function navbarRequest(){
+    public function getNavbarCategory(){
 
-        if (Route::has('login')){
-            $route = 'login';
-            $text  = 'login';
-        }
-        if (Route::has('register')){
-            $route = 'register';
-            $text  = 'register';
-        }
-
-        return response()->json([$route,$text]);
+        $categories = Category::orderBy('viewCount', 'desc')->get();
+        return response()->json($categories);
     }
 }

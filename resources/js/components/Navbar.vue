@@ -131,20 +131,25 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="button flex justify-center border-b-2 border-gray-200 pb-3">
-                        <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-green-800 uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
+                    <div class="button flex justify-center border-b-2 border-gray-200 my-4 pb-3">
+                        <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-white uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
                              {{ menuBtn }} 
                         </button>
                     </div>
                     <div v-if="menuBtn =='category'" class="bg-gray-100 h-screen px-2 py-2">
-                        <h4 class="text-center font-bold text-gray-600 "> All Category </h4>
+                        <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
+                            All Category 
+                        </h4>
                         <ul class="flex flex-col uppercase">
                             <li @mouseenter="showSubcategory = true" 
                                 @mouseleave="showSubcategory = false"
-
-                                class="flex relative w-20 px-4 py-1">
-                                <a href="" class="text-green-800 font-bold">
-                                    Main
+                                v-for="cat in navCats" :key="cat.id"
+                                class="flex relative px-4 py-1 border-2 
+                                    border-slate-200 items-center">
+                                <img :src="cat.categoryImg" :alt="cat.categoryImgName"
+                                    class="w-10 h-10 rounded-md">
+                                <a href="" class="text-green-800 font-bold ml-4">
+                                    {{cat.categoryName}}
                                 </a>
                                 <ul v-if="showSubcategory" class="flex flex-col px-4 absolute left-10">
                                     <li class="px-4 py-1"> 
@@ -232,6 +237,7 @@ export default{
             menuBtn:'category',
             showSubcategory:false,
             showChildcategory:false,
+            navCats:[],
         }
     },
     methods:{
@@ -239,5 +245,11 @@ export default{
             this.menuBtn = this.menuBtn == 'category' ? 'menu' : 'category';
         }
     },
+    mounted(){
+        axios.get('/api/navbar/category')
+        .then(res => {
+            this.navCats = res.data;
+        })
+    }
 }
 </script>
