@@ -119,7 +119,6 @@ export default{
         },
         registerAccount(){
             console.log(this.user);
-
             let url = '/register';
             axios.post(url, this.user)
             .then(res => {

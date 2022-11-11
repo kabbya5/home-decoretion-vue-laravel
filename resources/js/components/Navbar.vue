@@ -97,133 +97,121 @@
 
             <!-- RESPONSIVE NAV  -->
 
-            <div v-if="responsiveNav" id="responsive-nav" class="fixed shadow-md bg-white z-50">
-                <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2inline-flex justify-center items-center mr-2 
-                    transition duration-300 text-black hover:text-gray-900"> 
-                    <i class="fa-solid fa-xmark fa-2x"></i>
-                </button>
-                <div class="flex flex-col justify-center my-3">
-                    <ul class="flex  justify-around items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                        <li class="px-2 py-1">
-                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                <i class="fa-solid fa-cart-shopping fa-2x relative">
-                                    <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
-                                         22
-                                    </span>
-                                </i>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                <i class="fa-regular fa-heart fa-2x relative">
-                                    <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
-                                         22
-                                    </span>
-                                </i>
-                            </a>
-                        </li>
-                        <li class="mb-[15px]">
-                            <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                <i class="fa-regular fa-user fa-2x">
-                                    
-                                </i>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="button flex justify-center border-b-2 border-gray-200 my-4 pb-3">
-                        <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-white uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
-                             {{ menuBtn }} 
-                        </button>
-                    </div>
-                    <div v-if="menuBtn =='category'" class="bg-gray-100 h-screen px-2 py-2">
-                        <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
-                            All Category 
-                        </h4>
-                        <ul class="flex flex-col uppercase">
-                            <li @mouseenter="showSubcategory = true" 
-                                @mouseleave="showSubcategory = false"
-                                v-for="cat in navCats" :key="cat.id"
-                                class="flex relative px-4 py-1 border-2 
-                                    border-slate-200 items-center">
-                                <img :src="cat.categoryImg" :alt="cat.categoryImgName"
-                                    class="w-10 h-10 rounded-md">
-                                <a href="" class="text-green-800 font-bold ml-4">
-                                    {{cat.categoryName}}
+            <div v-if="responsiveNav" id="responsive-nav" class="fixed shadow-md bg-slate-200/60 z-50 w-full">
+                <div class="w-[330px] bg-white">
+                    <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2 w-full text-right
+                        transition duration-300 text-black hover:text-red-900"> 
+                        <i class="fa-solid fa-xmark fa-2x mr-4"></i>
+                    </button>
+                    <div class="flex flex-col justify-center my-3">
+                        <ul class="flex  justify-around items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
+                            <li class="px-2 py-1">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
+                                            22
+                                        </span>
+                                    </i>
                                 </a>
-                                <ul v-if="showSubcategory" class="flex flex-col px-4 absolute left-10">
-                                    <li class="px-4 py-1"> 
-                                        <a href="">
-                                           Sub
-                                        </a>   
+                            </li>
+
+                            <li>
+                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-regular fa-heart fa-2x relative">
+                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
+                                            22
+                                        </span>
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="mb-[15px]">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-regular fa-user fa-2x">
+                                        
+                                    </i>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="button flex justify-center border-b-2 border-gray-200 my-4 pb-3">
+                            <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-white uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
+                                {{ menuBtn }} 
+                            </button>
+                        </div>
+                        <div v-if="menuBtn =='category'" class="bg-gray-100 h-screen px-2 py-2">
+                            <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
+                                All Category 
+                            </h4>
+                            <ul class="flex flex-col uppercase">
+                                <li v-for="cat in navCats" :key="cat.id" 
+                                    @mouseenter="showSubcategory = cat.id" 
+                                    @mouseleave="showSubcategory = false"                 
+                                    class="cat-li flex px-4 py-1 border-2 
+                                        border-slate-200 items-center">
+
+                                    <img :src="cat.categoryImg" :alt="cat.categoryImgName"
+                                        class="w-10 h-10 rounded-md">
+                                    <a href="" class="text-green-800 font-bold ml-4">
+                                        {{cat.categoryName}}
+                                    </a>
+                                    
+
+                                    <button v-if="cat.subcategories.length >0" 
+                                        class="absolute right-2 px-3 bg-slate-200/60 h-full">
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </button>
+
+                                    <ul v-if="showSubcategory === cat.id" class="subcat-ul flex flex-col bg-gray-100 z-10 px-2 py-6 
+                                        border-2 border-gray-200 shadow-md">
+                                        <li  v-for="subcat in cat.subcategories" :key="subcat.id"
+                                            @mouseenter="showChildcategory = subcat.id" 
+                                            @mouseleave="showChildcategory = false"
+                                            class="pl-2 py-2  border-2 bg-white flex justify"> 
+                                            <a href="">
+                                                {{ subcat.subCatName }}
+                                            </a>
+
+                                            <button v-if="subcat.childcategories.length >0" 
+                                                class="absolute right-2 px-3 bg-slate-200/60">
+                                                <i class="fa-solid fa-angle-down"></i>
+                                            </button>
+
+                                    
+                                            <ul v-if="showChildcategory === subcat.id" 
+                                            class="px-4 absolute left-[90%] bg-gray-100 z-50 w-[90%] py-4 top[-10px]">
+                                                <li v-for="childcat in subcat.childcategories" :key="childcat.id"
+                                                    class="my-1 py-2 px-2 border-2 border-gray-200">
+                                                    <a href="">
+                                                        {{ childcat.childCatName }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul> 
+                                </li>
+                            </ul> 
+                        </div>
+                        <div v-else class="px-4 my-3">
+                            <h4 class="text-center font-bold text-gray-600 "> All Menu </h4>
+                            <div class="w-full md:w-auto md:order-1">
+                                <ul class="flex flex-col justify-center md:mt-0 md:text-sm md:font-medium md:border-0 ">
+                                    <li>
+                                        <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">Home</a>
                                     </li>
-                                    <li @mouseenter="showChildcategory = true" 
-                                        @mouseleave="showChildcategory = false"
-                                        class="px-4"> 
-                                        <a href="">
-                                            Sub2
-                                        </a>
-                                        <ul v-if="showChildcategory" class="px-4 absolute left-14 mt-[-15px]">
-                                            <li>  
-                                                <a href="">
-                                                    home 
-                                                </a>
-                                       
-                                            </li>
-                                            <li> 
-                                                <a href="">
-                                                    home 
-                                                </a>
-                                       
-                                            </li>
-                                            <li> 
-                                                <a href="">
-                                                    home 
-                                                </a>
-                                       
-                                            </li>
-                                       </ul>
+                                    <li>
+                                        <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">About</a>
                                     </li>
-                                    <li class="px-4 py-1"> 
-                                        <a href="">
-                                            Sub 
-                                        </a>
-                                       
-                                    </li> 
-                                </ul> 
-                            </li>
-                            <li class="px-4"> 
-                                <a href="">
-                                    Main
-                                </a>         
-                            </li>
-                            <li class="px-4"> 
-                                <a href="">
-                                    Main
-                                </a>        
-                            </li>
-                        </ul> 
-                    </div>
-                    <div v-else class="px-4 my-3">
-                        <h4 class="text-center font-bold text-gray-600 "> All Menu </h4>
-                        <div class="w-full md:w-auto md:order-1">
-                            <ul class="flex flex-col justify-center md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                                <li>
-                                    <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">Home</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">About</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Contact</a>
-                                </li>
-                            </ul>
+                                    <li>
+                                        <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </header>
     </div>    
@@ -235,15 +223,20 @@ export default{
         return{
             responsiveNav:false,
             menuBtn:'category',
-            showSubcategory:false,
-            showChildcategory:false,
+            showSubcategory:'',
+            showChildcategory:'',
             navCats:[],
+            subcategories:[],
         }
     },
     methods:{
         menuBtnToggler: function () {
             this.menuBtn = this.menuBtn == 'category' ? 'menu' : 'category';
-        }
+        },
+        getSubcategory(cat){   
+            this.showSubcategory = this.showSubcategory == true ? false :true;
+        },
+        
     },
     mounted(){
         axios.get('/api/navbar/category')

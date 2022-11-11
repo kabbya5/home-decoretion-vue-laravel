@@ -14,10 +14,11 @@
                     </a>
                 </li>
 
-                <!-- SLider  -->
+                <!-- Catgory  -->
 
-                <li class="w-full text-white bg-indigo-800 py-1 my-2">
-                    <button @click="childSideBar=!childSideBar" type="button" class=" block uppercase w-full flex justify-between">
+                <li class="w-full text-white bg-indigo-600 py-1 my-2 transition
+                    duration-300 hover:bg-indigo-800" :class="{'active': link=='category'}">
+                    <button @click="activelink('category')" type="button" class=" block uppercase w-full flex justify-between">
                         <div>
                             <i class="fa-solid fa-sliders text-lg px-2"></i>
                             Category 
@@ -26,22 +27,33 @@
                         <i class="fa-solid fa-arrow-down text-lg mr-4"></i>
                     </button>
                     
-                    <ul v-if="childSideBar" class="flex flex-col w-full mt-4">
-                        <li class="w-full bg-indigo-600 py-1 transition
+                    <ul v-show="link=='category'" class="flex flex-col w-full mt-4">
+                        <li class="w-full bg-indigo-600 py-1 transition my-1
                             duration-300 hover:bg-indigo-800">
-                            <router-link to="/admin/category/index" class=" block uppercase text-white w-full">
+                            <router-link to="/admin/category/index" class="py-1 block uppercase text-white w-full">
                                 <i class="fa-solid fa-home text-lg px-2"></i>
                                 category 
                             </router-link>
                         </li>
-                        <li class="w-full bg-indigo-600 py-1 transition
+                        <li class="w-full bg-indigo-600  transition 
                             duration-300 hover:bg-indigo-800">
-                            <a href="" class=" block uppercase text-white w-full">
+                            <router-link to="/admin/subcategory/index" class="py-1 block uppercase text-white w-full">
                                 <i class="fa-solid fa-home text-lg px-2"></i>
-                                Dashboard
-                            </a>
+                                sub category 
+                            </router-link>
                         </li>
                     </ul>
+                </li>
+
+                <!-- SLider  -->
+                <li class="w-full bg-indigo-600 py-1 transition
+                    duration-300 hover:bg-indigo-800">
+                    <router-link to="/admin/slider/index" @click="activelink(slider)"
+                        class=" block uppercase text-white w-full"
+                        :class="{'active': activeLink=='slider'}">
+                        <i class="fa-solid fa-home text-lg px-2"></i>
+                        Slider
+                    </router-link>
                 </li>
 
                 <!-- End Slider  -->
@@ -92,15 +104,25 @@ export default{
             hide:true,
             childSideBar:false,
             navCats:[],
+            link:'',
         }
     },
     methods:{
         sidebarTogoller: function (){
             this.show = !this.show;
             this.hide = !this.hide;
+        },
+        activelink(name){;
+            this.link = name;
         }
     },
    
 }
 
 </script>
+<style>
+    .router-link-active, .router-link-exact-active,.active{
+        background: rgb(55 48 163);
+        color: white;
+    }
+</style>

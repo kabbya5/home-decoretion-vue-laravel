@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subcategories', function (Blueprint $table) {
+        Schema::create('sliders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->string('subCatName');
+            $table->string('sliderName')->unique();
             $table->string('slug');
-            $table->timestamps();
+            $table->text('sliderText')->nullable();
+            $table->string('sliderImg');
+            $table->integer('viewCount');
+            $table->timestamp('published_at')->nullable();
             $table->softDeletes();
-
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subcategories');
+        Schema::dropIfExists('sliders');
     }
 };

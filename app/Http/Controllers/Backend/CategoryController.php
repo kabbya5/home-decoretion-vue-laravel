@@ -35,62 +35,44 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         $data = $this->handelRequest($request);
-        dd($data);
+        dd($data['categoryImg']);
         // Category::create($data);
     }
 
     private function  handelRequest($request){
 
         $input = $request->all();
+        $input['slug'] = $input['categoryName']; 
+        unset($input['oldImg']);
+
         if($request->hasFile('categoryImg')){
             if($request->oldImg){
-                $this->deleteOldcategoryImg($request->oldImg);
-                
+                $this->deleteOldImg($request->oldImg);
             }
-            $image = $request->get('categoryImg');
-            $tmpImageNmae = $this->categoryImgName();   
-            $categoryImgName = $tmpImageNmae. '.' .$image->getClientOriginalExtension();
+            $position = strpos($request->categoryImg, ';');
+            $sub = substr($request->categoryImg, 0, $position);
+            $ext = explode('/',$sub)[1];
 
-            Image::make($image)->resize(200,200)->save(
-                $this->uploadPath . $categoryImgName
-            );
-            $input['categoryImg'] = "media/category/" . $categoryImgName;
+            $input['categoryImg'] = $ext;
+            $temName = $this->categoryImageName(); 
+            $categoryImgName = $temName. '.' .$ext;
+
+            // Image::make($request->categoryImg)->resize(500,500)->save(
+            //     $this->uploadPath . $categoryImgName
+            // );
+   
+            // $input['categoryImg'] = "media/category/" . $categoryImgName;
         }
         $input['slug'] = $input['categoryName'];
-        
-        unset($input['oldImg']);
+
         return $input;
-
-        // $input = $request->all();
-        // if($request->hasFile('categorycategoryImg')){
-        //     if($request->oldcategoryImg){
-        //         $this->deleteOldcategoryImg($request->oldcategoryImg);
-        //     }
-        //     $position = strpos($request->cateogrycategoryImg, ';');
-        //     $sub = substr($request->cateogrycategoryImg, 0, $position);
-        //     $ext = explode('/',$sub)[1];
-
-        //     $tmpImageNmae = $this->categoryImgName(); 
-        //     $categoryImgName = $tmpImageNmae. '.' .$ext;
-
-        //     Image::make($request->cateogrycategoryImg)->resize(500,500)->save(
-        //         $this->uploadPath . $categoryImgName
-        //     );
-   
-        //     $input['categorycategoryImg'] = "media/category/" . $categoryImgName;
-        // }
-        // $input['slug'] = $input['categoryName'];
-
-        // unset($input['oldcategoryImg']);
-
-        // return $input;
     }
 
-    private function deleteOldcategoryImg($oldImg){
+    private function deleteOldImg($oldImg){
         unlink($oldImg);
     }
 
-    private function categoryImgName(){
+    private function categoryImageName(){
         $charectere = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
         $number = '123456789';
         $newCharecter = explode(',',$charectere);

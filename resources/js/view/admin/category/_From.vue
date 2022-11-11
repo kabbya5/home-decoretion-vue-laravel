@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
     <div>
         <div class="flex flex-col">
             <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Uniqe Category Name </label>
@@ -31,7 +31,7 @@
 
             <p v-if="errors.categoryImgName" class="text-red-500"> {{ errors.categoryImgName[0] }} </p>
 
-            hidden old image 
+            <!-- hidden old image  -->
            <input type="hidden" v-model="category.oldImg">
         </div>
         <div class="flex justify-center">
@@ -48,7 +48,7 @@ export default{
     props:['category','errors','buttonText'],
     data (){
         return{
-            //
+            
         }
     },
     methods: {
@@ -59,13 +59,18 @@ export default{
             this.createImage(files[0]);
         },
         createImage(file) {
-            this.$emit('changeImage', file);
             let reader = new FileReader();
             reader.onload = (e) => {
                 this.category.categoryImg = e.target.result;
             };
             reader.readAsDataURL(file);
         },
+    },
+    mounted(){
+        if(!this.category.categoryImgName === null){
+            this.$emit('inputData', this.catetegory);
+        }
+        
     }
 } 
-</script> -->
+</script>

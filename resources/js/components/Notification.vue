@@ -3,39 +3,24 @@
         <div>
             <div class="flex flex-col gap-4 p-4">
                 <div v-if="notification.type" role="alert" :class="type"
-                    class="relative block w-full text-base font-regular px-4 py-4 rounded-lg text-white" style="opacity: 1;">
+                    class="relative block md:w-[700px] text-base font-regular px-4 py-4 rounded-lg text-white" style="opacity: 1;">
                     <div class=" mr-12"> 
                         {{ message }}
                     </div>
-                    <div class="absolute top-3 right-3 w-max rounded-lg hover:bg-white hover:bg-opacity-20 transition-all">
-                        <div @click="hideNotification"  role="button" class="w-max py-1 px-2 rounded-lg">
+                    <div class="absolute top-3 right-3 w-max rounded-lghover:bg-white hover:bg-opacity-20 transition-all">
+                        <div v-if="type=='bg-red-500'"   role="button" class="w-full rounded-lg">
+                            <i @click="restoreSubCat(notification.deleteId)" class="fa-solid fa-rotate-left text-xl mr-2 hover:bg-white hover:bg-opacity-20 transition-all py-1 px-2 rounded-lg"></i>
+                            <i @click="hideNotification" class="ml-4 fa-solid fa-xmark text-xl hover:bg-white hover:bg-opacity-20 transition-all py-1 px-2 rounded-lg"></i>
+                        </div>
+                        <div v-else-if="type=='bg-orange-500'" @click="hideNotification"  role="button" class="w-max py-1 px-2 rounded-lg">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                        <div v-else @click="hideNotification"  role="button" class="w-max py-1 px-2 rounded-lg">
                             <i class="fa-solid fa-xmark text-xl"></i>
                         </div>
+                        
                     </div>
                 </div>
-
-                <div v-if="dangerType" role="alert" class="relative block w-full text-base font-regular px-4 py-4 rounded-lg bg-orange-500 text-white" style="opacity: 1;">
-                    <div class=" mr-12">A simple orange alert with an 
-                        <a href="#">example link
-
-                        </a>. Give it a click if you like.
-                    </div>
-                    <div class="absolute top-3 right-3 w-max rounded-lg hover:bg-white hover:bg-opacity-20 transition-all">
-                        <div role="button" class="w-max p-1 rounded-lg">
-                            <i class="fa-solid fa-xmark text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div v-if="danger" role="alert" class="relative block w-full text-base font-regular px-4 py-4 rounded-lg bg-red-500 text-white" style="opacity: 1;">
-                    <div class=" mr-12">A simple red alert with an 
-                        <a href="#">example link</a>. Give it a click if you like.
-                    </div>
-                    <div class="absolute top-3 right-3 w-max rounded-lg hover:bg-white hover:bg-opacity-20 transition-all">
-                        <div role="button" class="w-max p-1 rounded-lg">
-                            <i class="fa-solid fa-xmark text-xl"></i>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>  
@@ -43,7 +28,7 @@
 
 <script>
 export default{
-    props:['notification'],
+    props:['notification','restoreCatgory'],
     data(){
         return {
             message:'',
@@ -56,14 +41,32 @@ export default{
             this.type = 'bg-blue-500';
             this.success = true;
         }
-        if(this.notification.type == 'success'){
+        else if(this.notification.type == 'success'){
             this.type = 'bg-green-500';
+        }else if(this.notification.type == 'delete'){
+            this.type = 'bg-red-500'
+        }else if(this.notification.type == 'force'){
+            this.type = 'bg-orange-500'
         }
     },
     methods:{
         hideNotification: function(){
             this.notification.type = '';
+            this.type = '';
+            this.mmessage='';
+            this.notification.message = '';
+        },
+        restoreSubCat(id){
+            
+            axios.delete('/api/admin/subcategory/restore/'+id)
+            .then(res=>{
+                this.type = 'bg-green-500';
+                this.message = 'The category has been restored !';
+                this.restoreCatgory();
+            });
+           
         }
+
     }
 }
 </script>
