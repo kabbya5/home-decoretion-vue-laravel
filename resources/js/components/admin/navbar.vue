@@ -42,6 +42,13 @@
                                 sub category 
                             </router-link>
                         </li>
+                        <li class="w-full bg-indigo-600  transition 
+                            duration-300 hover:bg-indigo-800">
+                            <router-link to="/admin/brand/index" class="py-1 block uppercase text-white w-full">
+                                <i class="fa-solid fa-home text-lg px-2"></i>
+                                Brand
+                            </router-link>
+                        </li>
                     </ul>
                 </li>
 
@@ -120,7 +127,7 @@ export default{
 }
 
 </script>
-<style>
+<style scoped>
     .router-link-active, .router-link-exact-active,.active{
         background: rgb(55 48 163);
         color: white;

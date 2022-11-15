@@ -11,6 +11,7 @@ import SubcategoryIndex from './view/admin/subcategory/SubcategoryIndex.vue';
 import SliderIndex from './view/admin/silder/SliderIndex.vue';
 import SliderCrate from './view/admin/silder/SliderCreate.vue';
 import TrashedSubcat from './view/admin/subcategory/TrashedSubcat.vue';
+import BrandIndex from './view/admin/brand/BrandIndex.vue';
 
 
 const routes = [
@@ -45,6 +46,10 @@ const routes = [
   {
     path:'/admin/subcetegory/trashed', name:'adminTrashSubcat',
     component: TrashedSubcat,
+  },
+  {
+    path:'/admin/brand/index', name:'adminBrand',
+    component:BrandIndex,
   }
 
  

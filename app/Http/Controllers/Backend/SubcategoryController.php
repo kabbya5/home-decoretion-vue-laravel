@@ -46,7 +46,7 @@ class SubcategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'subCatName' => 'required|min:3|max:250',
+            'subCatName' => 'required|min:3|max:250|unique:subcategories,subCatName',
             'category_id' => 'required',
         ]);
 
@@ -61,14 +61,16 @@ class SubcategoryController extends Controller
         }catch (ModelNotFoundException $e){
             throw new CategoryNotFoundException();
         }
-
-        
     }
-
-
-    public function update(Request $request, Subcategory $subcategory)
+    
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'subCatName' => 'sometimes|unique:subcategories',
+            'category_id' => 'required',
+        ]);
+        $data = $request->all();
+        Subcategory::findOrFail($id)->update($data);  
     }
 
     /**
@@ -84,6 +86,10 @@ class SubcategoryController extends Controller
     public function restore($id){
         $subcategory = Subcategory::withTrashed()->findOrFail($id);
         $subcategory->restore();
+    }
+
+    public function forceDelete($id){
+       Subcategory::where('id', $id)->forceDelete();
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubcategoryController;
@@ -32,8 +33,15 @@ Route::get('/get/cateogry/index',[HomePageController::class,'getCategory']);
 Route::resource('/admin/category',CategoryController::class);
 Route::get('/admin/slider',[SliderController::class,'getSliders']);
 Route::post('/admin/slider/create',[SliderController::class,'create']);
-Route::resource('/admin/subcategory',SubcategoryController::class)->except(['update','create','show']);
+Route::resource('/admin/subcategory',SubcategoryController::class)->only(['destroy','index','store']);
 Route::controller(SubcategoryController::class)->group(function (){
     Route::delete('/admin/subcategory/restore/{id}','restore');
     Route::get('/admin/subcategory/trashed','trashed');
+    Route::delete('/admin/subcategory/permament/delete/{subcatgory}','forceDelete');
+    Route::put('/admin/subcatgory/update/{id}','update');
 });
+Route::resource('/admin/brand',BrandController::class);
+Route::controller(BrandController::class)->group(function (){
+    Route::put('/admin/brand/update/{brand}','update');
+});
+
