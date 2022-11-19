@@ -59,32 +59,14 @@ export default{
             this.notification.message = '';
         },
 
-        // restoreSubCat(id){
-        //     axios.delete('/api/admin/subcategory/restore/'+id)
-        //     .then(res=>{
-        //         this.type = 'bg-green-500';
-        //         this.message = 'The Sub category has been restored !';
-        //         this.restoreCatgory();
-        //     });
-           
-        // },
-        // forceDeleteSubcat(id){
-        //     axios.delete('/api/admin/subcategory/permament/delete/'+id)
-        //     .then(res=>{
-        //         this.type = 'bg-red-800';
-        //         this.message = 'The  Sub category has been restored !';
-        //         this.forceDeleteCategory();
-        //     });
-        // }
         restoreParent(id){
             this.$parent.restore(id);
-  
+            this.hideNotification();
         },
         forceDeleteParent(id){
             this.$parent.forceDelete(id);
+            this.hideNotification();
         }
-
-
     },
 }
 </script>

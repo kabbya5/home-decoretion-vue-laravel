@@ -25,7 +25,6 @@ class CategoryStoreRequest extends FormRequest
     {
         $rule =  [
             'categoryName' => 'required|min:5|unique:categories',
-        //     'categoryImgName' => 'required',
             ];
         switch($this->method()){
             case "PATCH":
@@ -38,8 +37,6 @@ class CategoryStoreRequest extends FormRequest
     {
         return [
             'categoryName.required' => 'Categegory Name is Required',
-            'categoryImg.required' => "Category image is Required",
-            // 'categoryImgName.required' => "Category image name is Required",
         ];
     }
 }

@@ -1,5 +1,8 @@
 <template>
     <div>
+        <metainfo>
+            <template v-slot:title="{ content }">{{ content ? `${content} | SITE_NAME` : `SITE_NAME` }}</template>
+        </metainfo>
         <Navbar/>
         <router-view :key="$route.fullPath"> </router-view>     
     </div>
@@ -15,5 +18,8 @@ export default{
         Index,
         Sidebar,
     },
+    created(){
+        document.title = 'home/project';
+    }
 }
 </script>

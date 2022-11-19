@@ -1,31 +1,9 @@
 <template>
     <div>
         <!-- Banner  -->
-        <div class="w-full my-4" id="hero">
-            <div class="owl-carousel owl-theme">
-                <div v-for="n in 5" :key="n" class="py-4 item">
-                    <div class="w-full mx-auto lg:w-2/3 flex flex-col-reverse items-center justify-center md:flex-row">
-                        <div class="w-full md:w-1/2 my-6 ml-2 flex flex-col items-center justify-center">
-                            <h2 class="slider-title font-bold uppercase">
-                                Contrary to popular belief type and scrambled
-                            </h2>
-                            <p class="text-center mt-4 font-semibold">
-                                printer took a galley of type and scrambled it to make 
-                                printer took a galley of type and scrambled it to make 
-                            </p>
-                            <button type="button" class="btn uppercase my-6 px-4 py-2 text-sm rounded-md 
-                            border-2 font-bold border-green-800 text-green-800
-                            trnasition duration-300 hover:bg-green-800 hover:text-white">
-                                SHOW NOW    
-                            </button>
-                        </div>
-                        <div class="img w-full md:w-1/2 mt-[70px] md:my-4 mr-4 px-2 md:px-4 flex justify-center">
-                            <img class="w-full" :src="img" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Slider> 
+
+        </Slider>
         <!-- End banner  -->
 
         <!-- Entery  -->
@@ -116,8 +94,12 @@
             <div class="my-8">
                 <div class="grid grid-cols-12 gap-4">
                     <div v-for="n in 12" :key="n" class="my-4 col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 transition duration-300 hover:bg-gray-200">
+                       
                         <div class="h-[300px] w-full relative">
-                            <img class="block object-cover h-full w-full" :src="img" alt="">
+                            <router-link to="/product-detail"> 
+                                <img class="block object-cover h-full w-full" :src="img" alt="">
+                            </router-link>
+                        
                             <!-- produt-status -->
                             <span class="absolute left-2 top-2 rounded-md bg-red-500 text-white  px-4 py-1 text-white"> sole !</span>
                             <span class="absolute right-2 top-2 rounded-md bg-orange-500 text-white  px-4 py-1 text-white"> 30%</span>
@@ -446,16 +428,17 @@
     </div>
 </template>
 <script>
-
+import Slider from '../components/Slider.vue';
 
 export default {
+    components:{Slider},
   data: function() {
     return {
         quickViewModal: false,
         loading:false,
         categories:[],
         firstCategory:'',
-        img:'https://media.istockphoto.com/id/1182454657/photo/bohemian-living-room-interior-3d-render.jpg?s=612x612&w=0&k=20&c=qw37MGIiTL_jML3_Tbm4bM-jNLCrocSWj7DanhBr_bY=',
+        img:null,
         actionTitel:false,
         w: window.innerWidth,
         
@@ -473,7 +456,7 @@ export default {
     })
   },
   created(){
-    console.log(this.w);
+    this.img = 'https://media.istockphoto.com/id/1182454657/photo/bohemian-living-room-interior-3d-render.jpg?s=612x612&w=0&k=20&c=qw37MGIiTL_jML3_Tbm4bM-jNLCrocSWj7DanhBr_bY=';
   }
 };
 </script>

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Image;
 
 class CategoryController extends Controller
 {
@@ -14,13 +12,13 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth');
+
         $this->uploadPath = public_path('/media/category/');
     }
 
     public function index()
     {
-        $categories = Category::orderBy('viewCount','DESC')->get();
+        $categories = Category::latest()->get();
         $count = $categories->count();
 
         if($count > 1){
@@ -35,8 +33,7 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         $data = $this->handelRequest($request);
-        dd($data['categoryImg']);
-        // Category::create($data);
+        Category::create($data);
     }
 
     private function  handelRequest($request){
@@ -45,7 +42,7 @@ class CategoryController extends Controller
         $input['slug'] = $input['categoryName']; 
         unset($input['oldImg']);
 
-        if($request->hasFile('categoryImg')){
+        if($request->categoryImg){
             if($request->oldImg){
                 $this->deleteOldImg($request->oldImg);
             }
@@ -54,16 +51,17 @@ class CategoryController extends Controller
             $ext = explode('/',$sub)[1];
 
             $input['categoryImg'] = $ext;
-            $temName = $this->categoryImageName(); 
+            $temName = $this->categorycategoryName(); 
             $categoryImgName = $temName. '.' .$ext;
 
-            // Image::make($request->categoryImg)->resize(500,500)->save(
-            //     $this->uploadPath . $categoryImgName
-            // );
+            Category::make($request->categoryImg)->resize(400,300)->save(
+                $this->uploadPath . $categoryImgName
+            );
    
-            // $input['categoryImg'] = "media/category/" . $categoryImgName;
+            $input['categoryImg'] = "/media/category/" . $categoryImgName;
         }
-        $input['slug'] = $input['categoryName'];
+        $input['slug'] = str_slug($input['categoryName']);
+        $input['categoryImgName'] = str_slug($input['categoryName']);
 
         return $input;
     }
@@ -72,7 +70,7 @@ class CategoryController extends Controller
         unlink($oldImg);
     }
 
-    private function categoryImageName(){
+    private function categorycategoryName(){
         $charectere = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
         $number = '123456789';
         $newCharecter = explode(',',$charectere);
@@ -90,38 +88,11 @@ class CategoryController extends Controller
         }     
         return $char;
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
+    public function update(CategoryStoreRequest $request, Category $category)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
+        $data = $this->handelRequest($request);
+        $category->update($data);
     }
 
     /**
@@ -130,8 +101,32 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category  $category)
     {
-        //
+        $category->delete();
+    }
+
+    public function restore($id)
+    {
+        Category::withTrashed()->findOrFail($id)->restore();
+    }
+
+    public function trashed()
+    {
+        $trashedCategory = Category::onlyTrashed()->latest()->get();
+        $count = $trashedCategory->count();
+        if($count > 1){
+            $trashedCategoryCount = $count . '  '.'Category';
+        }else{
+            $trashedCategoryCount = $count . '  ' .'Category';
+        }
+
+        return response()->json([$trashedCategory, $trashedCategoryCount]);
+    }
+
+    public function forceDelete($id){
+        $category = Category::withTrashed()->findOrFail($id);
+        $this->deleteOldImg($category->categoryImg);
+        $category->forceDelete();   
     }
 }

@@ -118,11 +118,9 @@ export default{
             this.showPassword = !this.showPassword;
         },
         registerAccount(){
-            console.log(this.user);
             let url = '/register';
             axios.post(url, this.user)
             .then(res => {
-                console.log(this.user);
                 this.$router.push('/');
             })
             .catch(error =>{  

@@ -50,9 +50,9 @@
         <!-- more button  -->
         <div @click="loadMore">
             <div class="text-right pt-3 text-gray-500 capitalize font-semibold">
-                {{ slidersCount }}
+                {{ colorsCount }}
             </div>
-            <div v-if="length <= slidersLength" class="flex justify-center my-4">
+            <div v-if="length <= colorLength" class="flex justify-center my-4">
                 <button  class="uppercase bg-indigo-800 px-4 py-2 rounded-lg text-white
                 transition duration-300 hover:bg-indigo-600">
                     {{ btnMessage }}
@@ -211,10 +211,10 @@ export default{
         return{
             modal:false,
             sliders:[],
-            slidersCount:'',
+            colorsCount:'',
             length:5,
-            allSliders: [],
-            slidersLength:'',
+            allColors: [],
+            colorLength:'',
             btnMessage:"load more",
             
             // form data 
@@ -249,7 +249,7 @@ export default{
         loadMore:function(){
             this.btnMessage = 'looding...'
             this.length += 5;
-            this.sliders = this.allSliders.slice(0, this.length);
+            this.colors= this.allColors.slice(0, this.length);
             this.btnMessage = 'load more'
         },
         onFileChange(e){
@@ -319,33 +319,20 @@ export default{
                 this.notification.deleteId = null;
                 this.notification.type = 'success';
                 this.notification.message = 'The slider has been deleted successsfully';
-                this.allSliders = res.data[0];
-                this.sliders = res.data[0].slice(0, this.length);
-                this.slidersCount = res.data[1];
-                this.slidersLength = res.data[0].length;
+                this.allColors = res.data[0];
+                this.colors= res.data[0].slice(0, this.length);
+                this.colorsCount = res.data[1];
+                this.colorLength = res.data[0].length;
             })
-        },
-        deleteslider(id,name){
-            this.notification.type ='force';
-            this.notification.message = `Do you want to delete ${name} brad  ?`;
-            this.notification.deleteId = id;
-            this.sliders = this.sliders.filter(slider => slider.id !== id);
-        },
-        forceDelete(id){
-            axios.delete('/api/admin/slider/' + id)
-            .then(res=>{
-                this.reloadslider();
-            })
-        }
-                
+        },          
     },
     created(){
         axios.get('/api/admin/slider')
         .then(res =>{
-            this.allSliders = res.data[0];
-            this.sliders = res.data[0].slice(0, this.length);
-            this.slidersCount = res.data[1];
-            this.slidersLength = res.data[0].length;
+            this.allColors = res.data[0];
+            this.colors= res.data[0].slice(0, this.length);
+            this.colorsCount = res.data[1];
+            this.colorLength = res.data[0].length;
         });
         document.title = 'Admin/SLider'
     },

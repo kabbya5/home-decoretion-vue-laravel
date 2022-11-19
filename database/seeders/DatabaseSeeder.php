@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             SubcategoryTableSeeder::class,
             ChildcategoryTableSeeder::class,
             BrandTableSeeder::class,
+            ImageSeeder::class,
         ]);
 
     }
