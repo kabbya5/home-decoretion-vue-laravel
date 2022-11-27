@@ -39,8 +39,11 @@
                                         <td class="text-left text-lg py-2 text-text-gray-500">
                                             {{ subcategory.subCatName}} 
                                         </td>                                        
-                                        <td class="text-left text-lg py-2 text-text-gray-500">
+                                        <td v-if="subcategory.category" class="text-left text-lg py-2 text-text-gray-500">
                                             {{ subcategory.category.categoryName }}
+                                        </td>
+                                        <td v-else class="text-left text-lg py-2 text-text-gray-500">
+                                            category missing 
                                         </td>
                                         <td class="text-left text-lg py-2 text-text-gray-500">
                                             {{ subcategory.date }}
@@ -104,7 +107,7 @@
                             </div>
                             <select @change="handleChange" v-model="subcat.category_id" class="py-2 border-2 border-gray-200 text-gray-500 focus:outline-none"
                              :class="{'border-1 border-red-500':errors.category_id}">
-                                <option v-for="cat in categories" :key="cat.id" :value="cat.id" :data-foo="cat.categoryName"
+                                <option v-for="cat in categories" :key="cat.id" :value="cat.id" :data-name="cat.categoryName"
                                 >
                                     {{ cat.categoryName }}
                                 </option>
@@ -172,8 +175,12 @@
             },
             modalCreate(){
                 this.subcat = {},
+                this.selectItem ='';
                 this.formCreate = true;
                 this.modal = !this.modal;
+            },
+            handleChange (event){
+                this.selectItem = event.target.options[event.target.options.selectedIndex].getAttribute('data-name');
             },
             createSubCat(){
                 axios.post('/api/admin/subcategory',this.subcat)
@@ -191,7 +198,8 @@
             editModal(data){
                 this.subcat.subCatName = data.subCatName;
                 this.subcat.category_id = data.category_id;
-                this.formCreate = ! this.formCreate;
+                this.selectItem = data.category.categoryName;
+                this.formCreate = false;
                 this.updateSubcatid = data.id;
                 this.errors = '';
                 this.modal = !this.modal;

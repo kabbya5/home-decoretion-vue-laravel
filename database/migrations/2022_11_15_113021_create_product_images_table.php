@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('product_img');
             $table->string('product_img_name');
-            $table->morphs('imageable');
             $table->softDeletes();
             $table->timestamps();
         });

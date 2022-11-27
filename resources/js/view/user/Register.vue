@@ -9,12 +9,12 @@
                     </h4>
                     <form @submit.prevent="registerAccount" action="px-4 py-6">
                         <input type="text" placeholder="First Name"
-                            :class="{'border-1 border-red-500': errors.name}"
+                            :class="{'border-1 border-red-500': errors.first_name}"
                             class="py-2  px-4 text-gray-800 w-full border-2 focus:border-gray-200 focus:outline-none"
-                            v-model="user.name">
+                            v-model="user.first_name">
                         
-                        <p v-if="errors.name" class="text-red-500 py-2">
-                            {{ errors.name[0] }}
+                        <p v-if="errors.first_name" class="text-red-500 py-2">
+                            {{ errors.first_name[0] }}
                         </p>
 
                         <input type="text" placeholder="Last Name"
@@ -84,13 +84,12 @@
                         <input type="checkbox" class="mx-4"
                             :class="{'border-1 border-red-600':errors.checked}" 
                             v-model="user.checked">
+                            I agree to the terms and condition.
 
                         <p v-if="errors.checked" class="text-red-500 ">
                             {{ errors.checked[0] }}
                         </p>  
                              
-                            I agree to the terms and condition.
-
                         <button type="submit" class="my-4 px-4 py-2 uppercase text-center bg-blue-800 w-full text-white transition duration-300 hover:bg-blue-600">
                              Create An Accoutn  
                         </button>
@@ -108,7 +107,14 @@
 export default{
     data(){
         return{
-            user:{checked:null},
+            user:{
+                first_name:'md',
+                email:'admin@gamil.com',
+                last_name:'kabbya',
+                user_name:'kabbya12',
+                phone:'01721597157',
+                checked:null
+            },
             errors:{},
             showPassword: false,
         }
@@ -121,7 +127,7 @@ export default{
             let url = '/register';
             axios.post(url, this.user)
             .then(res => {
-                this.$router.push('/');
+                this.$router.go('/')
             })
             .catch(error =>{  
                 this.errors = error.response.data.errors;

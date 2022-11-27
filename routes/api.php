@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ColorController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageController;
+use App\Http\Controllers\Backend\SizeController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\HomePageController;
@@ -66,5 +69,19 @@ Route::controller(ProductImageController::class)->group(function(){
     Route::post('/admin/product/image/restore/{productImage}','restore');
     Route::get('/admin/product/image/trashed','trashed');
     Route::delete('/admin/product/image/force/delete/{id}', 'forceDelete');
+});
+Route::controller(ColorController::class)->group(function(){
+    Route::post('/admin/product/color/create','store');
+    Route::get('/admin/product/color','index');
+    Route::put('/admin/product/color/update/{color}','update');
+});
+
+Route::controller(ProductController::class)->group(function (){
+    Route::get('/admin/product/create','create');
+    Route::post('/admin/product/store','store');
+});
+
+Route::controller(SizeController::class)->group(function(){
+    Route::post('/admin/size/store','store');
 });
 

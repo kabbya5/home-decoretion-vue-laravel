@@ -108,7 +108,7 @@
                             <!-- action div  -->
                             <div class="absolute top-[20%] right-2">
                                 <div class="flex flex-col">
-                                    <button @mouseenter="actionTitel='cart'+n"
+                                    <button @click="addToCard()" @mouseenter="actionTitel='cart'+n"
                                         @mouseleave="actionTitel=false" 
                                         class="relative bg-white my-2 w-10 h-10 flex items-center justify-center  rounded-full
                                         transition duration-300 hover:bg-black hover:text-white"> 
@@ -438,6 +438,7 @@ export default {
         loading:false,
         categories:[],
         firstCategory:'',
+        showCategories:[name = 12,],
         img:null,
         actionTitel:false,
         w: window.innerWidth,
@@ -452,11 +453,16 @@ export default {
         this.loading = true
         this.categories = res.data[1];
         this.firstCategory = res.data[0];
-        this.loading = false
+        this.loading = false;
     })
+    if(this.w < 778){
+         this.showCategories = this.categories.slice(0,8);
+    }
   },
   created(){
     this.img = 'https://media.istockphoto.com/id/1182454657/photo/bohemian-living-room-interior-3d-render.jpg?s=612x612&w=0&k=20&c=qw37MGIiTL_jML3_Tbm4bM-jNLCrocSWj7DanhBr_bY=';
+    console.log(this.w);
+
   }
 };
 </script>

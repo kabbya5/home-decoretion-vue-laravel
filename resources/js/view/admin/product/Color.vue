@@ -11,10 +11,10 @@
                 <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                     <tr>
                         <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
-                           slider Name
+                           color Name
                         </th>
                         <th scope="col" class="py-3 px-6">
-                           slider Image
+                           color Code
                         </th>
                         <th scope="col" class="py-3 px-6">
                            Created At
@@ -25,21 +25,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="slider in sliders" :key="slider.id" class="border-b border-gray-200 dark:border-gray-700">
+                    <tr v-for="color in colors" :key="color.id" class="border-b border-gray-200 dark:border-gray-700">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                            {{ slider.sliderName }}
+                            {{ color.name }}
                         </th>
                         <td class="py-4 px-6">
-                            <img class="w-10 h-10" :src="slider.sliderImg" alt="{{ slider.sliderName }}">
+                            {{ color.colorCode }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ slider.date }}
+                            {{ color.date }}
                         </td>
                         <td class="py-4 px-6 bg-gray-50 dark:bg-gray-800">
-                            <button @click="editModal(slider)" class="py-1 px-2 bg-orange-500 text-white mr-4">
+                            <button @click="editModal(color)" class="py-1 px-2 bg-orange-500 text-white mr-4">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </button> 
-                            <button @click="deleteslider(slider.id,slider.sliderName)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
+                            <button @click="deletecolor(color.id,color.colorName)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </td>
@@ -64,140 +64,28 @@
         <!-- modal -->
         <div v-if="modal" class="fixed z-50 top-0 left-0  w-full h-screen bg-gray-300/60">
             <div class="flex flex-col items-center justify-center">
-                <div class="w-full px-4 py-8  bg-white">
+                <div class="w-[500px] px-4 my-8  bg-white pb-4">
                     <button @click='modal=!modal' class="w-full text-right block">
                         <i class="fa-solid fa-xmark border-gray-400 border-2 py-3 px-4  rounded-full transition duration hover:text-white hover:bg-black"></i>
                     </button>
-                    <form @submit.prevent="formCreate ?createSLider() : updateslider()" enctype="multipart/form-data">
-                        <div class="flex w-full">
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Uniqe slider Name </label>
-                                <input type="text" placeholder="slider Name"
-                                :class="{'border-1 border-red-500':errors.sliderName}"
-                                class="my-2 px-4 py-2 border-2 focus:outline-none
-                                    focus:border-gray-300" v-model="slider.sliderName">
+                    <form @submit.prevent="formCreate ?createcolor() : updatecolor()" enctype="multipart/form-data">
+                        <div class="flex flex-col">
+                            <label for="name" class="capitalize px-2 my-2 text-gray-600"> color name </label>
+                            <input type="text" v-model="color.name" :class="{'border-red-500':errors.name}" 
+                            class="px-2 py-2 border-2 border-gray-200 focus:outline-none" placeholder="Color Name">
+                            <p v-if="errors.name" class="my-2 color-red-500"> {{ errors.name[0] }}</p>
 
-                                <p v-if="errors.sliderName" class="text-red-500"> {{ errors.sliderName[0] }} </p>
-                            </div>
-                            <div class="flex flex-col w-full">
-                                <label for="image" class="my-2 mx-4 text-gray-500 font-semibold"> slider Image </label>
-                                <div class="flex justify-between items-center w-full">
-                                    <input type="file" placeholder="slider Image"
-                                        class="my-2 px-4 py-2 border-2 focus:outline-none
-                                        focus:border-gray-300" 
-                                        :class="{'border-1 border-red-500':errors.sliderImg}"
-                                        @change="onFileChange">
-
-                                    <img class="ml-2 w-14 h-14 rounded-full" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
-                                </div>
-                                <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
-                            </div>
                         </div>
-                        <div class="flex w-full">
-                            <div class="flex flex-col w-full">
-                                <label for="header-text" class="my-2 mx-4 text-gray-500 font-semibold"> slider Title text first </label>
-                                <div class="flex">
-                                    <input type="text" placeholder="slider Title text first"
-        
-                                        class="my-2 px-4 w-full py-2 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitle1"> 
-
-                                        <input type="number"
-
-                                        class="my-2 px-4 py-2 border-2 w-20 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleFont1">
-
-                                        <input type="color" placeholder="slider Name"
-
-                                        class="my-2 px-4 h-12 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleColor1">
-                                </div>
-                                  
-                            </div>
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> slider Title text middle  </label>
-                                <div class="flex">
-                                    <input type="text" placeholder="slider Name"
-        
-                                        class="my-2 px-4 w-full py-2 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitle2"> 
-
-                                        <input type="number"
-
-                                        class="my-2 px-4 py-2 border-2 w-20 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleFont2">
-
-                                        <input type="color" placeholder="slider Name"
-
-                                        class="my-2 px-4 h-12 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleColor2">
-                                </div>
-                            </div>
+                        <div class="flex flex-col my-4">
+                            <label for="color Code" class="capitalize px-2 my-2 text-gray-600"> color code </label>
+                            <input type="text" v-model="color.colorCode" 
+                            class="px-2 py-2 border-2 border-gray-200 focus:outline-none" placeholder="Color Name">    
                         </div>
-                      
-                        <div class="flex"> 
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> slider Title text last </label>
-                                <div class="flex">
-                                    <input type="text" placeholder="slider Name"
-        
-                                        class="my-2 px-4 w-full py-2 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitle3"> 
 
-                                        <input type="number"
-
-                                        class="my-2 px-4 py-2 border-2 w-20 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleFont3">
-
-                                        <input type="color" placeholder="slider Name"
-
-                                        class="my-2 px-4 h-12 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleColor3">
-                                </div>
-                            </div>
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold">Slider Button Text </label>
-                                <input type="text" placeholder="slider Name"
-                                :class="{'border-1 border-red-500':errors.buttonText}"
-                                class="my-2 px-4 py-2 border-2 focus:outline-none
-                                    focus:border-gray-300" v-model="slider.buttonText">
-
-                                <p v-if="errors.buttonText" class="text-red-500"> {{ errors.buttonText[0] }} </p>
-                            </div>
-                            <!-- hidden old image  -->
-                            <input type="hidden" v-model="slider.oldImg">
-                        </div>
-                        <div class="flex justify-center">
-                            <button type="submit" class="text-center my-4 px-4 py-2 uppercase trasition
-                                duration-300 text-center text-blue-800 border-2 border-blue-800
-                                hover:text-green-800 hover:border-green-800"> 
-                                {{ formCreate ? 'create slider ' : 'update slider' }}
-                            </button>
-                        </div>
+                        <button class="px-4 py-1 uppercase text-white bg-blue-800 transition duration-300 rounded-md hover:bg-blue-600">
+                            {{ formCreate ?'Create Color':'Update Color' }}
+                        </button>
                     </form>
-                </div>
-
-                <div class="my-4 bg-white w-full"> 
-                    <p class="text-center my-2"> preview</p>
-                    <div class="relative w-full h-[400px]">
-                        <img class="block object-cover w-full h-full" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
-                        <div class="absolute flex flex-col justify-center items-center w-[400px] bottom-[20%] z-10 text-white left-[20%]">
-                            <h4 v-bind:style="{'color':slider.sliderTitleColor1,'font-size':slider.sliderTitleFont1 + 'px'}"
-                                class="font-bold drop-shadow-md ">
-                                {{ slider.sliderTitle1}} 
-                            </h4>
-                            <h2 v-bind:style="{'color':slider.sliderTitleColor2,'font-size':slider.sliderTitleFont2+ 'px'}"
-                                class="font-semibold drop-shadow-md ">
-                                {{ slider.sliderTitle2}} 
-                            </h2>
-                            <p v-bind:style="{'color':slider.sliderTitleColor3,'font-size':slider.sliderTitleFont3+ 'px'}"
-                                class="font-semibold drop-shadow-md">
-                                {{ slider.sliderTitle3}}  
-                            </p>
-
-                            <button class="my-4 px-4 py-2 bg-white text-gray-600 font-bold uppercase rounded-md transition duration-300 hover:bg-gray-200 hover:scale-[1.05]"> {{ slider.buttonText }} </button>
-                        </div> 
-                    </div>
                 </div>
             </div>
         </div>
@@ -210,7 +98,7 @@ export default{
     data(){
         return{
             modal:false,
-            sliders:[],
+            colors:[],
             colorsCount:'',
             length:5,
             allColors: [],
@@ -219,9 +107,9 @@ export default{
             
             // form data 
             content:'',
-            slider:{
-                sliderTitleColor1:'',
-                sliderTitleFont1:'',
+            color:{
+                name:'',
+                colorCode:'',
             }, 
             errors:{},
             formCreate:true,
@@ -229,20 +117,13 @@ export default{
             notification:{
                 type:'',
                 message:"",
-                deleteId:'',
             },
-            color1:'',
-            font1:'',
-            color2:'',
-            font2:'',
-            color3:'',
-            font3:'',
         }
     },
     methods: {
         modalCreate(){
             this.errors = this.errors ? '': this.errors;
-            this.slider = {},
+            this.color = {},
             this.modal = !this.modal;
             this.formCreate = true;
         },
@@ -252,73 +133,48 @@ export default{
             this.colors= this.allColors.slice(0, this.length);
             this.btnMessage = 'load more'
         },
-        onFileChange(e){
-            let files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-                return;
-            this.createImage(files[0]);
-                
-        },
-        createImage(file) {
-            
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.slider.sliderImg =  e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-        createSLider(){
-            axios.post('/api/admin/slider',this.slider)
+        createcolor(){
+            axios.post('/api/admin/product/color/create',this.color)
             .then(response => {
                 this.notification.type = 'success',
-                this.notification.message = 'slider has been Created SuccessFully';
-                this.reloadslider();
+                this.notification.message = 'color has been Created SuccessFully';
+                this.reloadcolor();
                 this.modal = !this.modal;
             })
             .catch(errors => {
                 this.errors = errors.response.data.errors;
             });
         },
-        editModal(slider){
+        editModal(color){
             this.errors = this.errors ? '': this.errors;
             this.modal = !this.modal;
             this.formCreate = false;
-            this.slider = {
-                id: slider.id,
-                sliderName:slider.sliderName,
-                oldImg:slider.sliderImg,
-                sliderTitle1:slider.sliderTitle1,
-                sliderTitleFont1:slider.sliderTitleFont1,
-                sliderTitleColor1:slider.sliderTitleColor1,
-                sliderTitle2:slider.sliderTitle2,
-                sliderTitleFont2:slider.sliderTitleFont2,
-                sliderTitleColor2:slider.sliderTitleColor2,
-                sliderTitle3:slider.sliderTitle3,
-                sliderTitleFont3:slider.sliderTitleFont3,
-                sliderTitleColor3:slider.sliderTitleColor3,
-                buttonText:slider.buttonText,
+            this.color = {
+                id: color.id,
+                name:color.name,
+                colorCode:color.colorCode,
                 
             };
         },
-        updateslider(){
-            axios.put('/api/admin/slider/update/' + this.slider.id,this.slider)
+        updatecolor(){
+            axios.put('/api/admin/product/color/update/' + this.color.id,this.color)
             .then(response => {
                 
                 this.notification.type = 'edit',
-                this.notification.message = 'slider has been updated SuccessFully';
-                this.reloadslider();
+                this.notification.message = 'Color has been updated SuccessFully';
+                this.reloadcolor();
                 this.modal = !this.modal;
             
             }).catch(errors => {
                 this.errors = errors.response.data.errors;
             });
         },
-        reloadslider(){
-            axios.get('/api/admin/slider')
+        reloadcolor(){
+            axios.get('/api/admin/product/color')
             .then(res =>{
                 this.notification.deleteId = null;
                 this.notification.type = 'success';
-                this.notification.message = 'The slider has been deleted successsfully';
+                this.notification.message = 'The color has been deleted successsfully';
                 this.allColors = res.data[0];
                 this.colors= res.data[0].slice(0, this.length);
                 this.colorsCount = res.data[1];
@@ -327,14 +183,14 @@ export default{
         },          
     },
     created(){
-        axios.get('/api/admin/slider')
+        axios.get('/api/admin/product/color')
         .then(res =>{
             this.allColors = res.data[0];
             this.colors= res.data[0].slice(0, this.length);
             this.colorsCount = res.data[1];
             this.colorLength = res.data[0].length;
         });
-        document.title = 'Admin/SLider'
+        document.title = 'Admin/color'
     },
 }
 </script>

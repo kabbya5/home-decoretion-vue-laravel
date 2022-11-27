@@ -50,7 +50,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
             'last_name' =>['required','max:200'],
             'user_name' => ['required','unique:users'],
             'phone' =>['required','regex:/(01)[0-9]{9}/'],
@@ -71,9 +71,7 @@ class RegisterController extends Controller
         $data['password'] = Hash::make($data['password']);
         unset($data['password_confirmation']);
         unset($data['checked']);
-        $user = User::create($data);
 
-        $token = $user->createToken('API Token')->accessToken;
-        return response([$token,$user]);
+        return User::create($data);
     }
 }

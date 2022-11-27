@@ -31,8 +31,6 @@ class ProductImageFactory extends Factory
         return [
             'product_img_name' => $this->faker->text(rand(8,30)),
             'product_img' => $img[rand(0,4)],
-            'imageable_id' => rand(1,20),
-            'imageable_type' => $array[rand(0,1)],
         ];
     }
 }

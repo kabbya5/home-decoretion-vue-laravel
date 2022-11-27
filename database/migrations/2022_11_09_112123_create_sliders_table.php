@@ -17,11 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('sliderName')->unique();
             $table->string('slug');
-            $table->text('sliderText')->nullable();
             $table->string('sliderImg');
+            $table->string('sliderText')->nullable();
             $table->integer('viewCount');
             $table->timestamp('published_at')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

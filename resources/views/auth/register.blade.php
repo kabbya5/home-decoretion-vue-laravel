@@ -1,74 +1,95 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+<div class="w-full">
+    <div class="bg-blue-800 w-full py-4 h-screen">
+        <div class="w-full">
+            <div class="flex justify-center items-center">
+                <div class="w-96 bg-white py-8 px-4">
+                    <h4 class="text-black font-semibold border-t-2 border-gray-400
+                        px-4 pt-4 uppercase">
+                         new account register
+                    </h4>
+                    <form  action="{{ route('register') }}" method="POST">
                         @csrf
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+                        <input type="text" placeholder="First Name"
+                            class="@error('first_name') border-2 border-red-500 @enderror 
+                            py-2  px-4 text-gray-800 w-full border-2 focus:border-gray-200 focus:outline-none"
+                            value="{{ old('first_name') }}" name="first_name">
+                        
+                        @error('first_name')
+                            <p class="text-red-500"> {{ $message }}</p>
+                        @enderror
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                        <input type="text" placeholder="Last Name"
+                            class="@error('last_name') border-2 border-red-500 @enderror 
+                            py-2  px-4 text-gray-800 w-full border-2 
+                            focus:border-gray-200 focus:outline-none"
+                            value="{{ old('last_name')}}">
+                            
+                        @error('last_name')
+                            <p class="text-red-500"> {{ $message }}</p>
+                        @enderror     
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <input type="text" placeholder="User Name"
+                            class="@error('user_name') border-2 border-red-500 @enderror 
+                            py-2  px-4 text-gray-800 w-full border-2 
+                            focus:border-gray-200 focus:outline-none"
+                            
+                            value="{{ old('user_name') }}" name="user_name">
+
+                        @error('user_name')
+                            <p class="text-red-500"> {{ $message }}</p>
+                        @enderror 
+                        
+                        <input type="text" placeholder="Your Phone"
+                            class="@error('phone') border-2 border-red-500 @enderror 
+                                py-2  px-4 text-gray-800 w-full border-2 
+                                focus:border-gray-200 focus:outline-none"
+                                value="{{ old('phone') }}" name="phone">
+                        @error('phone')
+                            <p class="text-red-500"> {{ $message }}</p>
+                        @enderror 
+
+                        <input type="email" placeholder="Mail Account"
+                            class="@error('email') border-2 border-red-500 @enderror 
+                                py-2  px-4 text-gray-800 w-full border-2 
+                                focus:border-gray-200 focus:outline-none"
+                                
+                                value="{{ old('email') }}" name="email">
+
+                        @error('email')
+                            <p class="text-red-500"> {{ $message }}</p>
+                        @enderror 
+
+                        <div class="flex justify-between">
+
+                            <input class="@error('password') border-2 border-red-500 @enderror 
+                                w-full appearance-none text-xl focus:outline-none border-2 border-gray-200 py-2 px-4"
+                                type="password" name="password"
+                                placeholder="password">
                         </div>
+                        <input type="password" placeholder="Password"
+                             class="py-2  px-4 text-gray-800 w-full border-2 focus:outline-none" 
+                            name="password_confirmation">
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                        <input type="checkbox" class="mx-4"
+                            value="user.checked">
+                            I agree to the terms and condition.
+                           
+                            @error('checked')
+                            <p class="text-red-500"> {{ $message }}</p>
+                            @enderror
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
+                        <button type="submit" class="my-4 px-4 py-2 uppercase text-center bg-blue-800 w-full text-white transition duration-300 hover:bg-blue-600">
+                             Create An Accoutn  
+                        </button>
                     </form>
+                    <div class="py-4">
+                        Already have an account ?
+                        <router-link to="/login" class="text-blue-800"> Log in instead </router-link>
+                    </div>
                 </div>
             </div>
         </div>

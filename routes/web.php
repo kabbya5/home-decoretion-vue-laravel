@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 //admin 
+Auth::routes(['verify' => true]);
 
 Route::get('/admin/dashboard/',[AdminBashbordController::class,'index']);
 
-Auth::routes();
 
 Route::get('/', function () {
     return view('home');

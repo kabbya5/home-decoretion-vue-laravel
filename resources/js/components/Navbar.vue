@@ -2,7 +2,6 @@
     <div class="w-full">
         <header class="">
             <!-- TOP NAV -->
-
             <nav class="py-3 px-1 z-10 bg-white md:px-4 fixed top-0 w-full border-b-2 border-gray-200" id="top-nav">
                 <div class="flex justify-between items-center">
                     <a href="" class="flex items-center">
@@ -28,13 +27,21 @@
                         <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                            
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-solid fa-cart-shopping fa-2x"></i>
-                                </a>
+                                <router-link to="/user/cart" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
+                                            22
+                                        </span>
+                                    </i>
+                                </router-link>
                             </li>
                             <li class="">
-                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-regular fa-heart fa-2x"></i>
+                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
+                                    <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                            22
+                                        </span>
+                                    </i>
                                 </a>
                             </li>
                         </ul>
@@ -53,12 +60,14 @@
                     <div class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul class="flex flex-col md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                             <li>
-                                <router-link to="/" href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
+                                <router-link to="/"  class="block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
                                     Home
                                 </router-link>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">About</a>
+                                <router-link to="/email/verification"  class="block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
+                                    email/verification
+                                </router-link>
                             </li>
                             <li>
                                 <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
