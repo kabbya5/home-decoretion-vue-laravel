@@ -68,145 +68,93 @@
                     <button @click='modal=!modal' class="w-full text-right block">
                         <i class="fa-solid fa-xmark border-gray-400 border-2 py-3 px-4  rounded-full transition duration hover:text-white hover:bg-black"></i>
                     </button>
-                    <form @submit.prevent="formCreate ?createSLider() : updateslider()" enctype="multipart/form-data">
-                        <div class="flex w-full">
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Uniqe slider Name </label>
-                                <input type="text" placeholder="slider Name"
-                                :class="{'border-1 border-red-500':errors.sliderName}"
-                                class="my-2 px-4 py-2 border-2 focus:outline-none
-                                    focus:border-gray-300" v-model="slider.sliderName">
-
-                                <p v-if="errors.sliderName" class="text-red-500"> {{ errors.sliderName[0] }} </p>
-                            </div>
-                            <div class="flex flex-col w-full">
-                                <label for="image" class="my-2 mx-4 text-gray-500 font-semibold"> slider Image </label>
-                                <div class="flex justify-between items-center w-full">
-                                    <input type="file" placeholder="slider Image"
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2 md:col-span-1">
+                            <form @submit.prevent="formCreate ?createSLider() : updateslider()" enctype="multipart/form-data">
+                        
+                                <div class="flex w-full">
+                                    <div class="flex flex-col w-full">
+                                        <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Uniqe slider Name </label>
+                                        <input type="text" placeholder="slider Name"
+                                        :class="{'border-1 border-red-500':errors.sliderName}"
                                         class="my-2 px-4 py-2 border-2 focus:outline-none
-                                        focus:border-gray-300" 
-                                        :class="{'border-1 border-red-500':errors.sliderImg}"
-                                        @change="onFileChange">
-
-                                    <img class="ml-2 w-14 h-14 rounded-full" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
-                                </div>
-                                <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
-                            </div>
-                        </div>
-                        <div class="flex w-full">
-                            <div class="flex flex-col w-full">
-                                <label for="header-text" class="my-2 mx-4 text-gray-500 font-semibold"> slider Title text first </label>
-                                <div class="flex">
-                                    <input type="text" placeholder="slider Title text first"
+                                            focus:border-gray-300" v-model="slider.sliderName">
         
-                                        class="my-2 px-4 w-full py-2 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitle1"> 
-
-                                        <input type="number"
-
-                                        class="my-2 px-4 py-2 border-2 w-20 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleFont1">
-
-                                        <input type="color" placeholder="slider Name"
-
-                                        class="my-2 px-4 h-12 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleColor1">
+                                        <p v-if="errors.sliderName" class="text-red-500"> {{ errors.sliderName[0] }} </p>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="image" class="my-2 mx-4 text-gray-500 font-semibold"> Button Text  </label>
+                                        <div class="flex justify-between items-center w-full">
+                                            <input type="text" placeholder="slider Button Text"
+                                                class="my-2 px-4 py-2 border-2 focus:outline-none
+                                                focus:border-gray-300" 
+                                                :class="{'border-1 border-red-500':errors.sliderImg}"
+                                                v-model="slider.buttonText">
+                                        </div>
+                                        <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
+                                    </div>
                                 </div>
-                                  
-                            </div>
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> slider Title text middle  </label>
-                                <div class="flex">
-                                    <input type="text" placeholder="slider Name"
+                                <div class="flex flex-col w-full">
+                                    <label for="image" class="my-2 mx-4 text-gray-500 font-semibold"> slider Image </label>
+                                    <div class="flex justify-between items-center w-full">
+                                        <input type="file" placeholder="slider Image"
+                                            class="my-2 px-4 py-2 border-2 focus:outline-none
+                                            focus:border-gray-300" 
+                                            :class="{'border-1 border-red-500':errors.sliderImg}"
+                                            @change="onFileChange">
+    
+                                        <img class="ml-2 w-14 h-14 rounded-full" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
+                                        <input type="hidden" v-model="oldImg">
+                                    </div>
+                                    <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
+                                </div>
         
-                                        class="my-2 px-4 w-full py-2 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitle2"> 
-
-                                        <input type="number"
-
-                                        class="my-2 px-4 py-2 border-2 w-20 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleFont2">
-
-                                        <input type="color" placeholder="slider Name"
-
-                                        class="my-2 px-4 h-12 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleColor2">
+                                <div class="flex flex-col my-4">
+                                    <label for="text" class="my-4 text-slate-500 px-4 capitalize font-semibold">
+                                         product desdcription 
+                                         <i class="fa-regular fa-star text-orange-500"></i>
+                                        </label>
+                                        <QuillEditor v-model:content="contentHTML" contentType="html" toolbar="full" />
+                                </div>
+                                
+                                <div class="flex justify-center">
+                                    <button type="submit" class="text-center my-4 px-4 py-2 uppercase trasition
+                                        duration-300 text-center text-blue-800 border-2 border-blue-800
+                                        hover:text-green-800 hover:border-green-800"> 
+                                        {{ formCreate ? 'create slider ' : 'update slider' }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <div class="my-4 bg-white w-full"> 
+                                <p class="text-center my-2"> preview</p>
+                                <div class="relative w-full">
+                                    <img class="block object-cover w-full h-600" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
+                                    <div class="absolute flex flex-col justify-center items-center bottom-[20%] z-10 text-white left-[20%]">
+                                        <div class="ql-snow">
+                                            <p class="ql-editor" v-html="contentHTML"></p>
+                                        </div>
+            
+                                        <button class="my-4 px-4 py-2 bg-white text-gray-600 font-bold uppercase rounded-md transition duration-300 hover:bg-gray-200 hover:scale-[1.05]"> {{ slider.buttonText }} </button>
+                                    </div> 
                                 </div>
                             </div>
                         </div>
-                      
-                        <div class="flex"> 
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> slider Title text last </label>
-                                <div class="flex">
-                                    <input type="text" placeholder="slider Name"
-        
-                                        class="my-2 px-4 w-full py-2 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitle3"> 
-
-                                        <input type="number"
-
-                                        class="my-2 px-4 py-2 border-2 w-20 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleFont3">
-
-                                        <input type="color" placeholder="slider Name"
-
-                                        class="my-2 px-4 h-12 border-2 focus:outline-none
-                                            focus:border-gray-300" v-model="slider.sliderTitleColor3">
-                                </div>
-                            </div>
-                            <div class="flex flex-col w-full">
-                                <label for="name" class="my-2 mx-4 text-gray-500 font-semibold">Slider Button Text </label>
-                                <input type="text" placeholder="slider Name"
-                                :class="{'border-1 border-red-500':errors.buttonText}"
-                                class="my-2 px-4 py-2 border-2 focus:outline-none
-                                    focus:border-gray-300" v-model="slider.buttonText">
-
-                                <p v-if="errors.buttonText" class="text-red-500"> {{ errors.buttonText[0] }} </p>
-                            </div>
-                            <!-- hidden old image  -->
-                            <input type="hidden" v-model="slider.oldImg">
-                        </div>
-                        <div class="flex justify-center">
-                            <button type="submit" class="text-center my-4 px-4 py-2 uppercase trasition
-                                duration-300 text-center text-blue-800 border-2 border-blue-800
-                                hover:text-green-800 hover:border-green-800"> 
-                                {{ formCreate ? 'create slider ' : 'update slider' }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="my-4 bg-white w-full"> 
-                    <p class="text-center my-2"> preview</p>
-                    <div class="relative w-full h-[400px]">
-                        <img class="block object-cover w-full h-full" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
-                        <div class="absolute flex flex-col justify-center items-center w-[400px] bottom-[20%] z-10 text-white left-[20%]">
-                            <h4 v-bind:style="{'color':slider.sliderTitleColor1,'font-size':slider.sliderTitleFont1 + 'px'}"
-                                class="font-bold drop-shadow-md ">
-                                {{ slider.sliderTitle1}} 
-                            </h4>
-                            <h2 v-bind:style="{'color':slider.sliderTitleColor2,'font-size':slider.sliderTitleFont2+ 'px'}"
-                                class="font-semibold drop-shadow-md ">
-                                {{ slider.sliderTitle2}} 
-                            </h2>
-                            <p v-bind:style="{'color':slider.sliderTitleColor3,'font-size':slider.sliderTitleFont3+ 'px'}"
-                                class="font-semibold drop-shadow-md">
-                                {{ slider.sliderTitle3}}  
-                            </p>
-
-                            <button class="my-4 px-4 py-2 bg-white text-gray-600 font-bold uppercase rounded-md transition duration-300 hover:bg-gray-200 hover:scale-[1.05]"> {{ slider.buttonText }} </button>
-                        </div> 
-                    </div>
+                    </div>     
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { ref, defineComponent } from 'vue'
+import { QuillEditor, Delta } from '@vueup/vue-quill'
 import Notification from '../NotificationAdmi.vue';
 export default{
-    components:{Notification,},
+    components:{Notification,QuillEditor,},
     data(){
         return{
             modal:false,
@@ -218,11 +166,7 @@ export default{
             btnMessage:"load more",
             
             // form data 
-            content:'',
-            slider:{
-                sliderTitleColor1:'',
-                sliderTitleFont1:'',
-            }, 
+            slider:{}, 
             errors:{},
             formCreate:true,
 
@@ -231,13 +175,18 @@ export default{
                 message:"",
                 deleteId:'',
             },
-            color1:'',
-            font1:'',
-            color2:'',
-            font2:'',
-            color3:'',
-            font3:'',
         }
+    },
+    setup: () => {
+        const contentDelta = ref<Delta>(
+        new Delta([
+                { insert: 'Gandalf', attributes: { bold: true } },
+                { insert: ' the ' },
+                { insert: 'Grey', attributes: { color: '#ccc' } },
+            ])
+        )
+        const contentHTML = ref('<h1> slider title and text here </h1>')
+        return { contentDelta, contentHTML}
     },
     methods: {
         modalCreate(){
@@ -268,7 +217,12 @@ export default{
             reader.readAsDataURL(file);
         },
         createSLider(){
-            axios.post('/api/admin/slider',this.slider)
+            axios.post('/api/admin/slider',{
+                sliderName:this.slider.sliderName,
+                sliderImg:this.slider.sliderImg,
+                sliderText:this.contentHTML,
+                buttonText:this.slider.buttonText,
+            })
             .then(response => {
                 this.notification.type = 'success',
                 this.notification.message = 'slider has been Created SuccessFully';
@@ -287,21 +241,19 @@ export default{
                 id: slider.id,
                 sliderName:slider.sliderName,
                 oldImg:slider.sliderImg,
-                sliderTitle1:slider.sliderTitle1,
-                sliderTitleFont1:slider.sliderTitleFont1,
-                sliderTitleColor1:slider.sliderTitleColor1,
-                sliderTitle2:slider.sliderTitle2,
-                sliderTitleFont2:slider.sliderTitleFont2,
-                sliderTitleColor2:slider.sliderTitleColor2,
-                sliderTitle3:slider.sliderTitle3,
-                sliderTitleFont3:slider.sliderTitleFont3,
-                sliderTitleColor3:slider.sliderTitleColor3,
+                sliderText:this.contentHTML,
                 buttonText:slider.buttonText,
-                
             };
+            this.contentHTML = slider.sliderText;
         },
         updateslider(){
-            axios.put('/api/admin/slider/update/' + this.slider.id,this.slider)
+            axios.put('/api/admin/slider/update/' + this.slider.id,{
+                sliderName:this.slider.sliderName,
+                sliderImg:this.slider.sliderImg,
+                sliderText:this.contentHTML,
+                buttonText:this.slider.buttonText,
+                oldImg:this.slider.oldImg,
+            })
             .then(response => {
                 
                 this.notification.type = 'edit',

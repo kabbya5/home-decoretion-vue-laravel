@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductImage;
+use App\Models\Image;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +15,6 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        ProductImage::factory()->count(50)->create();
+        Image::factory()->count(50)->create();
     }
 }

@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use League\CommonMark\Extension\Table\Table;
 
 return new class extends Migration
 {
@@ -14,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_images', function (Blueprint $table) {
-            $table->id();
-            $table->string('product_img');
-            $table->string('product_img_name');
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::create('imagebles', function (Blueprint $table) {
+            $table->unsignedBigInteger('image_id');
+            $table->morphs('imageble');
+            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_images');
+        Schema::dropIfExists('imagebles');
     }
 };

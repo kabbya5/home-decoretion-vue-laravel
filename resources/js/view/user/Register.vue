@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-blue-800 w-full py-4 ">
+    <div class="bg-blue-800 w-full h-screen py-4 ">
         <div class="w-full">
             <div class="flex justify-center items-center">
                 <div class="w-96 bg-white py-8 px-4">
@@ -109,7 +109,7 @@ export default{
         return{
             user:{
                 first_name:'md',
-                email:'admin@gamil.com',
+                email:'admin@gmail.com',
                 last_name:'kabbya',
                 user_name:'kabbya12',
                 phone:'01721597157',
@@ -127,7 +127,7 @@ export default{
             let url = '/register';
             axios.post(url, this.user)
             .then(res => {
-                this.$router.go('/')
+                this.$router.go('/email/verify');
             })
             .catch(error =>{  
                 this.errors = error.response.data.errors;

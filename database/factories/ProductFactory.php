@@ -17,7 +17,6 @@ class ProductFactory extends Factory
      */
     public function definition()
     {   $name =  rtrim($this->faker->text(rand(15,30)),'.');
-        $free_shipping = array('true','false');
         return [
             'category_id' => rand(1,10),
             'subcategory_id' =>rand(1,10),
@@ -32,9 +31,9 @@ class ProductFactory extends Factory
             'description' => $this->faker->paragraphs(rand(8,15),true),
             'quantity' => rand(20,80),
             'weight' => rand(30,60),
-            'free_shipping' => $free_shipping[rand(0,1)],
-            'top_rated' => $free_shipping[rand(0,1)],
-            'is_weekly_sale' => $free_shipping[rand(0,1)],
+            'free_shipping' => rand(0,1),
+            'top_rated' => rand(0,1),
+            'is_weekly_sale' => rand(0,1),
             'published_at' => Carbon::today()->subDays(rand(0, 365)),
             'view_count' => $this->faker->randomNumber(2,false),
         ];

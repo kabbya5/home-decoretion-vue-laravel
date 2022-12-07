@@ -81,6 +81,13 @@
                     <ul v-show="link=='product'" class="flex flex-col w-full mt-4">
                         <li class="w-full  py-1 transition my-1
                             duration-300 hover:bg-gray-300">
+                            <router-link to="/admin/product/index" class="py-1 block uppercase text-gray-800 w-full">
+                                <i class="fa-solid fa-cart-plus text-lg px-2"></i>
+                                all products 
+                            </router-link>
+                        </li>
+                        <li class="w-full  py-1 transition my-1
+                            duration-300 hover:bg-gray-300">
                             <router-link to="/admin/product/image/index" class="py-1 block uppercase text-gray-800 w-full">
                                 <i class="fa-solid fa-photo-film text-lg px-2"></i>
                                 product Image
@@ -88,7 +95,7 @@
                         </li>
                         <li class="w-full   transition 
                             duration-300 hover:bg-gray-300">
-                            <router-link to="/admin/product/create" class="py-1 block uppercase text-gray-800 w-full">
+                            <router-link :to="{name:'adminPrdouctCreate'}" class="py-1 block uppercase text-gray-800 w-full">
                                 <i class="fa-solid fa-home text-lg px-2"></i>
                                 Create Product 
                             </router-link>

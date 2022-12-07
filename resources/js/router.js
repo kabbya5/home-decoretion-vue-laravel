@@ -15,6 +15,9 @@ import SubcategoryIndex from './view/admin/subcategory/SubcategoryIndex.vue';
 import SliderIndex from './view/admin/silder/SliderIndex.vue';
 import TrashedSubcat from './view/admin/subcategory/TrashedSubcat.vue';
 import BrandIndex from './view/admin/brand/BrandIndex.vue';
+
+// product 
+import ProductIndex from './view/admin/product/product/ProductIndex.vue';
 import PoductImage from './view/admin/product/PoductImage.vue';
 import TrashedImage from './view/admin/product/TrashedImage.vue';
 import Color from './view/admin/product/Color.vue';
@@ -24,6 +27,7 @@ import Test from './view/admin/product/product/test.vue';
 import CreateProduct from './view/admin/product/product/CreateProduct.vue';
 
 const routes = [
+  
   {
     path: "/", name: "home", component: Index,
       // meta:{title:'News Feed'}
@@ -83,7 +87,15 @@ const routes = [
     component:TrashedImage,
   },
   {
-    path:'/admin/product/create' , name:'adminPrdouctCreate',
+    path:'/admin/product/index', name:'adminProductIndex', 
+    component:ProductIndex,
+  },
+  {
+    path:'/admin/product/create/form' , name:'adminPrdouctCreate',
+    component:CreateProduct,
+  },
+  {
+    path:'/admin/product/:slug', name:'adminPoductEdit',
     component:CreateProduct,
   },
   {
@@ -97,7 +109,7 @@ const routes = [
   {
     path:'/admin/site/setting/index', name:'adminSiteSetting', 
     component:SiteSetting,
-  }
+  },
 ];
 
 const router = createRouter({

@@ -16,12 +16,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth::check() && Auth::User()->role_id ===1){
+        if(auth::check() && Auth::User()->is_admin ===1){
             return $next($request);
-        }elseif(Auth::check() && Auth::user()->role_id ===2){
+        }elseif(Auth::check() && Auth::user()->is_admin ===2){
             return $next($request); 
         }else{
-            return redirect()->route('login');
+            return response()->json(['errors'],404);
         }
     }
 }

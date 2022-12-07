@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductImage>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
  */
-class ProductImageFactory extends Factory
+class ImageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,7 +15,6 @@ class ProductImageFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition()
-
     {
         $array = ['App\Models\Product','App\Models\Tag'];
         $img = [

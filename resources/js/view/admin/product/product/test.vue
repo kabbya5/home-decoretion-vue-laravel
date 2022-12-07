@@ -1,20 +1,15 @@
-<template>
-  <div>
-    <input type="checkbox"  v-model="checkedNames" v-bind:id="1"> 
-    <label for="1"> checkbox</label>
-    <p> value: {{ checkedNames }}</p>
-  </div>
-  
- 
-
- 
+<!-- <template>
+  <v-select multiple v-model="selected" :options="['Canada','United States']" />
 </template>
+
 <script>
-export default{
-  data(){
+import vSelect from "vue-select-3";
+export default {
+  components:{'v-select': vSelect},
+  data() {
     return {
-      checkedNames:0,
+      selected: 3,
     }
-  }
+  },
 }
-</script>
+</script> -->

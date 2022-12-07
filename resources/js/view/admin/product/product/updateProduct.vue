@@ -9,7 +9,7 @@
         </div>
 
         <div class="product-form my-4">
-            <form @submit.prevent="createForm ?createProduct():updateProduct()">
+            <form @submit.prevent="createProduct">
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-4">
                          <!-- price -->
@@ -50,7 +50,7 @@
                         </div>
 
                         <div v-if="subcategories" class="flex flex-col">
-                            <div v-if="(subcategories.length > 0)" class="w-full">
+                            <div v-if="subcategories.length > 0" class="w-full">
                                     <div class="text-gray-500 capitalize my-4 px-1"> 
                                     Select subcategory: <span v-if="selectItem.subcat" class="px-2 text-gray-500 font-bold"> {{ selectItem.subcat }}  </span>
                                 </div>
@@ -132,31 +132,9 @@
                             </Multiselect>
                             <p v-if="errors.colors" class="text-red-500"> {{ errors.colors[0] }} </p>
                         </div>
-
-                        <!-- quantity and weight  -->
-
-                        <div class="flex flex-col items-center my-4">
-                            <div class="flex flex-col w-full">
-                                <label for="product_img" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
-                                    Prouduct quantity
-                                    <i class="fa-regular fa-star text-red-500"></i>
-                                </label>
-                                <input type="text" v-model="product.quantity" placeholder="quantity"
-                                class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
-                                :class="{'border-red-500':errors.quantity}">
-                                
-                                <p v-if="errors.quantity" class="text-red-500"> {{ errors.quantity[0] }} </p>
-                            </div>
-
-                            <div class="flex flex-col w-full">
-                                <label for="weight" class="my-4 text-slate-500 px-2 capitalize font-semibold"> product weight </label>
-                                <input type="text" v-model="product.weight" placeholder="weight"
-                                class="px-2 py-2 border-gray-200 border-2 focus:outline-none">
-                            </div>
-                        </div>
                         
                         <div class="flex my-4 items-center">
-                            <input type="checkbox" v-model="product.is_furniture" id="is_furniture" true-value="1"  false-value="0">
+                            <input type="checkbox" v-model="product.is_furniture_" id="is_furniture" true-value="1"  false-value="0">
                             <label for="is_furniture" class="px-4 font-bold text-slate-600 capitalize"> is furniture</label>
                         </div>
 
@@ -171,12 +149,6 @@
                         <div class="flex my-4 items-center">
                             <input type="checkbox" v-model="product.is_weekly_sale" id="is_weekly_sale" true-value="1"  false-value="0">
                             <label for="is_weekly_sale" class="px-4 font-bold text-slate-600 capitalize">week sale </label>
-                        </div>
-
-                        <div class="flex flex-col my-4">
-                            <label for="published_at" class="px-2 font-bold text-slate-600 capitalize"> Publish Now or Sate Upcomming </label>
-                            <input class="my-3 border-2 border-cyan-200 px-1 py-2 focus:ouline-none" type="date" v-model="product.published_at" />
-
                         </div>
                     </div>
                     <div class="col-span-8">
@@ -256,16 +228,10 @@
                                 <QuillEditor v-model:content="productDetails" contentType="html" toolbar="full" >
                                     
                                 </QuillEditor>
-                                
+                                <div class="ql-snow">
+                                    <p class="ql-editor" v-html="productDetails"></p>
+                                </div>
                         </div>
-
-                        <div v-if="!createForm" class="w-full">
-                            <div class="ql-snow">
-                                <p class="ql-editor" v-html="productDetails"></p>
-                            </div>
-                        </div>
-
-                        <!-- tags -->
 
                         <div class="flex flex-col my-4">
                             <label for="tags" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
@@ -308,13 +274,34 @@
                             </Multiselect>
                         </div>
 
+                         
+                       
+
+                        <div class="flex  items-center my-4">
+                            <div class="flex flex-col w-full">
+                                <label for="product_img" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
+                                    Prouduct quantity
+                                    <i class="fa-regular fa-star text-red-500"></i>
+                                </label>
+                                <input type="text" v-model="product.quantity" placeholder="quantity"
+                                class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                                :class="{'border-red-500':errors.quantity}">
+                                
+                                <p v-if="errors.quantity" class="text-red-500"> {{ errors.quantity[0] }} </p>
+                            </div>
+
+                            <div class="flex flex-col w-full">
+                                <label for="weight" class="my-4 text-slate-500 px-2 capitalize font-semibold"> product weight </label>
+                                <input type="text" v-model="product.weight" placeholder="weight"
+                                class="px-2 py-2 border-gray-200 border-2 focus:outline-none">
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
                 <div class="flex justify-end my-4">
-                    <button type="submit" class="px-4 py-2 rounded-md bg-cyan-500 text-white font-bold tansition duration-300 hover:bg-cyan-600 uppercase ">
-                        {{ createForm?'Create Product' :'update product' }} 
-                    </button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-cyan-500 text-white font-bold tansition duration-300 hover:bg-cyan-600 uppercase "> Create Product </button>
                 </div>                
             </form>
         </div>
@@ -399,9 +386,6 @@ export default ({
         return{
             product:{
                 imgs:[],
-                tags:[],
-                sizes:[],
-                colors:[],
             },
             discount_price:'',
             errors:{},
@@ -474,45 +458,10 @@ export default ({
                 images: this.product.imgs,
                 sizes:this.product.sizes,
                 colors:this.product.colors,
-                is_furniture:this.product.is_furniture,
 
             })
             .then(res=>{
-                this.notification.type = 'success';
-                this.notification.message = 'The product has been created successfully';
-            })
-            .catch(errors =>{
-                this.errors = errors.response.data.errors;
-            })
-        },
-
-        updateProduct(){
-            axios.put('/admin/product/update/'+this.$route.params.slug,{
-                product_title : this.product.product_title,
-                category_id: this.product.category_id,
-                subcategory_id: this.product.subcategory_id,
-                childcategory_id : this.product.childcategory_id,
-                brand_id :this.product.brand_id,
-                slider_id : this.product.slider_id,
-                price : this.product.price,
-                discount_price :this.product.discount_price,
-                short_text: this.product.short_text,
-                description: this.productDetails,
-                quantity: this.product.quantity,
-                weight: this.product.weight,
-                free_shipping: this.product.free_shipping,
-                is_weekly_sale: this.product.is_weekly_sale,
-                top_rated: this.product.top_rated,
-                published_at : this.product.date,
-                tags: this.product.tags,
-                images: this.product.imgs,
-                sizes:this.product.sizes,
-                colors:this.product.colors,
-                is_furniture:this.product.is_furniture,
-            })
-            .then(res=>{
-                this.notification.type = 'success';
-                this.notification.message = 'The product has been updated';
+                alert('success');
             })
             .catch(errors =>{
                 this.errors = errors.response.data.errors;
@@ -568,16 +517,6 @@ export default ({
                 this.errors = errors.response.data.errors;
             });
         },
-        updateCategory(){
-            let selectCat = this.categories.filter( cat => cat.id === this.product.category_id );
-            const proxy1 = new Proxy(selectCat, {});
-            this.subcategories =  JSON.parse(JSON.stringify(proxy1))[0].subcategories;
-
-            let selectSubCat = this.subcategories.filter(subcat =>subcat.id === this.product.subcategory_id);
-            const proxy2 = new Proxy(selectSubCat,{});
-            this.childcategories = JSON.parse(JSON.stringify(proxy2))[0].childcategories;
-        },
-
         reloadPage(){
             axios.get('/admin/product/create')
             .then(res=>{
@@ -619,6 +558,9 @@ export default ({
                 })
             });  
         }
+    },
+    mounted(){
+        
     },
     created(){
         this.productDetailsUpdate = this.productDetails;
@@ -666,14 +608,10 @@ export default ({
         if(this.$route.params.slug){
             axios.get('/admin/product/edit/' + this.$route.params.slug)
             .then(res =>{
-                this.createForm = false;
                 this.product = res.data.product;
                 this.productDetails = this.product.description;
                 this.product.imgs = res.data.product_images;
-                this.product.sizes = res.data.product_sizes;
-                this.product.tags = res.data.product_tags;
-                this.product.colors = res.data.product_colors; 
-                this.updateCategory();
+                this.product.sizes = res.data.product_sises;            
             })
 
         }

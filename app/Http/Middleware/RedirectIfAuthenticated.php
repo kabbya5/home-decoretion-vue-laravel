@@ -23,7 +23,12 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if(auth()->user()->email_verification_at == null){
+                    return redirect('/email/verify');
+                }else{
+                    return redirect(RouteServiceProvider::HOME);
+                }
+                
             }
         }
 

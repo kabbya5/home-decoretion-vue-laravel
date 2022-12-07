@@ -26,13 +26,13 @@ return new class extends Migration
             $table->string('price');
             $table->string('discount_price')->nullable();
             $table->text('short_text');
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('quantity');
             $table->string('weight')->nullable();
-            $table->string('free_shipping')->nullable();
-            $table->string('top_rated')->nullable();
+            $table->integer('free_shipping')->nullable();
+            $table->integer('top_rated')->nullable();
             $table->integer('is_weekly_sale')->nullable();
-            $table->string('view_count')->nullable();
+            $table->integer('view_count')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

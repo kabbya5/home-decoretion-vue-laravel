@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('sliderName')->unique();
             $table->string('slug');
             $table->string('sliderImg');
-            $table->string('sliderText')->nullable();
-            $table->integer('viewCount');
+            $table->text('sliderText')->nullable();
+            $table->integer('viewCount')->nullabel();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

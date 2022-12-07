@@ -4,14 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Product;
-use App\Models\Tag;
 
-class ProductImage extends Model
+class Image extends Model
 {
-    use HasFactory , SoftDeletes;
-
+    use HasFactory;
     protected $guarded = [];
     protected $appends = ['date',];
 
@@ -27,3 +23,4 @@ class ProductImage extends Model
         return $this->morphOne(Tag::class,'imagable');
     }
 }
+

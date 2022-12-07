@@ -1,8 +1,9 @@
 <template>
     <div>
+        <Notification  :notification="notification" v-if="notification.message" /> 
         <div class="text-center my-10 text-gray-700 font-bold text-xl"> Site Setting </div>
 
-        <form @submit="formCreate?createSiteSetting():updateSiteSetting()">  
+        <form @submit.prevent="formCreate?createSiteSetting():updateSiteSetting()">  
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-sapn-2 lg:col-span-1">
                     <div class="flex flex-col">
@@ -15,31 +16,88 @@
                         <p v-if="errors.page_title" class="text-red-500"> {{errors.page_title[0] }}</p>
                     </div>
                     <div class="flex flex-col">
-                        <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> Searchable Seo Tag </label>
+                        <label for="company_name" class="px-1 my-2 text-gray-600 font-semibold"> Company Name </label>
 
-                        <textarea v-model="siteSetting.seo_tag" id="" cols="30" rows="10"
+                        <input type="text" v-model="siteSetting.company_name" placeholder="Company Name"
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
-                        >
-                        </textarea>     
+                        :class="{'border-red-500':errors.company_name}">
+
+                        <p v-if="errors.company_name" class="text-red-500 px-2"> {{errors.company_name[0]}}</p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="company_phone" class="px-1 my-2 text-gray-600 font-semibold"> Company Phone </label>
+
+                        <input type="text" v-model="siteSetting.company_phone" placeholder="Company Phone"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        :class="{'border-red-500':errors.company_phone}">
+
+                        <p v-if="errors.company_phone" class="text-red-500 px-2"> {{errors.company_phone[0]}}</p>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="phone_number_2" class="px-1 my-2 text-gray-600 font-semibold"> Phone Number 2 </label>
+
+                        <input type="text" v-model="siteSetting.company_phone_2" placeholder="Phone Number 2"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        :class="{'border-red-500':errors.company_phone_2}">
+
+                        <p v-if="errors.company_phone_2" class="text-red-500 px-2"> {{errors.company_phone_2[0]}}</p>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="company_email" class="px-1 my-2 text-gray-600 font-semibold"> Company Email </label>
+
+                        <input type="text" v-model="siteSetting.company_email" placeholder="Company Email"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        :class="{'border-red-500':errors.company_email}">
+
+                        <p v-if="errors.company_email" class="text-red-500 px-2"> {{errors.company_email[0]}}</p>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="company_email_2" class="px-1 my-2 text-gray-600 font-semibold"> Company Email 2</label>
+
+                        <input type="text" v-model="siteSetting.company_email_2" placeholder="Company Email 2"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        :class="{'border-red-500':errors.company_email_2}">
+
+                        <p v-if="errors.company_email_2" class="text-red-500 px-2"> {{errors.company_email_2[0]}}</p>
                     </div>
                 </div>    
                 <div class="col-span-2 lg:col-span-1">
                     <div class="flex flex-col">
-                        <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> Title Icon </label>
+                        <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> Title Logo </label>
                         <div class="flex item-center">
                             <input type="file"  placeholder="Page Title" @change="onFileChange" name="title_image"
                             class="px-2 py-2 w-full border-2 border-gray-200 focus:outline-none">
-                            <img v-if="siteSetting.title_image" :src="siteSetting.title_image" alt="" class="w-12 h-12 rounded-full mx-2">
+                            <img  :src="siteSetting.title_image?siteSetting.title_image:siteSetting.old_title_image" alt="" class="w-12 h-12 rounded-full mx-2">
+                            <input type="hidden" v-model="siteSetting.old_title_image" class="hidden">
                         </div>
                     </div>
                     <div class="flex flex-col">
                         <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> Page Share Image  </label>
                         <div class="flex item-center">
-                            <input type="file"  placeholder="Page Title" @change="onFileChange" name="shere_image"
+                            <input type="file"  placeholder="Page Title" @change="onFileChange" name="share_image"
                             class="px-2 py-2 w-full border-2 border-gray-200 focus:outline-none">
-                            <img v-if="siteSetting.shere_image" :src="siteSetting.shere_image" alt="" class="w-12 h-12 rounded-full mx-2">
+                            <img  :src="siteSetting.share_image?siteSetting.share_image:siteSetting.old_share_image" alt="" class="w-12 h-12 rounded-full mx-2">
+                            <input type="hidden" v-model="siteSetting.old_share_image">
                         </div>
                     </div>
+                    <div class="flex flex-col">
+                        <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> Searchable Seo Tag </label>
+
+                        <textarea v-model="siteSetting.seo_tag" id="" cols="30" rows="4"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        >
+                        </textarea>     
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> Searchable paragrap 10 line</label>
+
+                        <textarea v-model="siteSetting.seo_content" id="" cols="30" rows="6"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        >
+                        </textarea>     
+                    </div>
+
                 </div>
                 <div class="col-span-2">
                     <div class="flex flex-col my-4">
@@ -49,6 +107,11 @@
                             </label>
                             <QuillEditor v-model:content="treanAndConditon" contentType="html" toolbar="full" />
                     </div>
+                    <div v-if="!createForm" class="w-full">
+                        <div class="ql-snow">
+                            <p class="ql-editor" v-html="treanAndConditon"></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-span-2">
                     <div class="flex flex-col my-4">
@@ -57,6 +120,11 @@
                             <i class="fa-regular fa-star text-orange-500"></i>
                             </label>
                             <QuillEditor v-model:content="returnPolicy" contentType="html" toolbar="full" />
+                    </div>
+                    <div v-if="!createForm" class="w-full">
+                        <div class="ql-snow">
+                            <p class="ql-editor" v-html="returnPolicy"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,6 +141,7 @@ import Notification from '../NotificationAdmi.vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref, defineComponent } from 'vue'
 import { QuillEditor, Delta } from '@vueup/vue-quill'
+
 export default{
     components: {
     QuillEditor,Notification,
@@ -85,17 +154,22 @@ export default{
                 { insert: 'Grey', attributes: { color: '#ccc' } },
             ])
         )
-        const treanAndConditon = ref('<h1> Tream and Condition </h1>')
-        const returnPolicy = ref('<h2> Return Policy </h2>')
+        let treanAndConditon = ref('<h1> Tream and Condition </h1>')
+        let returnPolicy = ref('<h2> Return Policy </h2>')
         return { contentDelta, treanAndConditon, returnPolicy}
     },
     data (){
         return{
-            formCreate:true,
+            formCreate:false,
             siteSetting:{
                 seo_tag:'example, tag, second-tag, this coma is needed'
             },
             errors:{},
+
+            notification:{
+                type:'',
+                message:'',
+            }
         }
     },
     methods:{
@@ -113,6 +187,69 @@ export default{
             };
             reader.readAsDataURL(file);
         },
+        createSiteSetting(){
+            axios.post('/admin/site/setting/create',{
+              page_title:this.siteSetting.page_title,
+              company_name: this.siteSetting.company_name,
+              company_phone: this.siteSetting.company_phone,
+              company_phone_2: this.siteSetting.company_phone_2,
+              company_email: this.siteSetting.company_email,
+              company_email_2: this.siteSetting.company_email_2,
+              seo_tag : this.siteSetting.seo_tag,
+              title_image: this.siteSetting.title_image,
+              share_image: this.siteSetting.share_image, 
+              seo_content :this.siteSetting.seo_content,
+              trean_and_conditon : this.treanAndConditon,
+              return_policy : this.returnPolicy,
+            })
+            .then(res =>{
+                this.notification.type ='success',
+                this.notification.message = " The site Setting has been created successfully";
+            })
+            .catch(errors =>{
+                this.errors = errors.response.data.errors;
+            })
+        },
+        updateSiteSetting(){
+            axios.put('/admin/site/setting/update/'+ this.siteSetting.id,{
+              page_title:this.siteSetting.page_title,
+              seo_tag : this.siteSetting.seo_tag,
+              title_image: this.siteSetting.title_image,
+              old_title_image: this.siteSetting.old_title_image,
+              share_image: this.siteSetting.share_image, 
+              old_share_image :this.siteSetting.old_share_image,
+
+              seo_content :this.siteSetting.seo_content,
+              trean_and_conditon : this.treanAndConditon,
+              return_policy : this.returnPolicy,
+            })
+            .then(res =>{
+                    this.notification.type ='success',
+                    this.notification.message = " The site Setting has been updated successfully";
+            })
+        },
+    },
+    mounted(){
+
+        axios.get('/admin/site/setting/edit')
+        .then(res =>{
+            let data = res.data;
+            this.formCreate = false;
+            this.siteSetting.id = data[0].id;
+            this.siteSetting.page_title = data[0].page_title;
+            this.siteSetting.company_email = data[0].company_email;
+            this.siteSetting.company_name = data[0].company_name;
+            this.siteSetting.company_email_2 = data[0].company_email_2;
+            this.siteSetting.company_phone = data[0].company_phone;
+            this.siteSetting.company_phone_2 = data[0].company_phone_2;
+            this.siteSetting.seo_tag = data[0].seo_tag;
+            this.siteSetting.seo_content = data[0].seo_content;
+            this.siteSetting.old_title_image = data[0].title_image;
+            this.siteSetting.old_share_image = data[0].share_image;
+            this.treanAndConditon = data[0].trean_and_conditon;
+            this.returnPolicy = data[0].return_policy;
+        })
+         
     }
 }
 </script>

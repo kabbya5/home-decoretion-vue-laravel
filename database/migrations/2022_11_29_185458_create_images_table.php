@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('imagables', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->morphs('imagables');
+            $table->string('product_img');
+            $table->string('product_img_name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('imagables');
+        Schema::dropIfExists('images');
     }
 };

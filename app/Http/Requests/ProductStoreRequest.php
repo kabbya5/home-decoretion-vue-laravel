@@ -23,12 +23,23 @@ class ProductStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            // 'product_title' => 'required|min:15|max:250|unique:products',
-            // 'category_id' => 'required',
-            // 'images' => 'required',
-            // 'tags' => 'required',
-            // 'price' => 'required',   
+        $rule = [
+            'product_title' => 'required|min:15|max:250|unique:products',
+            'category_id' => 'required',
+            'images' => 'required',
+            'tags' => 'required|max:7',
+            'price' => 'required', 
+            'short_text' => 'required|min:50|max:250',
+            'quantity' => 'required',  
+            'sizes' => 'required',
+            'colors' => 'required',
         ];
+
+        switch($this->method()){
+            case 'PATCH':
+            case 'PUT':
+                $rule['product_title'] = 'required|min:5|unique:products,product_title,'.$this->product->id;
+        }
+        return $rule;
     }
 }

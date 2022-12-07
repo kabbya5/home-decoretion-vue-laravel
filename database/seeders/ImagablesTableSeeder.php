@@ -16,14 +16,15 @@ class ImagablesTableSeeder extends Seeder
     public function run()
     {
         $imagable = [];
-        $type = ['App\Model\Product','App\Model\Tag'];
+        $type = ['App\Models\Product','App\Models\Tag'];
 
         for($i = 0; $i<80;$i++){
             $imagable = [
-                'imagables_type' => $type[rand(0,1)],
-                'imagables_id' => rand(1,50),
+                'imageble_type' => $type[rand(0,1)],
+                'imageble_id' => rand(1,50),
+                'image_id' => rand(1,50),
             ];
-            DB::table('imagables')->insert($imagable);
+            DB::table('imagebles')->insert($imagable);
         }
     }
 }
