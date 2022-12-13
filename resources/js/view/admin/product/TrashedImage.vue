@@ -80,7 +80,7 @@
 </template>
 <script>
 import Headers from './_Headers.vue';
-import Notification from '../NotificationAdmi.vue';
+import Notification from '../NotificationAdmin.vue';
 export default{
     components:{Headers,Notification },
     data(){

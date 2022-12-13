@@ -178,6 +178,13 @@
                             <input class="my-3 border-2 border-cyan-200 px-1 py-2 focus:ouline-none" type="date" v-model="product.published_at" />
 
                         </div>
+
+                        <div class="flex flex-col my-4">
+                            <label for="published_at" class="px-2 font-bold text-slate-600 capitalize"> Product Video Link </label>
+                            <input class="my-3 border-2 border-cyan-200 px-1 py-2 focus:ouline-none" type="text"
+                            placeholder="video link" v-model="product.video_link" />
+
+                        </div>
                     </div>
                     <div class="col-span-8">
                         <div class="flex flex-col my-2">
@@ -386,7 +393,7 @@
     </div>
 </template>
 <script>
-import Notification from '../../NotificationAdmi.vue';
+import Notification from '../../NotificationAdmin.vue';
 import Multiselect from '@vueform/multiselect';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref, defineComponent } from 'vue'
@@ -469,12 +476,13 @@ export default ({
                 is_weekly_sale: this.product.is_weekly_sale,
                 top_rated: this.product.top_rated,
                 tax: this.product.tax,
-                published_at : this.product.date,
+                published_at : this.product.published_at,
                 tags: this.product.tags,
                 images: this.product.imgs,
                 sizes:this.product.sizes,
                 colors:this.product.colors,
                 is_furniture:this.product.is_furniture,
+                'video_link': this.product.video_link,
 
             })
             .then(res=>{
@@ -503,12 +511,13 @@ export default ({
                 free_shipping: this.product.free_shipping,
                 is_weekly_sale: this.product.is_weekly_sale,
                 top_rated: this.product.top_rated,
-                published_at : this.product.date,
+                published_at : this.product.published_at,
                 tags: this.product.tags,
                 images: this.product.imgs,
                 sizes:this.product.sizes,
                 colors:this.product.colors,
                 is_furniture:this.product.is_furniture,
+                'video_link': this.product.video_link,
             })
             .then(res=>{
                 this.notification.type = 'success';
@@ -536,6 +545,7 @@ export default ({
             }
         },
         createSize(){
+            this.size = {};
             this.modal=!this.modal;
             this.createForm = 'size';
         },
@@ -555,6 +565,7 @@ export default ({
         createColor(){
             this.modal = !this.modal;
             this.createForm = 'color';
+            this.color = {};
         },
         storeColor(){
             axios.post('/admin/product/color/create',this.color)
@@ -581,6 +592,7 @@ export default ({
         reloadPage(){
             axios.get('/admin/product/create')
             .then(res=>{
+                this.createForm = false;
                 this.categories = res.data[0];
                 this.brands = res.data[1];
                 this.sliders = res.data[2];
@@ -625,6 +637,7 @@ export default ({
 
         axios.get('/admin/product/create')
         .then(res=>{
+            this.createForm = false;
             this.categories = res.data[0];
             this.brands = res.data[1];
             this.sliders = res.data[2];

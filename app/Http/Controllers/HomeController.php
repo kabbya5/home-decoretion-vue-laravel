@@ -21,11 +21,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $site_setting = SiteSetting::first();
+        return view('home',compact('site_setting'));
     }
     public function verifyEmail(){
         $site_setting = SiteSetting::first();
-        // dd($site_setting->page_title);
         return view('auth.verify',compact('site_setting'));
     }
 }

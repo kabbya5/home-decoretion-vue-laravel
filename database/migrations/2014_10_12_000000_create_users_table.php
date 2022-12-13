@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('user_name')->unique();
+            $table->string('slug');
             $table->string('phone');
             $table->string('email')->unique();
             $table->integer('is_admin')->default(0);

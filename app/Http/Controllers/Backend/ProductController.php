@@ -31,17 +31,12 @@ class ProductController extends Controller
     public function index()
     {
         if(Auth::user()->is_admin === 2){
-            $products = Product::with('images','category')->where('seller_id', $this->authId)->latest()->get();
+            $products = Product::with('images','category')->where('seller_id', $this->authId)->orderBy('published_at','DESC')->get();
         }else{
-           $products = Product::with('images','category')->latest()->get();
+           $products = Product::with('images','category')->orderBy('published_at','DESC')->get();
         }
 
         return response()->json($products);
-    }
-
-    public function view ($id)
-    {
-        $products = Product::with('images','tags','seller','sizes','colors','brand')->where('seller_id', $this->authId)->latest()->get();
     }
 
     /**
@@ -124,7 +119,7 @@ class ProductController extends Controller
      */
     public function edit($slug)
     {
-        $product = Product::where('slug',$slug)->first();
+        $product = Product::withTrashed()->where('slug',$slug)->first();
         $imgs = [];
         $sizes = [];
         $colors = [];
@@ -191,8 +186,18 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $product = Product::where('id',$id)->first();
+        $product->delete();
+    }
+
+    public function restore($id){
+        Product::where('id',$id)->withTrashed()->restore();
+    }
+
+    public function trashed(){
+        $products = Product::with('category','images')->onlyTrashed()->get();
+        return response()->json($products);
     }
 }

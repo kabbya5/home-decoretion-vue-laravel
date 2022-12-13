@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SiteSettingRequest;
 use App\Models\SiteSetting;
+use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use Image;
 
@@ -96,5 +97,33 @@ class SiteSettingController extends Controller
     private function deleteOldImage($img){
         $oldImg = ltrim($img,'/'); 
         unlink($oldImg);
+    }
+
+    // cocial media link 
+
+    public function getSocialMediaLink()
+    {
+        $links = SocialMedia::latest()->get();
+        return response()->json($links);
+    }
+
+    public function storeSocialMediaLink(Request $request)
+    {
+        SocialMedia::create(
+            $request->validate([
+                'link_url' => 'required',
+                'link_icon' => 'required',
+            ])
+        );
+    }
+
+    public function updateSocialMediaLink(Request $request,SocialMedia $socialMedia)
+    {
+        $socialMedia->update(
+            $request->validate([
+                'link_url' => 'required',
+                'link_icon' => 'required',
+            ])
+        );
     }
 }

@@ -17,7 +17,7 @@
                            slider Image
                         </th>
                         <th scope="col" class="py-3 px-6">
-                           Created At
+                           published At
                         </th>
                         <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
                             Action
@@ -33,7 +33,10 @@
                             <img class="w-10 h-10" :src="slider.sliderImg" alt="{{ slider.sliderName }}">
                         </td>
                         <td class="py-4 px-6">
-                            {{ slider.date }}
+                            <button @click="publishedDateChange(slider.id,slider.published_at)" class="bg-green-800 text-white px-2 py-1 capitalize transition duration-300 hover:bg-red-500"
+                            :class="{'bg-red-500':slider.published_date}"> 
+                                {{ slider.published_at?slider.published_date:'published now' }}
+                            </button>
                         </td>
                         <td class="py-4 px-6 bg-gray-50 dark:bg-gray-800">
                             <button @click="editModal(slider)" class="py-1 px-2 bg-orange-500 text-white mr-4">
@@ -131,11 +134,11 @@
                                 <p class="text-center my-2"> preview</p>
                                 <div class="relative w-full">
                                     <img class="block object-cover w-full h-600" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
-                                    <div class="absolute flex flex-col justify-center items-center bottom-[20%] z-10 text-white left-[20%]">
+                                    <div class="absolute flex flex-col justify-center items-center bottom-[50%] translate-y-[50%] z-10 text-white left-[20%]">
                                         <div class="ql-snow">
                                             <p class="ql-editor" v-html="contentHTML"></p>
                                         </div>
-            
+                        
                                         <button class="my-4 px-4 py-2 bg-white text-gray-600 font-bold uppercase rounded-md transition duration-300 hover:bg-gray-200 hover:scale-[1.05]"> {{ slider.buttonText }} </button>
                                     </div> 
                                 </div>
@@ -152,7 +155,7 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref, defineComponent } from 'vue'
 import { QuillEditor, Delta } from '@vueup/vue-quill'
-import Notification from '../NotificationAdmi.vue';
+import Notification from '../NotificationAdmin.vue';
 export default{
     components:{Notification,QuillEditor,},
     data(){
@@ -185,7 +188,7 @@ export default{
                 { insert: 'Grey', attributes: { color: '#ccc' } },
             ])
         )
-        const contentHTML = ref('<h1> slider title and text here </h1>')
+        const contentHTML = ref('<h1> first-text-h1 then h2 next simple normal </h1>')
         return { contentDelta, contentHTML}
     },
     methods: {
@@ -217,7 +220,7 @@ export default{
             reader.readAsDataURL(file);
         },
         createSLider(){
-            axios.post('/api/admin/slider',{
+            axios.post('/admin/slider',{
                 sliderName:this.slider.sliderName,
                 sliderImg:this.slider.sliderImg,
                 sliderText:this.contentHTML,
@@ -247,7 +250,7 @@ export default{
             this.contentHTML = slider.sliderText;
         },
         updateslider(){
-            axios.put('/api/admin/slider/update/' + this.slider.id,{
+            axios.put('/admin/slider/update/' + this.slider.id,{
                 sliderName:this.slider.sliderName,
                 sliderImg:this.slider.sliderImg,
                 sliderText:this.contentHTML,
@@ -265,8 +268,17 @@ export default{
                 this.errors = errors.response.data.errors;
             });
         },
+        publishedDateChange(id,publishedDate){
+            axios.put('/admin/slider/publish/datate/change/'+id,publishedDate)
+
+            .then(res =>{
+                this.notification.type="success";
+                this.notification.message = 'Successfully change Publish Date';
+                this.reloadslider();
+            })
+        },
         reloadslider(){
-            axios.get('/api/admin/slider')
+            axios.get('/admin/slider')
             .then(res =>{
                 this.notification.deleteId = null;
                 this.notification.type = 'success';
@@ -284,7 +296,7 @@ export default{
             this.sliders = this.sliders.filter(slider => slider.id !== id);
         },
         forceDelete(id){
-            axios.delete('/api/admin/slider/' + id)
+            axios.delete('/admin/slider/' + id)
             .then(res=>{
                 this.reloadslider();
             })
@@ -292,7 +304,7 @@ export default{
                 
     },
     created(){
-        axios.get('/api/admin/slider')
+        axios.get('/admin/slider')
         .then(res =>{
             this.allSliders = res.data[0];
             this.sliders = res.data[0].slice(0, this.length);

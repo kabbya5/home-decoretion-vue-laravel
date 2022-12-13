@@ -137,7 +137,7 @@
     </div>
 </template>
 <script>
-import Notification from '../NotificationAdmi.vue';
+import Notification from '../NotificationAdmin.vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { ref, defineComponent } from 'vue'
 import { QuillEditor, Delta } from '@vueup/vue-quill'

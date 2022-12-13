@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('sliderImg');
             $table->text('sliderText')->nullable();
+            $table->string('buttonText')->nullable();
             $table->integer('viewCount')->nullabel();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

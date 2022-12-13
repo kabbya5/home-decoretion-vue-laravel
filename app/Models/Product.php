@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Size;
 use App\Models\Tag;
 use App\Models\Image;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Childcategory;
 use Carbon\Carbon;
 use DB;
 class Product extends Model
@@ -16,14 +19,36 @@ class Product extends Model
 
     protected $guarded = [];
     protected $dates = ['published_at'];
-    protected $appends = ['date','sale_status','discount_status_or_new',];
+    protected $appends = [
+        'published','category_name',
+        'image_url','sale_status',
+        'discount_status_or_new',
+        'all_images',
+        'product_sizes',
+        'product_colors',
+    ];
 
     public function sizes(){
         return $this->belongsToMany(Size::class,'product_size');
     }
 
+    public function getCategoryNameAttribute(){
+        return Category::where('id', $this->category_id)->first()->categoryName;
+    }
+
     public function tags(){
         return $this->morphToMany(Tag::class,'taggable');
+    }
+
+    public function getAllImagesAttribute(){
+        $productImage = DB::table('imagebles')->where('imageble_id', $this->id)->where('imageble_type',"App\Models\Product")->get();
+        $image_ids= [];
+        foreach($productImage as $image){
+            array_push($image_ids,$image->image_id);
+        }
+
+        $images = Image::whereIn('id',$image_ids)->get();
+        return $productImage?$images:' ';
     }
 
     public function images(){
@@ -52,7 +77,8 @@ class Product extends Model
             ['published_at','<=', Carbon::now()],
             ['is_weekly_sale', 1],
             
-        ])->orderBy('view_count', 'DESC');
+        ])->orderBy('view_count', 'DESC')
+        ->orderBy('published_at','DESC');
     }
 
     public function scopePopular($query){
@@ -71,20 +97,20 @@ class Product extends Model
         return "slug";
     }
 
-    public function getDateAttribute(){
+    public function getPublishedAttribute(){
         return is_null($this->published_at) ? '' : $this->published_at->diffForHumans();
     }
+
     //product status top sale of sole out
 
     public function getSaleStatusAttribute(){
         if($this->quantity > 0){
             if($this->top_rated || $this->is_weekly_sale){
-                $sale_status = 'best sale';
+                return 'best sale';
             }
         }else{
-            $sale_status = 'sole out';
+            return 'sole out';
         }
-        return $sale_status;
     }
 
     public function getDiscountStatusOrNewAttribute(){
@@ -96,10 +122,36 @@ class Product extends Model
         }
         return $discount_status_or_new;
     }
-    // public function getImageUrlAttribute() {
-    //     $id = DB::table('imagebles')->where('imageble_id', $this->id)->where('imageble_type','App\Models\Product')->first()->id;
-    //     $image_id = $id->image_id;
-    //     $image = DB::table('images')->where('id' ,$image_id)->first();
-    //     return $image;
-    // }
+    public function getImageUrlAttribute() {
+        
+        $productImage = DB::table('imagebles')->where('imageble_id', $this->id)->where('imageble_type',"App\Models\Product")->first();
+        
+        if($productImage){
+            $image_id = $productImage->image_id;
+            $image = DB::table('images')->where('id' ,$image_id)->first()->product_img;
+        }else{
+            return '';
+        }
+       
+        return $image;
+    }
+
+    public function getProductSizesAttribute(){
+        $productSizes = DB::table('product_size')->where('product_id',$this->id)->get();
+        $size_ids = [];
+        foreach($productSizes as $size){
+            array_push($size_ids,$size->size_id);
+        }
+        $sizes = Size::whereIn('id',$size_ids)->get();
+        return $sizes?$sizes:' ';
+    }
+    public function getProductColorsAttribute(){
+        $productSizes = DB::table('product_color')->where('product_id',$this->id)->get();
+        $color_ids = [];
+        foreach($productSizes as $color){
+            array_push($color_ids,$color->color_id);
+        }
+        $color = Color::whereIn('id',$color_ids)->get();
+        return $color?$color:' ';
+    }
 }

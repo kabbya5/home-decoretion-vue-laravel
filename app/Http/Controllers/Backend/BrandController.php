@@ -46,7 +46,7 @@ class BrandController extends Controller
     private function  handelRequest($request){
 
         $input = $request->all();
-        $input['slug'] = $input['name']; 
+        $input['slug'] = str_slug($input['name']); 
         unset($input['oldImg']);
 
         if($request->brand_img){
@@ -65,8 +65,6 @@ class BrandController extends Controller
             $img->save(public_path('/media/brand/') . $brandImgName);
             $input["brand_img"] = "/media/brand/" . $brandImgName;
         }
-        $input['slug'] = $input['name'];
-
         return $input;
     }
 

@@ -1,25 +1,18 @@
 <template>
     <div>
-        <metainfo>
-            <template v-slot:title="{ content }">{{ content ? `${content} | SITE_NAME` : `SITE_NAME` }}</template>
-        </metainfo>
         <Navbar/>
-        <router-view :key="$route.fullPath"> </router-view>     
+        <router-view :key="$route.fullPath"> </router-view>   
+        <FooterVue />  
     </div>
 </template>
 <script>
 import Navbar from './Navbar.vue';
-import Sidebar from './Sidebar.vue'
-import Index from '../view/Index.vue'
+import FooterVue from './Footer.vue';
 export default{
     name: "App",
     components:{
         Navbar,
-        Index,
-        Sidebar,
+        FooterVue,
     },
-    created(){
-        document.title = 'home/project';
-    }
 }
 </script>

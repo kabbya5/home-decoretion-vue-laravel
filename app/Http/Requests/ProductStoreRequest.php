@@ -29,7 +29,7 @@ class ProductStoreRequest extends FormRequest
             'images' => 'required',
             'tags' => 'required|max:7',
             'price' => 'required', 
-            'short_text' => 'required|min:50|max:250',
+            'short_text' => 'required|min:50|max:500',
             'quantity' => 'required',  
             'sizes' => 'required',
             'colors' => 'required',

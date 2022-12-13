@@ -4,6 +4,7 @@ Namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Image;
 
@@ -88,6 +89,14 @@ class SliderController extends Controller
         ]);
         $data = $this->handelRequest($request);
         $slider->update($data);
+    }
+
+    public function changePublishedDate(Slider $slider)
+    {
+        $slider->update([
+            'published_at' => ($slider->published_at === null) ? Carbon::now():NULL,
+        ]);
+
     }
 
     /**

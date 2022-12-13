@@ -92,7 +92,7 @@
     </div>
 </template>
 <script>
-import Notification from '../NotificationAdmi.vue';
+import Notification from '../NotificationAdmin.vue';
 export default{
     components:{Notification,},
     data(){

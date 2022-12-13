@@ -28,6 +28,8 @@ return new class extends Migration
             $table->text('short_text');
             $table->longText('description')->nullable();
             $table->string('quantity');
+            $table->integer('is_furniture')->nullable();
+            $table->string('video-link')->nullable();
             $table->string('weight')->nullable();
             $table->integer('free_shipping')->nullable();
             $table->integer('top_rated')->nullable();

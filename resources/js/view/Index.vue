@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Banner  -->
-        <Slider> 
+        <Slider class="mt-20 lg:mt-0" :sliders="sliders"> 
 
         </Slider>
         <!-- End banner  -->
@@ -59,24 +59,30 @@
 
             <div class="grid grid-cols-6 gap-2">
                 <div class="bg-white h-[200px] md:h-full lg:h-[405px] col-span-2 md:row-span-2 md:col-span-2 xl:col-span-2">
-                    <div class="h-full relative overflow-hidden">
-                        <img class="block object-cover boject-center w-full h-full brightness-75
-                            transition duration-300 hover:scale-[1.2]" 
-                            :src="firstCategory.categoryImg"  :alt="firstCategory.categoryImgName">
-                        <p class="text-2xl font-bold absolute bottom-3 w-full left-[50%] translate-x-[-50%]  z-10 text-white text-center drop-shadow-lg shadow-gray-400">
-                            {{ firstCategory.categoryName }}
-                        </p>
-                    </div>
+                    <router-link :to="{name:'categoryShopPage',params:{catSlug:firstCategory.slug}}">
+                        <div class="h-full relative overflow-hidden">
+                            <img class="block object-cover boject-center w-full h-full brightness-75
+                                transition duration-300 hover:scale-[1.2]" 
+                                :src="firstCategory.categoryImg"  :alt="firstCategory.categoryImgName">
+                            <p class="text-2xl font-bold absolute bottom-3 w-full left-[50%] translate-x-[-50%]  z-10 text-white text-center drop-shadow-lg shadow-gray-400">
+                                {{ firstCategory.categoryName }}
+                            </p>
+                        </div>
+                    </router-link>
+                    
                 </div>
                 <div v-for="category in showCategories" :key="category.id" class="h-[200px] bg-white col-span-2 md:col-span-2 xl:col-span-1">
-                    <div class="h-full w-full relative overflow-hidden">
-                        <img class="block object-cover boject-center w-full h-full 
-                            transition duration-300 -z-1 hover:scale-[1.2] hover:brightness-75" 
-                            :src="category.categoryImg"  :alt="category.categoryImgName">
-                        <p class="text-2xl w-full font-bold absolute bottom-3 left-[50%] translate-x-[-50%]  z-10 text-white text-center drop-shadow-lg shadow-gray-400">
-                            {{ category.categoryName }}
-                        </p>
-                    </div>
+                    <router-link :to="{name:'categoryShopPage',params:{catSlug:category.slug}}">
+                        <div class="h-full w-full relative overflow-hidden">
+                            <img class="block object-cover boject-center w-full h-full 
+                                transition duration-300 -z-1 hover:scale-[1.2] hover:brightness-75" 
+                                :src="category.categoryImg"  :alt="category.categoryImgName">
+                            <p class="text-2xl w-full font-bold absolute bottom-3 left-[50%] translate-x-[-50%]  z-10 text-white text-center drop-shadow-lg shadow-gray-400">
+                                {{ category.categoryName }}
+                            </p>
+                        </div>
+                    </router-link>
+                    
                 </div>
             </div>
             <div @click="loadMoreButton">
@@ -184,20 +190,9 @@
                 </div>
             </div>
         </div>
-
-        
-
         <!-- page loading  -->
-        <div v-if="loading" class="w-full h-screen bg-gray-300/60 fixed top-0 z-50">
-            <div class="flex items-center justify-center h-full px-4">
-                <div class="px-6 py-2 rounded-md bg-orange-500 uppercase text-[40px] text-white">
-                     loading...
-                </div>
-            </div>
-        </div>
-        
-        <Footer />
 
+        <LoadingVue v-if="loading" :loading="'loading...'" />
 
     </div>
 </template>
@@ -205,12 +200,15 @@
 import Slider from '../components/Slider.vue';
 import Product from '../components/Product.vue';
 import Footer from '../components/Footer.vue';
+import LoadingVue from '../components/Loading.vue';
 
 export default {
-    components:{Slider,Product,Footer,},
+    components:{Slider,Product,Footer, LoadingVue},
   data: function() {
     return {
-        loading:false,
+        loading:true,
+        // slider 
+        sliders:[],
         // category
         categories:[],
         firstCategory:'',
@@ -233,30 +231,28 @@ export default {
     }
   },
   mounted(){
-
+   
   },
   created(){
-    console.log(this.windowWidth);
     this.img = 'https://media.istockphoto.com/id/1182454657/photo/bohemian-living-room-interior-3d-render.jpg?s=612x612&w=0&k=20&c=qw37MGIiTL_jML3_Tbm4bM-jNLCrocSWj7DanhBr_bY=';
+    axios.get('/get/sliders')
+    .then(res => this.sliders = res.data);
     axios.get('/get/cateogry/index/' + this.windowWidth)
     .then(res => {
-        this.loading = true;
         this.categories = res.data['categories']
         let categoriesLength = res.data['categories'].length;
 
         this.firstCategory = res.data['firstCategory'];
         this.showCategories = res.data['showCategories'];
-        this.loading = false;
         this.moreCategoies = (Object.keys(res.data['categories']).length - Object.keys(res.data['showCategories']).length);
 
     });
     axios.get('/get/week/products')
     .then(res =>{
-        this.loading = true;
         this.weekSaleProduct = res.data;
-        this.loading =false;
+        this.loading = false;
     })
-
+    
   }
 };
 </script>

@@ -28,9 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/navbar/category',[NavbarRequestController::class,'getNavbarCategory']);
-
-Route::get('/get/cateogry/index',[HomePageController::class,'getCategory']);
 
 // Admin 
 Route::controller(CategoryController::class)->group(function(){

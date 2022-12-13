@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Tag;
 
 class Image extends Model
 {
@@ -19,8 +20,8 @@ class Image extends Model
         return $this->morphedByMany(Product::class,'imagable');
     }
 
-    public function tag(){
-        return $this->morphOne(Tag::class,'imagable');
+    public function tags(){
+        return $this->hasMany(Tag::class);
     }
 }
 

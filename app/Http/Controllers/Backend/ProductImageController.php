@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Image;
 
@@ -16,15 +15,9 @@ class ProductImageController extends Controller
      */
     public function index()
     {
-        $productImages = ProductImage::latest()->get();
-        $count = $productImages->count();
-        if($count >1){
-            $productImageCount = $count . '  '. 'product images';
-        }else{
-            $productImageCount = $count . '  '. 'product image';
-        }
+        $imags = \App\Models\Image::latest()->get();
 
-        return response()->json([$productImages, $productImageCount]);
+        return response()->json($imags);
     }
 
     /**

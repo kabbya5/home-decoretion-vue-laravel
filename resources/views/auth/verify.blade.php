@@ -4,9 +4,15 @@
 <div class="container mx-auto my-8">
     <div class="flex justify-center">
         <div class="email_veriy_mesage w-96">
-            <div class="company_name_or_logo">
-                <img class="w-32 h-20"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDI3v6Y6NWDHbaBHMSoZTQcEJtenCBLXG4xPFZGED6U9aLpUHr2FFRpzLu_plI7-I9fUc&usqp=CAU" alt="">
-                <h2 class="uppercase font-bold text-slate-500 text-[24px]"> ring</h2>
+            <div class="company_name_or_logo flex items-center">
+                @if ($site_setting->title_image)
+                <img class="w-32 h-20"  src="{{ asset($site_setting->title_image) }}" alt="">
+                @endif
+                @if ($site_setting->title_image)
+                <h2 class="px-4 uppercase font-bold text-slate-500 text-[20px]"> {{ $site_setting->page_title }}</h2>
+                @endif
+                
+                
             </div>
             <div class="my-5">
                 <p class="my-4 capitalize font-semibold text-xl text-gray-600"> hi {{ auth()->user()->last_name }} </p>
@@ -24,7 +30,7 @@
                     @csrf
                     <button type="submit" class="bg-orange-500 px-6 py-2 rounded-md text-white transition duration-300 hover:bg-orange-600">{{ __('click here to request another') }}</button>.
                 </form>
-                <p class="my-4 capitalize font-semibold text-xl text-gray-600"> link Kind Regards, company </p>
+                <p class="my-4 capitalize font-semibold text-xl text-gray-600">Regards, {{ $site_setting->page_title }} </p>
             </div>
         </div>
     </div>

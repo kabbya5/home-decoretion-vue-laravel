@@ -16,7 +16,7 @@ class ProductFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition()
-    {   $name =  rtrim($this->faker->text(rand(15,30)),'.');
+    {   $name =  rtrim($this->faker->text(rand(20,30)),'.');
         return [
             'category_id' => rand(1,10),
             'subcategory_id' =>rand(1,10),
@@ -25,11 +25,12 @@ class ProductFactory extends Factory
             'seller_id' => rand(1,10),
             'product_title' => $name,
             'slug' => str_slug($name),
-            'price' => rand(20,500),
-            'discount_price' => rand(500,50000),
-            'short_text'  => $this->faker->paragraphs(rand(3,6),true),
+            'price' => rand(500,50000),
+            'discount_price' => rand(20,500),
+            'short_text'  => $this->faker->paragraphs(rand(1,3),true),
             'description' => $this->faker->paragraphs(rand(8,15),true),
             'quantity' => rand(20,80),
+            'is_furniture' => rand(0,1),
             'weight' => rand(30,60),
             'free_shipping' => rand(0,1),
             'top_rated' => rand(0,1),

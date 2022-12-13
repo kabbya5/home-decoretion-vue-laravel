@@ -7,7 +7,7 @@
                     @mouseleave="(show_product_cart_view_button=false)">
                     <div class="h-[300px] w-full relative">
                         <router-link to="/product-detail"> 
-                            <img v-if="product.images[0]" class="block object-cover h-full w-full" :src="product.images[0].product_img" alt="">
+                            <img v-if="product.image_url" class="block object-cover h-full w-full" :src="product.image_url" :alt="product.product_title">
                         </router-link>
                     
                         <!-- produt-status -->
@@ -15,12 +15,12 @@
                         <span v-if="product.free_shipping" class="absolute right-2 top-2 rounded-md bg-orange-500 text-white  px-4 py-1 text-white"> 
                             Free Shipping
                         </span>
-                        <span class="absolute bg-orange-500 text-white px-4 py-1 rounded-md text-bold mx-4 left-[40%] bottom-[-10px]"> {{ product.discount_status_or_new }} </span>
+                        <span class="absolute bg-orange-500 text-white px-4 py-1 rounded-md text-bold mx-4 left-[50%] translate-x-[-60%] bottom-[-10px]"> {{ product.discount_status_or_new }} </span>
 
                         <!-- action div  -->
                         <div v-if="(show_product_cart_view_button==product.id)" class=" absolute top-[20%] right-2">
                             <div class="flex flex-col">
-                                <button @click="addToCard()" @mouseenter="(show_product_cart_view_actionTitel='cart'+product.id)"
+                                <button @click="addToCard(product.slug)" @mouseenter="(show_product_cart_view_actionTitel='cart'+product.id)"
                                     @mouseleave="show_product_cart_view_actionTitel=false" 
                                     class="relative bg-white my-2 w-10 h-10 flex items-center justify-center  rounded-full
                                     transition duration-300 hover:bg-black hover:text-white"> 
@@ -46,7 +46,7 @@
                     </div>
                     <div class="product detail my-4 px-2">
                         <router-link to="/product/detalids" class="w-ful uppercase text-gray-600 transition duration-300 hover:font-bold text-sm">
-                            {{ product.category.categoryName }}
+                            {{ product.categoryName }}
                         </router-link><br>
                         <router-link to="/product/detalids" class="w-ful text-gray-600 font-bold h-10 text-md">
                             {{ product.product_title }}
@@ -68,9 +68,10 @@
         </div>
 
         <!-- Quick view product modal  -->
-        <div v-if="quickViewModal" class="quickview-modal w-full h-screen bg-gray-300/60 fixed top-0 z-50 overflow-auto">
-            <div class="flex items-center justify-center h-full px-4">
-                <div class="bg-white relative w-[450px] md:w-[1000px]">
+
+        <div v-if="quickViewModal" class="quickview-modal w-full h-screen bg-gray-300/60 fixed top-0 left-0 z-50 overflow-auto">
+            <div class="flex items-center justify-center h-full px-4 mt-20">
+                <div class="bg-white relative w-[450px] md:w-[1000px] mb-20">
                     <button @click="quickViewModal=!quickViewModal"
                     class="absolute -top-4 -right-3 w-10 h-10 rounded-full bg-white
                         trasition duration-300 hover:text-white hover:bg-black shadow-md">
@@ -81,10 +82,10 @@
                         <div class="col-span-2 md:col-span-1">
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="col-span-2 w-full h-80">
-                                    <img :src="firstImage[0].product_img" :alt="firstImage[0].product_img"
+                                    <img :src="product.image_url" :alt="product.product_title"
                                     class="w-full h-full object-cover">
                                 </div>
-                                <div v-for="image in images" :key="image.id" class="col-span-1">
+                                <div v-for="image in images" :key="image.id" class="col-span-1 w-full h-48">
                                     <img :src="image.product_img" :alt="image.product_img_name"
                                     class="w-full h-full object-cover">
                                 </div>
@@ -108,52 +109,82 @@
                                 {{ product.short_text }}
                             </p>
 
+                            <div class="flex items-center text-gray-600 my-2"> 
+                                <i class="fa-regular fa-eye text-2xl"></i> 
+                                <span class="mx-2 font-bold text-gray-600"> {{ product.view_count }} </span>
+                                people are viewed
+                            </div>
+
                             <div class="discount flex items-center">
                                 <div v-if="product.discount_price" class="flex items-center">
                                      <del> {{ product.price }} TK </del>
-                                    <span class="mx-4 text-red-500 font-bold text-xl"> {{ product.discount_price }} TK </span>
+                                    <span class="mx-4 text-red-500 font-bold text-xl"> {{ product.discount_price }}  <span v-if="selectItemPrice" class="mx-4 text-red-500 font-bold text-xl">  +  {{ selectItemPrice }} </span> TK </span>   
                                 </div>
-                                <span class="bg-orange-500 px-2 py-1 rounded-full text-white flex items-center justify-center font-bold">
+                                <div v-else class="flex items-center">
+                                    <span class="mx-4 text-red-500 font-bold text-xl"> {{ product.price  }}  <span v-if="selectItemPrice" class="mx-4 text-red-500 font-bold text-xl">  +  {{ selectItemPrice }} </span> TK </span>   
+                                </div>
+
+                                <span class="bg-orange-500 px-3 py-1 rounded-full text-white flex items-center justify-center font-bold">
                                     {{ product.discount_status_or_new }}    
                                 </span>
+                            
                             </div>
-                            <div class="flex items-center text-gray-600 my-2"> 
-                                <i class="fa-regular fa-eye font-2xl"></i> 
-                                <span class="mx-2 font-bold text-gray-600"> 30 </span>
-                                people are vieied
+                            <div v-if="product.is_furniture" class="flex items-center text-gray-600 my-2"> 
+                                <i class="fa-solid fa-weight-scale text-2xl"></i> 
+                                <span class="mx-2 font-bold text-gray-600"> {{ product.weight }} Kg </span>
+                                
                             </div>
+                            <div v-else class="flex items-center text-gray-600 my-2"> 
+                                <i class="fa-regular fa-lightbulb text-2xl"></i> 
+                                <span class="mx-2 font-bold text-gray-600"> {{ product.weight }} Watt </span>
+                            </div>
+                            
                             <!-- form section  -->
 
                             <form class="w-full"> 
-                                <div class="flex justify-between">
-                                    <div class="flex flex-col w-1/3">
-                                        <p class="text-gray-600 my-1"> Quanitity : </p>
-                                        <select name="" id="" class="border-2 border-gray focus:outline-none py-1"> 
-                                            <option value="1" class=""> Only one </option>
-                                            <option value="2"> Only two </option>
-                                            <option value="3"> Only three </option>
-                                            <option value="4"> Only four </option>
-                                        </select>
-                                    </div>
-                                    <div class="flex flex-col w-1/3">
-                                        <p class="text-gray-600 my-1"> Size : </p>
-                                        <select name="" id="" class="border-2 border-gray focus:outline-none py-1"> 
-                                            <option value="ml" class=""> ML</option>
-                                            <option value="xl"> XL </option>
-                                            <option value="xxl"> XXL </option>
-                                        </select>
-                                    </div>
-                                    <div class="flex flex-col w-1/3">
-                                        <p class="text-gray-600 my-1"> Color : </p>
-                                        <select name="" id="" class="border-2 border-gray focus:outline-none py-1"> 
-                                            <option value="1" class=""> RED </option>
-                                            <option value="2"> BLUE </option>
-                                            <option value="3"> Green </option>
-                                        </select>
-                                    </div>   
+                                <div v-if="product.product_sizes.length > 0" class="flex flex-col">
+                                    <p v-if="product.is_furniture" class="text-gray-600 my-2">
+                                        Select Size : 
+                                        <span v-if="selectItemPrice" class="px-4 text-red-500 font-bold">
+                                            Extra Payment {{ selectItemPrice }} TK need for this size 
+                                        </span>   
+                                        <span v-else class="px-4 text-gray-500 font-bold">
+                                             {{ product.product_sizes[product.product_sizes.length - 1].size_title }}
+                                        </span> 
+                                    </p>
+                                    <p v-else class="text-gray-600 my-1">
+                                        Select Watt : 
+                                        <span v-if="selectItemPrice" class="px-4 text-red-500 font-bold">
+                                            Extra Payment {{ selectItemPrice }} TK  need for this size 
+                                        </span> 
+                                        <span v-else class="px-4 text-gray-500 font-bold">
+                                            {{  product.product_sizes[product.product_sizes.length - 1].size_title }}
+                                       </span>  
+                                    </p> 
+                                    <select  class="border-2 border-gray focus:outline-none py-2" @change="sizeOptionChange" v-model="productForm.size"> 
+                                        <option v-for="size in product.product_sizes" :key="size.id" :value="size.size_title" :data-price="size.size_extra_payment">  {{ size.size_title   }} </option>
+                                    </select>
                                 </div>
 
-                                <button class="mt-4 capitalize w-full py-2 text-xl rounded-md bg-orange-500 text-white transition duration-300 hover:bg-orange-700">
+                                <div v-if="product.product_colors.length > 0" class="flex flex-col my-2">
+                                    <p class="text-gray-600 my-1"> Color : 
+                                        {{ productForm.color ? productForm.color:product.product_colors[product.product_colors.length - 1].name }} 
+
+                                    </p>
+                                    <select class="border-2 border-gray focus:outline-none py-1" v-model="productForm.color"> 
+                                        <option v-for="color in product.product_colors" :key="color.id" :value="color.name" class=""> {{ color.name }} </option>
+                                    </select>
+                                </div>   
+
+
+                                <div class="flex flex-col">
+                                    <p class="text-gray-600 my-4 font-bold"> Quanitity : {{ productForm.quanitity? 'Only' +' ' +  productForm.quanitity: 'Only' +' ' + 1 }} </p>
+                                    <select v-model="productForm.quanitity" class="border-2 border-gray focus:outline-none py-1"> 
+                                        <option v-for="n in 5" :key="n" :value="n"> Only  {{ n }} </option>
+                                    </select>
+                                </div>
+
+                                <button class="mt-6 capitalize w-full py-2 text-xl rounded-md bg-orange-500 text-white transition duration-300 hover:bg-orange-700">
                                     buy now 
                                 </button>
                             </form>
@@ -176,16 +207,35 @@ export default{
             product:[],
             firstImage:'',
             images:'',
+
+            // from 
+
+            productForm:{
+                size:'',
+            },
+            selectItemPrice:'',
+
         }
     },
     methods:{
         quickViewProductModal(product){
             this.quickViewModal = true;
-            let length = product.images.length;
-            this.firstImage = product.images.slice(0,1);
-            this.images = product.images.slice(1,length);
+            let length = product.all_images.length;
+            this.firstImage = product.all_images.slice(0,1);
+            this.images = product.all_images.slice(1,length);
             this.product = product;
-            console.log(this.firstImage);
+            this.selectItemPrice = null;
+            this.productForm = {};
+        },
+
+        sizeOptionChange (event){
+            this.selectItemPrice = event.target.options[event.target.options.selectedIndex].getAttribute('data-price');
+        },
+        addToCard(slug){
+            axios.get('/cart/add/'+slug)
+            .then(res => {
+                alert('success');
+            })
         }
     }
 }

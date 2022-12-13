@@ -1,5 +1,5 @@
 <template>
-    <div  class="notification-box fixed top-0">
+    <div  class="notification-box fixed top-0 z-50">
         <div>
             <div class="flex flex-col gap-4 p-4">
                 <div v-if="notification.type" role="alert" :class="type"
