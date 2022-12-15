@@ -77,8 +77,8 @@ class Product extends Model
             ['published_at','<=', Carbon::now()],
             ['is_weekly_sale', 1],
             
-        ])->orderBy('view_count', 'DESC')
-        ->orderBy('published_at','DESC');
+        ])->orderBy('view_count', 'DESC');
+
     }
 
     public function scopePopular($query){

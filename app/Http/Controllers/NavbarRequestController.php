@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\SiteSetting;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Cart;
 
 class NavbarRequestController extends Controller
 {
@@ -23,5 +24,12 @@ class NavbarRequestController extends Controller
     {
         $tags = Tag::with('image')->where('tag_name','LIKE', '%' .$request->searchTag . '%')->get();
         return response()->json($tags);
+    }
+    public function getNavbarCatContent(){
+        $cart = [];
+        $cart['subtotal'] = Cart::subtotal();
+        $cart['count'] = Cart::count();
+
+        return response()->json($cart);
     }
 }

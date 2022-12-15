@@ -59,7 +59,7 @@
                         <router-link to="/admin/slider/index" @click="activelink(slider)"
                             class=" block uppercase text-gray-600 w-full"
                             :class="{'active': activeLink=='slider'}">
-                            <i class="fa-solid fa-home text-lg px-2"></i>
+                            <i class="fa-solid fa-film text-lg px-2"></i>
                             Slider
                         </router-link>
                     </li>
@@ -198,6 +198,20 @@
                             </li>
                         </ul>
                     </li>
+
+                    <!-- coupon -->
+                    
+                    <li class="w-full  py-1 transition
+                        duration-300 hover:bg-gray-300">
+                        <router-link :to="{name:'adminCoupon'}" @click="activelink(slider)"
+                            class=" block uppercase text-gray-600 w-full"
+                            :class="{'active': activeLink=='slider'}">
+                            <i class="fa-solid fa-percent text-lg px-2"></i>
+                            coupon
+                        </router-link>
+                    </li>
+
+                    <!-- coupon  -->
                 </ul>
             </div>
             <div class="w-full bg-white py-3 px-2 md:px-4" 

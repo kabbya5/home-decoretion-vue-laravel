@@ -6,7 +6,7 @@
                     @mouseenter="(show_product_cart_view_button=product.id)"
                     @mouseleave="(show_product_cart_view_button=false)">
                     <div class="h-[300px] w-full relative">
-                        <router-link to="/product-detail"> 
+                        <router-link :to="{name:'product-detail',params:{slug:product.slug}}"> 
                             <img v-if="product.image_url" class="block object-cover h-full w-full" :src="product.image_url" :alt="product.product_title">
                         </router-link>
                     
@@ -20,7 +20,7 @@
                         <!-- action div  -->
                         <div v-if="(show_product_cart_view_button==product.id)" class=" absolute top-[20%] right-2">
                             <div class="flex flex-col">
-                                <button @click="addToCard(product.slug)" @mouseenter="(show_product_cart_view_actionTitel='cart'+product.id)"
+                                <button @click="addToCart(product.slug)" @mouseenter="(show_product_cart_view_actionTitel='cart'+product.id)"
                                     @mouseleave="show_product_cart_view_actionTitel=false" 
                                     class="relative bg-white my-2 w-10 h-10 flex items-center justify-center  rounded-full
                                     transition duration-300 hover:bg-black hover:text-white"> 
@@ -45,10 +45,10 @@
                         </div>
                     </div>
                     <div class="product detail my-4 px-2">
-                        <router-link to="/product/detalids" class="w-ful uppercase text-gray-600 transition duration-300 hover:font-bold text-sm">
-                            {{ product.categoryName }}
+                        <router-link :to="{name:'categoryShopPage',params:{catSlug:product.category.slug}}" class="w-ful uppercase text-gray-600 transition duration-300 hover:font-bold text-sm">
+                            {{ product.category.categoryName }}
                         </router-link><br>
-                        <router-link to="/product/detalids" class="w-ful text-gray-600 font-bold h-10 text-md">
+                        <router-link :to="{name:'product-detail',params:{slug:product.slug}}" class="w-ful text-gray-600 font-bold h-10 text-md">
                             {{ product.product_title }}
                         </router-link>
                         <div class="text-gray-600 my-2 text-sm ">
@@ -93,11 +93,12 @@
                         </div>
                         <div class="col-span-2 md:col-span-1 py-4 px-4">
                             <div class="title flex justify-between items-center">
-                                <router-link to="/hdosl/lkd" class="text-gray-500 font-semibold text-xl transition-all duration-300 hover:text-gray-700">
+                                <router-link :to="{name:'product-detail',params:{slug:product.slug}}" class="text-gray-500 font-semibold text-xl transition-all duration-300 hover:text-gray-700">
                                     {{ product.product_title }}
                                 </router-link>
                                 <button @mouseenter="show_product_cart_view_actionTitel='cart'+product.id"
                                     @mouseleave="show_product_cart_view_actionTitel=false" 
+                                    @click="addToCart(product.slug)"
                                     class="relative mr-4 w-10 h-10 flex items-center justify-center  rounded-full
                                     transition duration-300 border-2 border-gray-200 hover:bg-black hover:text-white"> 
                                     <i class="fa-solid fa-cart-plus"></i>
@@ -184,19 +185,26 @@
                                     </select>
                                 </div>
 
-                                <button class="mt-6 capitalize w-full py-2 text-xl rounded-md bg-orange-500 text-white transition duration-300 hover:bg-orange-700">
+                                <button class="mt-6 capitalize w-full py-2 text-xl rounded-md bg-green-500 text-white transition duration-300 hover:bg-green-700">
                                     buy now 
                                 </button>
                             </form>
+                            <button @click="addToCart(product.slug)" class="mt-6 capitalize w-full py-2 text-xl rounded-md bg-orange-500 text-white transition duration-300 hover:bg-orange-700">
+                                add to cart
+                            </button>
                         </div>
                     </div>    
                 </div>
             </div>
         </div>
+
+        <Notification v-if="notification.message" :notification="notification" />
     </div>
 </template>
 <script>
+import Notification from "../view/admin/NotificationAdmin.vue"
 export default{
+    components:{Notification},
     props:['products'],
     data (){
         return {
@@ -215,6 +223,11 @@ export default{
             },
             selectItemPrice:'',
 
+            notification:{
+                type:'',
+                message:'',
+            }
+
         }
     },
     methods:{
@@ -231,10 +244,17 @@ export default{
         sizeOptionChange (event){
             this.selectItemPrice = event.target.options[event.target.options.selectedIndex].getAttribute('data-price');
         },
-        addToCard(slug){
-            axios.get('/cart/add/'+slug)
+        addToCart(slug){
+            axios.post('/cart/add/'+slug,{
+                size: this.productForm.size,
+                color:this.productForm.color,
+                quanitity: this.productForm.quanitity,
+                size_extra_payment:this.selectItemPrice,
+            })
             .then(res => {
-                alert('success');
+                this.notification.message = "The product has been add to cart successfully !";
+                this.notification.type = "success";
+                this.$router.go()
             })
         }
     }

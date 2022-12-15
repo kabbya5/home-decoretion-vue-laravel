@@ -320,7 +320,7 @@
                 </div>
                 <div class="flex justify-end my-4">
                     <button type="submit" class="px-4 py-2 rounded-md bg-cyan-500 text-white font-bold tansition duration-300 hover:bg-cyan-600 uppercase ">
-                        {{ createForm?'Create Product' :'update product' }} 
+                        {{ createForm ? 'Create Product' : 'update product' }} 
                     </button>
                 </div>                
             </form>
@@ -495,6 +495,7 @@ export default ({
         },
 
         updateProduct(){
+            alert(this.createForm);
             axios.put('/admin/product/update/'+this.$route.params.slug,{
                 product_title : this.product.product_title,
                 category_id: this.product.category_id,
@@ -522,6 +523,7 @@ export default ({
             .then(res=>{
                 this.notification.type = 'success';
                 this.notification.message = 'The product has been updated';
+                this.createForm = false;
             })
             .catch(errors =>{
                 this.errors = errors.response.data.errors;
@@ -557,6 +559,7 @@ export default ({
                 this.notification.type='success',
                 this.notification.message = "product size has been successfully created !";
                 this.reloadPage();
+                this.createForm = true;
             })
             .catch(errors =>{
                 this.errors = errors.response.data.errors;
@@ -574,6 +577,7 @@ export default ({
                 this.notification.message = 'color has been Created SuccessFully';
                 this.reloadPage();
                 this.modal = !this.modal;
+                this.createForm = true;
             })
             .catch(errors => {
                 this.errors = errors.response.data.errors;
@@ -592,7 +596,7 @@ export default ({
         reloadPage(){
             axios.get('/admin/product/create')
             .then(res=>{
-                this.createForm = false;
+                this.createForm = true;
                 this.categories = res.data[0];
                 this.brands = res.data[1];
                 this.sliders = res.data[2];
@@ -633,11 +637,10 @@ export default ({
         }
     },
     created(){
-        this.productDetailsUpdate = this.productDetails;
 
         axios.get('/admin/product/create')
         .then(res=>{
-            this.createForm = false;
+            this.createForm = true;
             this.categories = res.data[0];
             this.brands = res.data[1];
             this.sliders = res.data[2];
@@ -661,7 +664,7 @@ export default ({
             let sizes = res.data[5];
             sizes.forEach(size =>{
                 this.sizesOption.push({
-                    value:size.id,name:size.size_title,
+                    value:size.id,name:size.size_title + ' extra ' + size.size_extra_payment + "TK",
                 });
             });
 

@@ -33,7 +33,7 @@ class ProductController extends Controller
         if(Auth::user()->is_admin === 2){
             $products = Product::with('images','category')->where('seller_id', $this->authId)->orderBy('published_at','DESC')->get();
         }else{
-           $products = Product::with('images','category')->orderBy('published_at','DESC')->get();
+           $products = Product::with('images','category')->latest()->get();
         }
 
         return response()->json($products);

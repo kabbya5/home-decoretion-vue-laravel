@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
 use Carbon\Carbon;
+use Cart;
 use Illuminate\Http\Request;
 
 class HomePageController extends Controller
@@ -37,4 +38,6 @@ class HomePageController extends Controller
         $sliders = Slider::where('published_at','<=', Carbon::now())->get();
         return response()->json($sliders);
     }
+
+    
 }

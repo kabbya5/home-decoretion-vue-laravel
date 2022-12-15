@@ -123,16 +123,17 @@ export default{
 
         },
         restore(id){
-            axios.post('/api/admin/product/image/restore/' + id)
+            axios.post('/admin/product/image/restore/' + id)
             .then(res =>{
                 this.notification={};
                 this.notification.message = "The product Image has been Restore Successfully";
                 this.notification.type = "success";
-                this.showTrashedImages = this.allTrashedImages.filter(image=> image.id !== id)
+                this.showTrashedImages = this.allTrashedImages.filter(image=> image.id !== id);
+                this.reloadPage();
             })
         },
         forceDelete(id){
-            axios.delete('/api/admin/product/image/force/delete/' + id)
+            axios.delete('/admin/product/image/force/delete/' + id)
             .then(res =>{
                 this.notification={};
                 this.notification.message = "The product Image has been  Successfully";
@@ -141,7 +142,7 @@ export default{
             })
         },
         reloadPage(){
-            axios.get('/api/admin/product/image/trashed')
+            axios.get('/admin/product/image/trashed')
             .then(res =>{
                 this.allTrashedImages = res.data[0];
                 this.allTrashedImagesCount = res.data[1];
@@ -151,9 +152,8 @@ export default{
         }
     },
     created(){
-        axios.get('/api/admin/product/image/trashed')
+        axios.get('/admin/product/image/trashed')
         .then(res =>{
-            console.log(res.data);
             this.allTrashedImages = res.data[0];
             this.allTrashedImagesCount = res.data[1];
             this.showTrashedImages = this.allTrashedImages.slice(0,this.shwoTrashedImagelength);

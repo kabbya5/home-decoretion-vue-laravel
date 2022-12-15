@@ -15,9 +15,13 @@ class ProductImageController extends Controller
      */
     public function index()
     {
-        $imags = \App\Models\Image::latest()->get();
+        $images = \App\Models\Image::with('products')->latest()->get();
 
-        return response()->json($imags);
+
+        return response()->json([
+            'allImages' => $images,
+            'imageCount' => $images->count() .' '. 'images',
+        ]);
     }
 
     /**
@@ -36,10 +40,11 @@ class ProductImageController extends Controller
     {
         $request->validate([
             'product_img_name' => 'required|min:4|max:120',
+            'product_img' =>'required',
         ]);
         $data = $this->handelRequest($request);
 
-        ProductImage::create($data);
+        \App\Models\Image::create($data);
         return response()->json($data);
     }
     private function  handelRequest($request){
@@ -66,11 +71,7 @@ class ProductImageController extends Controller
         return $input;
     }
 
-    private function deleteOldImg($oldImg){
-        $oldImg = ltrim($oldImg,'/'); 
-        unlink($oldImg);
-    }
-
+    
     private function productImageName(){
         $charectere = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
         $number = '123456789';
@@ -91,7 +92,7 @@ class ProductImageController extends Controller
     }
 
 
-    public function update(Request $request,ProductImage $productImage )
+    public function update(Request $request,\App\Models\Image $productImage )
     {
         $request->validate([
             'product_img_name' => 'required|min:4|max:120',
@@ -106,21 +107,21 @@ class ProductImageController extends Controller
      * @param  \App\Models\ProductImage  $productImage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductImage $productImage)
+    public function destroy(\App\Models\Image $productImage)
     {
         $productImage->delete();
     }
 
     public function restore($id)
     {
-        $image = ProductImage::withTrashed()->findOrFail($id);
+        $image = \App\Models\Image::withTrashed()->findOrFail($id);
         $image->restore();
 
     }
 
     public function trashed()
     {
-        $trashedImages = ProductImage::onlyTrashed()->latest()->get();
+        $trashedImages = \App\Models\Image::onlyTrashed()->latest()->get();
         $count = $trashedImages->count();
         if($count > 1){
             $trashedImagesCount = $count . '  '.'productImage';
@@ -132,8 +133,15 @@ class ProductImageController extends Controller
     }
 
     public function forceDelete($id){
-        $image = ProductImage::withTrashed()->findOrFail($id);
+        $image = \App\Models\Image::withTrashed()->findOrFail($id);
         $this->deleteOldImg($image->product_img);
         $image->forceDelete();   
+    }
+
+    private function deleteOldImg($oldImg){
+        $oldImg = ltrim($oldImg,'/'); 
+        if(file_exists($oldImg)){
+            unlink($oldImg);
+        }  
     }
 }

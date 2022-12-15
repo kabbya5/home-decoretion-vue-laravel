@@ -5,10 +5,12 @@ import Login from './view/user/Login.vue';
 import Register from './view/user/Register.vue';
 import UserProfile from './view/user/UserProfile.vue';
 import ProductDetail from './view/ProductDetail.vue';
-import CartProduct from './view/user/cart/Cart.vue';
 import ShopPage from './view/ShopPage.vue';
 import Contact from './view/Contact.vue';
 import UserDashboard from './view/user/UserDashboard.vue';
+import UserCartContent from  './view/CartContent.vue';
+import Checkout from './view/Checkout.vue';
+import TeamAndCondition from './view/TeamAndCondition.vue';
 
 // Admin 
 import AdminDashboard from './view/admin/AdminDashboard.vue';
@@ -32,6 +34,7 @@ import SiteSetting  from './view/admin/sitesetting/SiteSetting.vue';
 import SocialMediaLink from './view/admin/sitesetting/SocialMedialLink.vue';
 import DeliverySetting from './view/admin/sitesetting/DeliverySetting.vue';
 import Test from './view/admin/product/product/test.vue';
+import CouponIndex from './view/admin/coupon/CouponIndex.vue';
 
 // page setting 
 
@@ -42,7 +45,6 @@ const routes = [
   
   {
     path: "/", name: "home", component: Index,
-      meta:{title:'News Feed'}
   },
   // user 
   {
@@ -56,10 +58,7 @@ const routes = [
     path:"/register", name:'register', component: Register,
   },
   {
-    path:'/product-detail', name:'productDetail', component:ProductDetail,
-  },
-  {
-    path:'/user/cart', name:CartProduct, component:CartProduct,
+    path:'/product-detail/:slug', name:'product-detail', component:ProductDetail,
   },
   {
     path:'/contact', name:'contact', component:Contact,
@@ -84,6 +83,19 @@ const routes = [
   {
     path:'/childcategory/:childCatSlug', name:'childCategoryShopPage',
     component:ShopPage,
+  },
+
+  // cart and checkout 
+
+  {
+    path:'/carts/content', name:'cart-content',
+    component:UserCartContent,
+  },
+  {
+    path:'/checkout', name:'checkout', component:Checkout,
+  },
+  {
+    path:'/team-and-condition', name:"team_and_condition", component:TeamAndCondition,
   },
 
 
@@ -124,7 +136,7 @@ const routes = [
     component:PoductImage,
   },
   {
-    path:'/admin/product/image/trashed', name:'adminProductImageTrashed',
+    path:'/admin/product/images/trashed', name:'adminTrashedIamge',
     component:TrashedImage,
   },
   {
@@ -169,6 +181,12 @@ const routes = [
   {
     path:'/admin/contact/page/setting' , name:'adminContactPageSetting',
     component:ContactPageSetting,
+  },
+  // coupon 
+
+  {
+    path:'/admin/coupons', name:'adminCoupon',
+    component:CouponIndex,
   }
 ];
 

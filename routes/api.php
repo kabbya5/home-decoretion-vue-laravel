@@ -59,14 +59,7 @@ Route::controller(SliderController::class)->group(function (){
 
 Route::resource('/admin/product/image',ProductImageController::class)
 ->only(['index']);
-Route::controller(ProductImageController::class)->group(function(){
-    Route::post('/admin/product/image/create','store');
-    Route::put('/admin/product/image/update/{productImage}','update');
-    Route::delete('/admin/product/image/{productImage}', 'destroy');
-    Route::post('/admin/product/image/restore/{productImage}','restore');
-    Route::get('/admin/product/image/trashed','trashed');
-    Route::delete('/admin/product/image/force/delete/{id}', 'forceDelete');
-});
+
 Route::controller(ColorController::class)->group(function(){
     Route::post('/admin/product/color/create','store');
     Route::get('/admin/product/color','index');

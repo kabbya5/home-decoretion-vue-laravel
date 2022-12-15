@@ -4,10 +4,10 @@
             <!-- TOP NAV -->
             <nav class="py-4  px-1 z-50 bg-white md:px-4 fixed top-0 w-full border-b-2 border-gray-200" id="top-nav">
                 <div class="flex justify-between items-center">
-                    <a href="" class="flex items-center">
+                    <router-link :to="{name:'home'}" href="" class="flex items-center">
                         <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
                         <span class="hidden md:block self-center text-xl font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
-                    </a>
+                    </router-link>
                     <div >
                         <ul>
                             <li class="border-2 px-2 w-full md:w-96 xl:w-[600px] relative">
@@ -40,20 +40,20 @@
                                 <router-link to="/user/cart" class="block py-2 pr-4 pl-3 text-black  font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-regular fa-heart fa-2x relative">
                                         <span class="absolute top-[-21px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
-                                            22
+                                            
                                         </span>
                                     </i>
                                 </router-link>
                             </li>
                             <li class="">
-                                <a href="#" class="block py-2 pr-4 pl-3 text-black font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
+                                <router-link :to="{name:'cart-content'}" class="block py-2 pr-4 pl-3 text-black font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
                                     <i class="fa-solid fa-cart-shopping fa-2x relative">
                                         <span class="absolute top-[-20px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
-                                            22
+                                            {{ cart.count }}
                                         </span>
                                     </i>
-                                    400 TK
-                                </a>
+                                    {{ cart.subtotal }} TK
+                                </router-link>
                             </li>
                         </ul>
                     </div>
@@ -73,11 +73,6 @@
                             <li>
                                 <router-link to="/"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
                                     Home
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link to="/email/verification"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    email/verification
                                 </router-link>
                             </li>
                             <li>
@@ -102,12 +97,13 @@
                                     <i class="fa-regular fa-user text-2xl"></i>
                                 </router-link>
                             </li> -->
-                            <li class="mb-2" v-if="currentUser.slug">
+                            <li v-if="currentUser.slug" class="mb-2">
                                 <router-link :to="{name:'userDashboard',params:{userSlug:currentUser.slug?currentUser.slug:' '}}" class="relative block flex items-center justify-center w-10 h-10 bg-gray-200  font-bold rounded-full hover:bg-gray-300"
-                                    :class="{'text-red-500':notifications}">
+                                    >
+                                    <!-- :class="{'text-red-500':notifications} -->
                                     <img v-if="currentUser.image" :src="currentUser.image" alt="currentUser.slug" class="w-full h-full rounded-full">
-                                    <i v-else class="fa-regular fa-user text-2xl"></i>
-                                    <span v-if="notifications" class="absolute bottom-[80%] right-0 bg-orange-500 text-white rounded-full w-5 h-5"> {{ notifications.length }} </span>
+                                    <i v-else  class="fa-regular fa-user text-2xl"></i>
+                                    <!-- <span v-if="notifications" class="absolute bottom-[80%] right-0 bg-orange-500 text-white rounded-full w-5 h-5"> {{ notifications.length }} </span> -->
                                 </router-link>
                             </li>
                             <li>
@@ -144,7 +140,7 @@
                                 <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                                     <i class="fa-regular fa-heart fa-2x relative">
                                         <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
-                                            22
+                                            {{ cart.count }}
                                         </span>
                                     </i>
                                 </a>
@@ -215,7 +211,7 @@
                                 </li>
                             </ul> 
                         </div>
-                        <div v-else class="px-4 my-3">
+                        <div  class="px-4 my-3">
                             <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
                                 All  Menu
                             </h4>
@@ -269,9 +265,12 @@ export default{
             searchKeyword:'',
             tags:[],
             currentUser:{
-                slug: document.querySelector("meta[name='user-slug']").getAttribute('content'),
-                image: document.querySelector("meta[name='user-img']").getAttribute('content'),
-            }
+                slug:'',
+                image:'',
+            },
+
+            cart:'',
+            
         }
     },
     watch:{
@@ -297,8 +296,7 @@ export default{
                 this.tags = {};
             }
             
-        }
-        
+        },     
     },
     mounted(){
         axios.get('/navbar/category')
@@ -308,8 +306,16 @@ export default{
         axios.get('/get/navbar/site/setting')
         .then(res =>{
             this.siteSetting = res.data;
+        }),
+        axios.get('/cart/content')
+        .then(res => {
+            this.cart = res.data;
         })
     },
+    created(){
+        this.currentUser.slug = document.querySelector("meta[name='user-slug']").getAttribute('content');
+        this.currentUser.image = document.querySelector("meta[name='user-img']").getAttribute('content');
+    }
 }
 </script>
 <style scoped>

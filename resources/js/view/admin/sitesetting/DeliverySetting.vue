@@ -15,10 +15,10 @@
                 <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                     <tr>
                         <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
-                           Link Url
+                           delivery title
                         </th>
                         <th scope="col" class="py-3 px-6">
-                           Link icon
+                          delivery cost
                         </th>
                         <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
                             Action
@@ -31,7 +31,7 @@
                             {{ link.delivery_title }}
                         </th>
                         <td class="py-4 px-6">
-                            {{link.delivery_cost}} <i class="mx-2 text-black" :class="link.delivery_cost"></i>
+                            {{link.delivery_cost}} TK
                         </td>
                         <td class="py-4 px-6 bg-gray-50 dark:bg-gray-800">
                             <button @click="editdeliverySetting(link)" class="py-1 px-2 bg-orange-500 text-white mr-4">

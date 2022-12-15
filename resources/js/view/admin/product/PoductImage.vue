@@ -50,7 +50,7 @@
                             
                         </th>
                         <td class="py-2 px-6">
-                            Sliver
+                            {{ image.products.length }}
                         </td>
                         <td class="py-2 px-6 bg-gray-50 dark:bg-gray-800">
                             {{ image.date }}
@@ -105,10 +105,13 @@
                                 <input type="file" placeholder="productImage Image"
                                     class="my-2 px-4 py-2 border-2 focus:outline-none
                                     focus:border-gray-300" 
+                                    :class="{'border-1 border-red-500':errors.product_img}"
                                     @change="onFileChange">
 
                                 <img class="ml-2 w-14 h-14 rounded-full" :src="productImage.product_img ? productImage.product_img : productImage.oldImg" alt="">
+
                             </div>
+                            <p v-if="errors.product_img" class="text-red-500"> {{ errors.product_img[0] }} </p>
 
                             <!-- hidden old image  -->
                             <input type="hidden" v-model="productImage.oldImg">
@@ -184,6 +187,7 @@ export default{
         },
         createModal(){
             this.productImage= {};
+            this.errors={};
             this.modal = !this.modal;
             this.formCreate = true;
             
@@ -196,7 +200,7 @@ export default{
             this.productImage.oldImg = productImage.product_img;
         },
         createProductImage(){
-            axios.post('/api/admin/product/image/create',this.productImage)
+            axios.post('/admin/product/image/create',this.productImage)
             .then(res =>{
                 this.notification.type = 'success';
                 this.notification.message = "Product Image has been Created successfully !";
@@ -208,7 +212,7 @@ export default{
             })
         },
         updateProductImage(){
-            axios.put('/api/admin/product/image/update/' + this.productImage.id,{
+            axios.put('/admin/product/image/update/' + this.productImage.id,{
                 'product_img_name': this.productImage.product_img_name,
                 'product_img' : this.productImage.product_img,
                 'oldImg' : this.productImage.oldImg,
@@ -222,7 +226,7 @@ export default{
 
         },
         imageDelete(id){
-            axios.delete('/api/admin/product/image/' + id)
+            axios.delete('/admin/product/image/' + id)
             .then(res=>{
                 this.notification = {};
                 this.notification.type = 'delete';
@@ -232,7 +236,7 @@ export default{
             })
         },
         restore(id){
-            axios.post('/api/admin/product/image/restore/' + id)
+            axios.post('/admin/product/image/restore/' + id)
             .then(res =>{
                 this.notification={};
                 this.notification.message = "The product Image has been Restore Successfully";
@@ -241,20 +245,20 @@ export default{
             })
         },
         reloadProductImage(){
-            axios.get('/api/admin/product/image')
+            axios.get('/admin/product/image')
             .then(res =>{
-                this.allProductImages = res.data[0];
-                this.allProductImagesCount = res.data[1];
+                this.allProductImages = res.data['allImages'];
+                this.allProductImagesCount = res.data['imageCount'];
                 this.showProductImages = this.allProductImages.slice(0,this.showImagelength);
                 this.allProductImageslength = this.allProductImages.length;
             })
         }
     },
     created(){
-        axios.get('/api/admin/product/image')
+        axios.get('/admin/product/image')
         .then(res =>{
-            this.allProductImages = res.data[0];
-            this.allProductImagesCount = res.data[1];
+            this.allProductImages = res.data['allImages'];
+            this.allProductImagesCount = res.data['imageCount'];
             this.showProductImages = this.allProductImages.slice(0,this.showImagelength);
             this.allProductImageslength = this.allProductImages.length;
         })

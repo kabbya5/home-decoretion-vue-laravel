@@ -7,17 +7,21 @@ use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SizeController;
 use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\ContactPageSettingController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DeliverySettingController;
 use App\Http\Controllers\Backend\ProductImageController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\NavbarRequestController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Route;
 
 
@@ -100,6 +104,12 @@ function(){
   // Image 
   Route::controller(ProductImageController::class)->group(function(){
     route::get('/product/image','index');
+    Route::post('/product/image/create','store');
+    Route::put('/product/image/update/{productImage}','update');
+    Route::delete('/product/image/{productImage}', 'destroy');
+    Route::post('/product/image/restore/{productImage}','restore');
+    Route::get('/product/image/trashed','trashed');
+    Route::delete('/product/image/force/delete/{id}', 'forceDelete');
   });
 
   // Slider 
@@ -109,21 +119,32 @@ function(){
       Route::put('/slider/publish/datate/change/{slider}','changePublishedDate');
   });
 
+  // Coupon 
+  Route::resource('/coupon',CouponController::class)->except(['create','show','edit']);
+  Route::put('/coupon/activity/change/{coupon}',[CouponController::class,'couponActiveUnactive']);
+
 });
 
 // user 
 
+// home page 
 Route::controller(HomePageController::class)->group(function (){
   Route::get('/get/cateogry/index/{width}','getCategory');
   Route::get('/get/week/products','weekSaleProduct');
   Route::get('/get/sliders','getSliders');
-  
+});
+
+//product details 
+
+Route::controller(ProductDetailController::class)->group(function (){
+  Route::get('/product/{slug}','productDetails');
 });
 
 Route::controller(NavbarRequestController::class)->group(function (){
   Route::get('/get/navbar/site/setting','getSiteSetting');
   Route::get('/navbar/category','getNavbarCategory');
   Route::get('/search/tags/','searchTags');
+  ROute::get('/cart/content','getNavbarCatContent');
 });
 
 //shop route for shop page
@@ -131,7 +152,7 @@ Route::controller(NavbarRequestController::class)->group(function (){
 Route::controller(ShopController::class)->group(function(){
   Route::get('/shop/tag/product/{tag}','tagProduct');
   Route::get('/shop/page/sidebar/contents','shopPageContents');
-  Route::get('/shop/category/product/{slug}','categoryProduct');
+  Route::get('/shop/category/product/{slug}','categoryProducts');
   Route::get('/shop/subcat/product/{slug}','subCategoryProducts');
   Route::get('/shop/childcat/product/{slug}','childCategoryProducts');
 });
@@ -142,10 +163,20 @@ Route::controller(ContactController::class)->group( function(){
   Route::post('/contact/message/sent','sentContactMessage');
 });
 
-// Cart Controller 
+//  Cart  and coupon 
 
 Route::controller(ShoppingCartController::class)->group(function (){
   Route::post('/cart/add/{product}','addCart');
+  Route::put('/update/cart/{rowId}', 'updateCartQty');
+  Route::delete('/remove/cart/product/{rowId}','removedCartProduct');
+  Route::get('/shopping/carts','cartContent');
+  Route::delete('/cart/destroy','cartDestroy');
+  Route::get('/coupon/check','applyCoupon');
+});
+
+Route::controller(CheckoutController::class)->group(function (){
+  Route::get('/get/delivery/setting','getDeliverySettings');
+  Route::put('/order/store/','orderStore');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth','verified']],

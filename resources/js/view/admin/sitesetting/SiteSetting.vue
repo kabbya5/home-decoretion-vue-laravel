@@ -61,6 +61,24 @@
 
                         <p v-if="errors.company_email_2" class="text-red-500 px-2"> {{errors.company_email_2[0]}}</p>
                     </div>
+                    <div class="flex flex-col">
+                        <label for="advance_payment_limit" class="px-1 my-2 text-gray-600 font-semibold"> advance payment limit</label>
+
+                        <input type="text" v-model="siteSetting.advance_payment_limit" placeholder="advance payment limit"
+                        class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        :class="{'border-red-500':errors.advance_payment_limit}">
+
+                        <p v-if="errors.advance_payment_limit" class="text-red-500 px-2"> {{errors.advance_payment_limit[0]}}</p>
+                    </div>
+                    <div class="flex flex-col my-2">
+                        <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> advance payment limit message </label>
+
+                        <textarea v-model="siteSetting.advance_payment_limit_message" cols="30" rows="6"
+                        class="my-4 px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                        >
+                        
+                        </textarea>     
+                    </div>
                 </div>    
                 <div class="col-span-2 lg:col-span-1">
                     <div class="flex flex-col">
@@ -128,8 +146,8 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
-                <button class="px-4 py-1 uppercase bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-800">
+            <div class="flex my-10 justify-center">
+                <button class="px-4 py-2 uppercase bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-800">
                     {{ formCreate ? 'Create Site Setting' : 'Update site Setting'}}
                 </button>
             </div>
@@ -201,6 +219,8 @@ export default{
               seo_content :this.siteSetting.seo_content,
               trean_and_conditon : this.treanAndConditon,
               return_policy : this.returnPolicy,
+              advance_payment_limit_message: this.siteSetting.advance_payment_limit_message,
+              advance_payment_limit: this.siteSetting.advance_payment_limit,
             })
             .then(res =>{
                 this.notification.type ='success',
@@ -218,6 +238,8 @@ export default{
               old_title_image: this.siteSetting.old_title_image,
               share_image: this.siteSetting.share_image, 
               old_share_image :this.siteSetting.old_share_image,
+              advance_payment_limit_message: this.siteSetting.advance_payment_limit_message,
+              advance_payment_limit: this.siteSetting.advance_payment_limit,
 
               seo_content :this.siteSetting.seo_content,
               trean_and_conditon : this.treanAndConditon,
@@ -248,6 +270,8 @@ export default{
             this.siteSetting.old_share_image = data[0].share_image;
             this.treanAndConditon = data[0].trean_and_conditon;
             this.returnPolicy = data[0].return_policy;
+            this.siteSetting.data[0].advance_payment_limit_message;
+            this.siteSetting.data[0].advance_payment_limit;
         })
          
     }

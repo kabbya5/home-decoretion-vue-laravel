@@ -118,7 +118,7 @@ export default{
         }
     },
     mounted(){
-        axios.get('/contact/page/settings')
+        axios.get('/contact/page/setting')
         .then(res => {
             this.contactSetting = res.data;
             this.loading = false;

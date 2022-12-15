@@ -114,7 +114,7 @@
         
                                 <div class="flex flex-col my-4">
                                     <label for="text" class="my-4 text-slate-500 px-4 capitalize font-semibold">
-                                         product desdcription 
+                                         Slider desdcription 
                                          <i class="fa-regular fa-star text-orange-500"></i>
                                         </label>
                                         <QuillEditor v-model:content="contentHTML" contentType="html" toolbar="full" />
@@ -311,7 +311,6 @@ export default{
             this.slidersCount = res.data[1];
             this.slidersLength = res.data[0].length;
         });
-        document.title = 'Admin/SLider'
     },
 }
 </script>

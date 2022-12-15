@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('company_email_2')->nullable();
             $table->text('seo_tag')->nullable();
             $table->text('seo_content')->nullable();
+            $table->text('advance_payment_limit_message');
+            $table->string('advance_payment_limit');
             $table->string('title_image')->nullable();
             $table->string('share_image')->nullable();
             $table->longText('trean_and_conditon')->nullable;

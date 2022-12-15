@@ -21,24 +21,33 @@ class ShopController extends Controller
     }
 
     public function tagProduct($slug){
-        $tag = Tag::with('products.images','products.category')->where('slug',$slug)->first();
-        $relatedProducts = $this->relatedProducts($tag);
+        $tag = Tag::with('products.images','products.category',)->where('slug',$slug)->first();
+        
+        $tagProducts = $tag->products;
+
+        $product = $tagProducts[0];
+
+        
+        
+        $relatedProducts = $this->relatedProducts($product);
        
             
         return response()->json([
-            'tagProducts'=>$tag->products,
+            'tagProducts'=>$tagProducts,
             'relatedPrdoucts' =>$relatedProducts,
            
         ]);
     }
 
-    public function categoryProduct($slug){
+    public function categoryProducts($slug){
         $category  = Category::with('products.category')->where('slug',$slug)->first();
+        $categoryProducts = $category->products;
+        $product = $categoryProducts[0];
         
-        $relatedProducts = $this->relatedProducts($category);
+        $relatedProducts = $this->relatedProducts($product);
 
         return response()->json([
-            'catProducts' => $category->products,
+            'catProducts' => $categoryProducts,
             'relatedProducts' => $relatedProducts,
         ]);
     }
@@ -72,33 +81,16 @@ class ShopController extends Controller
 
         return response()->json([
             'subCatProducts' => $childCategory->products,
-            'relatedProducts' => array_slice($relatedProducts,0,20),
+            'relatedProducts' => $relatedProducts,
         ]);
     }
 
-    private function relatedProducts($value){
-        $related_products_ids=[];
-        $prdouct_ids =[];
-        
-        foreach($value->products as $pro){
-            array_push($prdouct_ids,$pro->id);
-            foreach($pro->tags as $tag){
-                if($tag){
-                    foreach($tag->products as $product){
-                        array_push($related_products_ids,$product->id);
-                    }
-                }
-            }   
-        }
-        $product_diff_ids = array_diff($related_products_ids,$prdouct_ids);
-        $unique_related_products_ids = array_unique($product_diff_ids);
-
-        $relatedProducts = array();
-        foreach($unique_related_products_ids as $id){
-            $product = Product::where('id',$id)->with('images')->first();
-            array_push($relatedProducts,$product);
-
-        }
+    private function relatedProducts($product){
+        $relatedProducts = Product::with('category','subcategory','childcategory','images','tags')->whereHas('tags', function ($q) use ($product) {
+            return $q->whereIn('tag_name', $product->tags->pluck('tag_name')); 
+        })
+        ->where('id', '!=', $product->id) 
+        ->get();
         return $relatedProducts;
     }
 }

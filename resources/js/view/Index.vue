@@ -203,7 +203,7 @@ import Footer from '../components/Footer.vue';
 import LoadingVue from '../components/Loading.vue';
 
 export default {
-    components:{Slider,Product,Footer, LoadingVue},
+components:{Slider,Product,Footer, LoadingVue},
   data: function() {
     return {
         loading:true,
@@ -230,8 +230,16 @@ export default {
         this.loadMore = false;
     }
   },
-  mounted(){
-   
+  mounted() {
+    if (localStorage.getItem('reloaded')) {
+        localStorage.removeItem('reloaded');
+        this.loading = false;
+    } else {
+        this.loading = true;
+        localStorage.setItem('reloaded', '1');
+        location.reload();
+        
+    }
   },
   created(){
     this.img = 'https://media.istockphoto.com/id/1182454657/photo/bohemian-living-room-interior-3d-render.jpg?s=612x612&w=0&k=20&c=qw37MGIiTL_jML3_Tbm4bM-jNLCrocSWj7DanhBr_bY=';
@@ -240,8 +248,6 @@ export default {
     axios.get('/get/cateogry/index/' + this.windowWidth)
     .then(res => {
         this.categories = res.data['categories']
-        let categoriesLength = res.data['categories'].length;
-
         this.firstCategory = res.data['firstCategory'];
         this.showCategories = res.data['showCategories'];
         this.moreCategoies = (Object.keys(res.data['categories']).length - Object.keys(res.data['showCategories']).length);
@@ -250,9 +256,7 @@ export default {
     axios.get('/get/week/products')
     .then(res =>{
         this.weekSaleProduct = res.data;
-        this.loading = false;
-    })
-    
+    }) 
   }
 };
 </script>
