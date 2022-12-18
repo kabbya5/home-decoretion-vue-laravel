@@ -16,7 +16,7 @@
             
         </div>
         <div class="my-4">
-            <h2 class="text-gray-900 font-bold text-[30px] mx-4"> Your cart items </h2>
+            <h2 class="text-gray-900 font-bold text-[18px] mx-4"> Your cart items </h2>
             <div class="my-8 overflow-x-auto relative shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -127,6 +127,10 @@
             </div>
         </div>
 
+        <div class="my-10">
+            <h2 class="text-gray-900 font-bold text-[18px] mx-4"> Resently Views </h2>
+            <Product class="my-4" :products="resentViewProducts" />
+        </div>
 
         <LoadingVue v-if="loading" :loading="loading" />
         <NotificationAdminVue v-if="notification.message" :notification="notification" />
@@ -135,13 +139,15 @@
 <script>
     import LoadingVue from '../components/Loading.vue';
     import NotificationAdminVue from './admin/NotificationAdmin.vue';
+    import Product from '../components/Product.vue';
 
     export default{
-        components:{LoadingVue, NotificationAdminVue},
+        components:{LoadingVue, NotificationAdminVue,Product},
         data(){
             return {
                 loading:false,
                 carts:{},
+                resentViewProducts:{},
 
                 siteSetting:'',
                 subtotal:'',
@@ -189,6 +195,7 @@
                 axios.get('/coupon/check',{params:{coupon_name:this.couponCheck.coupon_name}})
                 .then(res => {
                     this.coupon = res.data;
+                    this.errors = {},
                     this.notification.type = 'success',
                     this.notification.message = " Successfully added Coupon !";
                     this.reloadPage();
@@ -212,6 +219,7 @@
                 this.carts = res.data['carts'];
                 this.siteSetting = res.data['siteSetting'];
                 this.subtotal = res.data['subtotal'];
+                this.resentViewProducts = res.data['resentProduct'];
             })
         }
     }

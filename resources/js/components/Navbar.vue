@@ -21,7 +21,7 @@
                                     <div v-if="search" class="absolute w-full bg-white -mx-2 px-2">
                                         <ul v-if="(tags.length > 0)" class="overflow-x-auto">
                                             <li v-for="tag in tags" :key="tag.id"> 
-                                               <router-link @click="tags={}" :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center">
+                                               <router-link :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center">
                                                     <img v-if="tag.image" class="w-10 h-10 mx-2" :src="tag.image.product_img" :alt="tag.tag_name">
                                                     {{ tag.tag_name }}
                                                </router-link>
@@ -86,6 +86,11 @@
                             <li>
                                 <router-link v-if="!currentUser.slug" to="/login"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
                                     Login/Register
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link v-if="currentUser.slug" :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
+                                    Resent view
                                 </router-link>
                             </li>
                         </ul>

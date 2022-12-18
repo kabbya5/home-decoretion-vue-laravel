@@ -1,5 +1,5 @@
 <template>
-    <div class="py-10 container mx-auto">
+    <div class="mt-[90px] md:mt-0 md:py-10  container mx-auto">
         <div class="my-4 text-center">
             <h2 class="text-gray-800 font-bold capitalize text-2xl">
                 Checkout 
@@ -25,10 +25,10 @@
                                     <label for="name" class="text-gray-600 font-semibold  capitalize"> name </label>
                                     <p class="text-red-500 font-bold ">&midast;</p>
                                 </div>
-                                <input type="text" v-model="shipping.shipping_name"
+                                <input type="text" v-model="shipping.name"
                                 class="border-2 border-gray-200 my-2 px-2 py-2 focus:outline-none"
-                                :class="{'border-red-500':errors.shipping_name}">
-                                <p v-if="errors.shipping_name" class="text-red-500"> {{errors.shipping_name[0]}}</p>
+                                :class="{'border-red-500':errors.name}">
+                                <p v-if="errors.name" class="text-red-500"> {{errors.name[0]}}</p>
                             </div>
 
                             <div class="flex flex-col">
@@ -36,10 +36,10 @@
                                     <label for="phone" class="text-gray-600 font-semibold  capitalize"> phone </label>
                                     <p class="text-red-500 font-bold ">&midast;</p>
                                 </div>
-                                <input type="text" v-model="shipping.shipping_phone"
+                                <input type="text" v-model="shipping.phone"
                                 class="border-2 border-gray-200 my-2 px-2 py-2 focus:outline-none"
-                                :class="{'border-red-500':errors.shipping_phone}">
-                                <p v-if="errors.shipping_phone" class="text-red-500"> {{errors.shipping_phone[0]}}</p>
+                                :class="{'border-red-500':errors.phone}">
+                                <p v-if="errors.phone" class="text-red-500"> {{errors.phone[0]}}</p>
                             </div>
 
                             <div class="flex flex-col">
@@ -47,10 +47,10 @@
                                     <label for="email" class="text-gray-600 font-semibold  capitalize"> email </label>
                                     
                                 </div>
-                                <input type="email" v-model="shipping.shipping_email"
+                                <input type="email" v-model="shipping.email"
                                 class="border-2 border-gray-200 my-2 px-2 py-2 focus:outline-none"
-                                :class="{'border-red-500':errors.shipping_email}">
-                                <p v-if="errors.shipping_email" class="text-red-500"> {{errors.shipping_email[0]}}</p>
+                                :class="{'border-red-500':errors.email}">
+                                <p v-if="errors.email" class="text-red-500"> {{errors.email[0]}}</p>
                             </div>
 
                             <div class="flex flex-col">
@@ -58,21 +58,21 @@
                                     <label for="address" class="text-gray-600 font-semibold  capitalize"> address </label>
                                     <p class="text-red-500 font-bold ">&midast;</p>
                                 </div>
-                                <input type="text" v-model="shipping.shipping_address"
+                                <input type="text" v-model="shipping.address"
                                 class="border-2 border-gray-200 my-2 px-2 py-2 focus:outline-none"
-                                :class="{'border-red-500':errors.shipping_address}">
-                                <p v-if="errors.shipping_address" class="text-red-500"> {{errors.shipping_address[0]}}</p>
+                                :class="{'border-red-500':errors.address}">
+                                <p v-if="errors.address" class="text-red-500"> {{errors.address[0]}}</p>
                             </div>
 
                             <div class="flex flex-col">
                                 <div class="flex">
                                     <label for="address" class="text-gray-600 font-semibold  capitalize"> District </label>
                                     <p class="text-red-500 font-bold ">&midast;</p>
-                                     <span class="text-gray-700 font-semibold capitalize  ml-4"> {{ shipping.shipping_district }} </span>
+                                     <span class="text-gray-700 font-semibold capitalize  ml-4"> {{ shipping.district }} </span>
                                 </div>
-                                <select v-model="shipping.shipping_district"
+                                <select v-model="shipping.district"
                                 class="border-2 border-gray-200 my-2 px-2 py-2 focus:outline-none"
-                                :class="{'border-red-500':errors.shipping_district}">
+                                :class="{'border-red-500':errors.district}">
                                 <option selected> Dhaka </option>
                                 <option value="chittagong" > Chittgone </option>
                                 <option value="rajshahi"> Rajshahi </option>
@@ -82,20 +82,20 @@
                                 <option value="khulna"> Khulna  </option>
                                 <option value="barisal"> Barisal</option> 
                                 </select>
-                                <p v-if="errors.shipping_district" class="text-red-500"> {{errors.shipping_district[0]}}</p>
+                                <p v-if="errors.district" class="text-red-500"> {{errors.district[0]}}</p>
                             </div>
 
                             <div class="flex flex-col">
                                 <div class="flex">
                                     <label for="comment" class="text-gray-600 font-semibold  capitalize"> comment </label>
                                 </div>
-                                <textarea  cols="30" rows="2" v-model="shipping.shipping_comment"
+                                <textarea  cols="30" rows="2" v-model="shipping.comment"
                                 class="border-2 border-gray-200 my-2 px-2 py-2 focus:outline-none"
-                                :class="{'border-red-500':errors.shipping_comment}">
+                                :class="{'border-red-500':errors.comment}">
 
                                 </textarea>
 
-                                <p v-if="errors.shipping_comment" class="text-red-500"> {{errors.shipping_comment[0]}}</p>
+                                <p v-if="errors.comment" class="text-red-500"> {{errors.comment[0]}}</p>
                             </div>
 
                         </form>
@@ -107,11 +107,11 @@
                                 <h2 class="text-gray-900 font-bold text-sm md:text-[18px] mx-4"> Payment Method </h2>
                                 <div class="my-2 px-4">
                                     <div class="flex">
-                                        <input type="radio" id="cash_on_delivery" checked v-model="shipping.delivery_method" value="cash_on_delivery" />
+                                        <input type="radio" id="cash_on_delivery" checked v-model="shipping.payment_method" value="cash_on_delivery" />
                                         <label for="cash_on_delivery" class="text-gray-600 font-semibold  mx-4"> Cash on Delivery </label>
                                     </div>
                                     <div class="flex my-2">
-                                        <input type="radio" id="online_payment" v-model="shipping.delivery_method" value="online_payment" />
+                                        <input type="radio" id="online_payment" v-model="shipping.payment_method" value="online_payment" />
                                         <label for="online_payment" class="text-gray-600 font-semibold  mx-4"> Online Payment </label>
                                     </div>   
                                     <div v-if="shipping.delivery_method=='online_payment'" class="text-gray-500  my-4">
@@ -126,7 +126,15 @@
                             <div class="col-span-2 md:col-span-1">
                                 <h2 class="text-gray-900 font-bold text-sm md:text-[18px] mx-4"> Delivery Method </h2>
                                 <div class="px-2">
-                                    <div class="flex flex-col my-2"> 
+                                    <div v-if="free_shipping" class="my-4 flex items-center">
+                                        <h2 class="text-gray-900 font-semibold text-sm md:text-[16px] mx-4"> free Shipping </h2>
+                                    </div>
+                                    <div v-else class="flex flex-col my-2"> 
+                                        <label  class="my-1 pl-2"> 
+                                            <input type="radio" @change="changeDeliverySystems" v-model="delivery_method.title" 
+                                            :value="delivery_method.title" :data-cost="delivery_method.cost" class="mr-2"> 
+                                            {{ delivery_method.title }}- <span class="tex-sm">{{ delivery_method.cost }} TK </span> 
+                                        </label>
                                         <label v-for="item in delivery_methods" :key="item.id" class="my-1 pl-2"> 
                                             <input type="radio" @change="changeDeliverySystems" v-model="delivery_method.title" 
                                             :value="item.delivery_title" :data-cost="item.delivery_cost" class="mr-2"> 
@@ -157,7 +165,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                        
+                
                                                 <tr v-for="(cart,index) in carts" :key="index" class="border-b dark:bg-gray-900 dark:border-gray-700">
                                                     <th scope="row" class="py-2 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                         <router-link :to="{name:'product-detail',params:{slug:cart.id}}" class="text-gray-900  font-semibold  mx-4 w-60 hover:underline"> {{cart.options.product_title}}</router-link>
@@ -253,18 +261,29 @@
                             </router-link> </label>
                         
                         <button @click="createOrder" class="bg-blue-700 px-4 py-2 text-md text-white capitalize mx-4"> confirm  order </button>
+                        <p v-if="errors.agree" class="text-red-500 px-4 my-2">{{errors.agree[0]}}</p>
                     </div>
                 </div>
             </div>
         </div>
+        <Loading v-if="loading" :loading="'Wait for a moments. Loading... !'" />
     </div>
 </template>
 <script>
+import Loading from "../components/Loading.vue";
 export default{
+    components:{Loading},
     data(){
         return {
+            loading:false,
             shipping:{
-                shipping_district:'Dhaka',
+                district:'Dhaka',
+                name:'kabbya',
+                email:'kabbya@gmail.com',
+                phone:'01721245332',
+                address:'malibag,dhaka',
+                comment: 'this is testing comment I love codding',
+                payment_method:'cas_on_delivery',
             },
             errors:{},
             siteSetting:'',
@@ -274,10 +293,14 @@ export default{
             coupon:'',
 
             delivery_methods:[],
+
             delivery_method:{
                 title:'',
                 cost:'',
             },
+            free_shipping :false,
+
+            team_and_conditon:true,
 
             notification:{
                 type:'',
@@ -291,11 +314,38 @@ export default{
             this.delivery_method.cost = parseInt(cost);
         },
         createOrder(){
-            axios.put('/order/store',{
+            this.loading = true;
+            this.errors = {},
 
+            axios.put('/order/store',{
+                name: this.shipping.name,
+                phone: this.shipping.phone,
+                email: this.shipping.email,
+                address: this.shipping.address,
+                district: this.shipping.district,
+                comment: this.shipping.comment,
+
+                coupon: this.coupon,
+
+                subtotal: this.subtotal,
+                
+                payment_type: this.shipping.payment_method,
+
+                delivery_type: this.delivery_method.title,
+                delivery_method:this.delivery_method.cost,
+
+                agree: this.team_and_conditon,
+
+                
             })
             .then(res => {
-                alert('success');
+                this.errors = {};
+                this.loading = false;
+                this.$router.push({name:'home'});
+            })
+            .catch(errors => {
+                this.loading = false;
+                this.errors = errors.response.data.errors;
             })
         },
         applyCoupon(){
@@ -329,8 +379,22 @@ export default{
         })
         axios.get('/get/delivery/setting')
         .then(res => {
-            this.delivery_methods  = res.data['deliverySeystem'];
+            let delivery_method_data  = res.data['deliverySystem'];
+            let delivery_system = Object.values(delivery_method_data)[0]
+            this.delivery_method.title = delivery_system.delivery_title;
+            this.delivery_method.cost =  parseInt(delivery_system.delivery_cost);
+
+            this.delivery_methods = res.data['deliverySystem'].slice(1,5);
+
             this.coupon = res.data['coupon'];
+
+            let shipping = res.data['freeShipping'];
+
+            if(shipping){
+                this.free_shipping = shipping;
+                this.delivery_method.cost = 0;
+                this.delivery_method.title = shipping;
+            }
         })    
     }
 }

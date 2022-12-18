@@ -68,7 +68,7 @@ class SiteSettingController extends Controller
     }
 
     public function edit(){
-        $site_setting = SiteSetting::first()->get();
+        $site_setting = SiteSetting::first();
         return response()->json($site_setting);
     }
 

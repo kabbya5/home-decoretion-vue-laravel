@@ -11,6 +11,7 @@ import UserDashboard from './view/user/UserDashboard.vue';
 import UserCartContent from  './view/CartContent.vue';
 import Checkout from './view/Checkout.vue';
 import TeamAndCondition from './view/TeamAndCondition.vue';
+import ResentViewProducts from './view/user/ResentViewProducts.vue';
 
 // Admin 
 import AdminDashboard from './view/admin/AdminDashboard.vue';
@@ -83,6 +84,10 @@ const routes = [
   {
     path:'/childcategory/:childCatSlug', name:'childCategoryShopPage',
     component:ShopPage,
+  },
+  {
+      path:'/resent/view/prdouct/:slug', name:'resent-view-product',
+      component:ResentViewProducts,
   },
 
   // cart and checkout 

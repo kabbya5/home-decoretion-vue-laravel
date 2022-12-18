@@ -25,7 +25,7 @@ class ShopController extends Controller
         
         $tagProducts = $tag->products;
 
-        $product = $tagProducts[0];
+        $product = $tagProducts[1];
 
         
         
@@ -53,40 +53,35 @@ class ShopController extends Controller
     }
 
     public function subCategoryProducts($slug){
-        $subcategory = Subcategory::with('products.tags')->where('slug',$slug)->first();
+        $subcategory = Subcategory::with('products.category')->where('slug',$slug)->first();
         $subcategory_products = $subcategory->products;
 
-        $relatedProducts = [];
+        $product = $subcategory_products[0];
+        
+        $relatedProducts = $this->relatedProducts($product);
 
-        foreach($subcategory_products as $product){
-            foreach($product->tags as $tag){
-                if($tag){
-                    foreach($tag->products as $product){
-                        array_push($relatedProducts,$product);
-                    }
-                }
-            }   
-        }
 
         return response()->json([
             'subCatProducts' => $subcategory_products,
-            'relatedProducts' => array_slice($relatedProducts,0,20),
+            'relatedProducts' => $relatedProducts,
         ]);
     }
 
     public function childCategoryProducts($slug){
-        $childCategory = Childcategory::with('products.tags')->where('slug',$slug)->first();
+        $childCategory = Childcategory::with('products.category')->where('slug',$slug)->first();
+        $childCategoryProduct = $childCategory->products;
+        $product = $childCategoryProduct[0];
         
-        $relatedProducts = $this->relatedProducts($childCategory);
+        $relatedProducts = $this->relatedProducts($product);
 
         return response()->json([
-            'subCatProducts' => $childCategory->products,
+            'subCatProducts' => $childCategoryProduct,
             'relatedProducts' => $relatedProducts,
         ]);
     }
 
     private function relatedProducts($product){
-        $relatedProducts = Product::with('category','subcategory','childcategory','images','tags')->whereHas('tags', function ($q) use ($product) {
+        $relatedProducts = Product::with('category','subcategory')->whereHas('tags', function ($q) use ($product) {
             return $q->whereIn('tag_name', $product->tags->pluck('tag_name')); 
         })
         ->where('id', '!=', $product->id) 

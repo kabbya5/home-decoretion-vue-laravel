@@ -19,9 +19,10 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\NavbarRequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductDetailController;
+use App\Http\Controllers\ResentViewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShoppingCartController;
-use App\Models\Coupon;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -130,7 +131,7 @@ function(){
 // home page 
 Route::controller(HomePageController::class)->group(function (){
   Route::get('/get/cateogry/index/{width}','getCategory');
-  Route::get('/get/week/products','weekSaleProduct');
+  Route::get('/get/hom/page/content','getHomePageContent');
   Route::get('/get/sliders','getSliders');
 });
 
@@ -183,9 +184,17 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth','verified']],
 function(){
   // user dashboard 
 
+  Route::controller(WishlistController::class)->group(function (){
+    Route::post('/wishlist/add/{product}','addProductToWishlist');
+  });
+
   Route::controller(ProfileController::class)->group(function (){
     Route::get('/get','getCurrentUser');
     Route::put('/profile/update/{user}','updateProfile');
+  });
+
+  Route::controller(ResentViewController::class)->group(function (){
+    Route::get('/resent/view/products', 'getProducts');
   });
 
   

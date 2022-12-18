@@ -8,7 +8,6 @@ use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Cart;
 use Session;
-use PHPUnit\Framework\Constraint\Count;
 
 class ShoppingCartController extends Controller
 {
@@ -17,10 +16,12 @@ class ShoppingCartController extends Controller
         $siteSetting = SiteSetting::first();
         $carts = Cart::content();
         $total = Cart::subtotal();
+        $resentProducts = Session::get('resentView.product');
         return response()->json([
             'carts' => $carts,
             'siteSetting' => $siteSetting,
             'subtotal' => $total,
+            'resentProduct' => (object) $resentProducts,
         ]);
     }
     public function addCart(Request $request,Product $product){
@@ -54,7 +55,8 @@ class ShoppingCartController extends Controller
 
         $cart['options']['product_title'] = $product->product_title;
 
-        $cart['options']['seller_id'] = $product->seller_id;
+        $cart['options']['product_id'] = $product->id;
+        $cart['options']['free_shipping'] = $product->free_shipping;
 
         if($product->discount_price){
             $price = $product->discount_price;

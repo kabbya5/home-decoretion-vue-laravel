@@ -11,14 +11,14 @@
                         </router-link>
                     
                         <!-- produt-status -->
-                        <span v-if="product.sale_status" class="absolute left-2 top-2 rounded-md bg-red-500 text-white  px-4 py-1 text-white"> {{product.sale_status}}</span>
-                        <span v-if="product.free_shipping" class="absolute right-2 top-2 rounded-md bg-orange-500 text-white  px-4 py-1 text-white"> 
+                        <span v-if="product.sale_status" class="absolute left-0 top-0  bg-red-500 text-white  px-2 py-1 text-white text-sm"> {{product.sale_status}}</span>
+                        <span v-if="product.free_shipping" class="absolute right-0 top-0  bg-orange-500 text-white  px-2 py-1 text-white"> 
                             Free Shipping
                         </span>
-                        <span class="absolute bg-orange-500 text-white px-4 py-1 rounded-md text-bold mx-4 left-[50%] translate-x-[-60%] bottom-[-10px]"> {{ product.discount_status_or_new }} </span>
+                        <span class="absolute bg-orange-500 text-white px-4 py-1 text-bold mx-4 left-[50%] translate-x-[-60%] bottom-[-10px]"> {{ product.discount_status_or_new }} </span>
 
                         <!-- action div  -->
-                        <div v-if="(show_product_cart_view_button==product.id)" class=" absolute top-[20%] right-2">
+                        <div v-if="(show_product_cart_view_button==product.id)" class=" absolute top-[50%] translate-y-[-50%] right-2">
                             <div class="flex flex-col">
                                 <button @click="addToCart(product.slug)" @mouseenter="(show_product_cart_view_actionTitel='cart'+product.id)"
                                     @mouseleave="show_product_cart_view_actionTitel=false" 
@@ -41,11 +41,17 @@
                                     <i class="fa-solid fa-right-left"></i>
                                     <span v-if="show_product_cart_view_actionTitel=='compair'+product.id" class="absolute right-[100%] w-[100px] px-2 bg-orange-500 text-white"> Compair </span> 
                                 </button>
+                                <button @click="addWishlist(product.slug)" @mouseenter="show_product_cart_view_actionTitel='wiishlist'+product.id"
+                                    @mouseleave="show_product_cart_view_actionTitel=false" class="relative bg-white  my-2 w-10 h-10 flex items-center justify-center  rounded-full
+                                    transition duration-300 hover:bg-black hover:text-white"> 
+                                    <i class="fa-regular fa-heart"></i>
+                                    <span v-if="show_product_cart_view_actionTitel=='wiishlist'+product.id" class="absolute right-[100%] w-[100px] px-2 bg-orange-500 text-white"> Wishlist </span> 
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="product detail my-4 px-2">
-                        <router-link :to="{name:'categoryShopPage',params:{catSlug:product.category.slug}}" class="w-ful uppercase text-gray-600 transition duration-300 hover:font-bold text-sm">
+                        <router-link v-if="product.category.slug" :to="{name:'categoryShopPage',params:{catSlug:product.category.slug}}" class="w-ful uppercase text-gray-600 transition duration-300 hover:font-bold text-sm">
                             {{ product.category.categoryName }}
                         </router-link><br>
                         <router-link :to="{name:'product-detail',params:{slug:product.slug}}" class="w-ful text-gray-600 font-bold h-10 text-md">
@@ -142,7 +148,7 @@
                             
                             <!-- form section  -->
 
-                            <form class="w-full"> 
+                            <form @submit.prevent="buyProduct" class="w-full"> 
                                 <div v-if="product.product_sizes.length > 0" class="flex flex-col">
                                     <p v-if="product.is_furniture" class="text-gray-600 my-2">
                                         Select Size : 
@@ -240,6 +246,17 @@ export default{
             this.selectItemPrice = null;
             this.productForm = {};
         },
+        buyProduct(){
+            axios.post('/cart/add/'+ this.product.slug,{
+                size: this.productForm.size,
+                color:this.productForm.color,
+                quanitity: this.productForm.quanitity,
+                size_extra_payment:this.selectItemPrice,
+            })
+            .then(res => {
+                this.$router.push({name:'checkout'});
+            })
+        },
 
         sizeOptionChange (event){
             this.selectItemPrice = event.target.options[event.target.options.selectedIndex].getAttribute('data-price');
@@ -255,6 +272,13 @@ export default{
                 this.notification.message = "The product has been add to cart successfully !";
                 this.notification.type = "success";
                 this.$router.go()
+            })
+        },
+        addWishlist(slug){
+            axios.post('/user/wishlist/add/'+slug)
+            .then(res => {
+                this.notification.message = "The product has been add to cart successfully !";
+                this.notification.type = "success";
             })
         }
     }
