@@ -21,11 +21,11 @@
                 {{ product.childcategory.childCatName }}
                 <i class="fa-solid fa-chevron-right"></i>
             </router-link>
-            <router-link to="/" class="capitalize mx-2 text-gray-600 font-semibold"> 
+            <router-link :to="{name:'product-detail',params:{slug:product.slug}}" class="capitalize mx-2 text-gray-600 font-semibold"> 
                 {{ product.product_title }} 
             </router-link>
         </div>
-        <div class="quickview-modal w-full">
+        <div class="w-full">
             <div class="flex items-center justify-center h-full px-4 mt-20">
                 <div class="bg-white relative w-full md:w-[1000px] mb-20">
                     <div class="grid grid-cols-2 gap-4">
@@ -85,14 +85,14 @@
                             <!-- form section  -->
 
                             <form class="w-full" @submit.prevent="buyProduct()"> 
-                                <div v-if="product.product_sizes > 0" class="flex flex-col">
+                                <div v-if="product.product_sizes && product.product_sizes.length > 0" class="flex flex-col">
                                     <p v-if="product.is_furniture" class="text-gray-600 my-2">
                                         Select Size : 
                                         <span v-if="selectItemPrice" class="px-4 text-red-500 font-bold">
                                             Extra Payment {{ selectItemPrice }} TK need for this size 
                                         </span>   
                                         <span v-else class="px-4 text-gray-500 font-bold">
-                                             {{ product.product_sizes[product.product_sizes.length - 1].size_title }}
+                                             {{ product.product_sizes[0].size_title }}
                                         </span> 
                                     </p>
                                     <p v-else class="text-gray-600 my-1">
@@ -101,17 +101,16 @@
                                             Extra Payment {{ selectItemPrice }} TK  need for this size 
                                         </span> 
                                         <span v-else-if="product.product_sizes.length >0" class="px-4 text-gray-500 font-bold">
-                                            {{  product.product_sizes[product.product_sizes.length - 1].size_title }}
+                                            {{  product.product_sizes[0].size_title }}
                                        </span>  
                                     </p> 
                                     <select @change="sizeOptionHandel" class="border-2 border-gray focus:outline-none py-2" v-model="productForm.size"> 
                                         <option  v-for="size in product.product_sizes" :key="size.id"  :value="size.size_title" :data-price="size.size_extra_payment">  {{ size.size_title   }} </option>
                                     </select>
                                 </div>
-
-                                <div v-if="product.product_colors > 0" class="flex flex-col my-2">
+                                <div v-if="product.product_colors && product.product_colors.length > 0" class="flex flex-col my-2">
                                     <p class="text-gray-600 my-1"> Color : 
-                                        {{ productForm.color ? productForm.color:product.product_colors[product.product_colors.length - 1].name }} 
+                                        {{ productForm.color ? productForm.color:product.product_colors[0].name }} 
 
                                     </p>
                                     <select class="border-2 border-gray focus:outline-none py-1" v-model="productForm.color"> 
@@ -139,6 +138,97 @@
                 </div>
             </div>
         </div>
+        <div class="my-10">
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-12 md:col-span-8">
+                    <div class="flex">
+                        <button @click="showReturnPolicy =!showReturnPolicy" 
+                            class="text-gray-900 font-semibold border-2 border-gray-200 rounded-md
+                            px-4 py-2 trasiton duration-300 hover:bg-orange-700 hover:text-white"
+                            :class="{'bg-orange-700 text-white':!showReturnPolicy}"> 
+                            Description 
+                        </button>
+                        <button @click="showReturnPolicy =!showReturnPolicy" 
+                            class="text-gray-900 font-semibold border-2 border-gray-200 rounded-md
+                            px-4 py-2 trasiton duration-300 hover:bg-orange-700 hover:text-white"
+                            :class="{'bg-orange-700 text-white':showReturnPolicy}"> 
+                            Return policy
+                        </button>
+                    </div>
+                    <div class="my-6 px-4">
+                        <div v-if="!showReturnPolicy">
+                            <div class="ql-snow">
+                              <p class="ql-editor" v-html="product.description"></p>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="ql-snow">
+                              <p class="ql-editor" v-html="returnPolicy"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-4">
+                    <div v-if="relatedProducts && relatedProducts.length > 0" class="header w-full border-2 border-gray-200 mt-2 bg-wihte">
+                        <div class="flex justify-between bg-gray-600">
+                            <h3 class="uppercase text-white font-bold px-2 py-2">
+                                Related product
+                            </h3>
+                            <i class="fa-solid fa-arrow-right flex items-center
+                                px-4 bg-gray-800 text-white"></i>
+                        </div>
+                        <div class="categories my-4 pr-2 bg-white text-gray-600 font-semibold">
+                            <div v-for="relatedProduct in relatedProducts" :key="relatedProduct.id" class="flex justify-between items-center border px-4 py-1">
+                                <div class="flex w-full">
+                                    <div class="w-full">
+                                        <router-link :to="{name:'product-detail',params:{slug:relatedProduct.slug}}"  class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ relatedProduct.product_title }} </router-link>
+                                        <div v-if="relatedProduct.discount_price" class="flex items-center my-4">
+                                            <del> {{ relatedProduct.price }} TK </del>
+                                           <span class="mx-4 text-red-500 font-bold text-xl"> {{ relatedProduct.discount_price }} TK </span>   
+                                       </div>
+                                       <div v-else class="flex items-center my-4">
+                                           <span class="mx-4 text-red-500 font-bold text-xl"> {{ relatedProduct.price  }}  TK </span>   
+                                       </div>
+                                    </div>
+                                    <div class="">
+                                        <img class="w-20 h-20 rounded-md" :src="relatedProduct.image_url" :alt="relatedProduct.product_title">
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="resentViewProducts && resentViewProducts.length > 0" class="header w-full border-2 border-gray-200 mt-2 bg-wihte">
+                        <div class="flex justify-between bg-gray-600">
+                            <h3 class="uppercase text-white font-bold px-2 py-2">
+                                Resent view
+                            </h3>
+                            <i class="fa-solid fa-arrow-right flex items-center
+                                px-4 bg-gray-800 text-white"></i>
+                        </div>
+                        <div class="my-4 pr-2 bg-white text-gray-600 font-semibold">
+                            <div v-for="resentView in resentViewProducts" :key="resentView.id" class="flex justify-between items-center border px-4 py-1">
+                                <div class="flex w-full">
+                                    <div class="w-full">
+                                        <router-link :to="{name:'product-detail',params:{slug:resentView.product.slug}}"  class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ resentView.product_title }} </router-link>
+                                        <div v-if="resentView.product.discount_price" class="flex items-center my-4">
+                                            <del> {{ resentView.product.price }} TK </del>
+                                           <span class="mx-4 text-red-500 font-bold text-xl"> {{ resentView.product.discount_price }}  TK </span>   
+                                       </div>
+                                       <div v-else class="flex items-center my-4">
+                                           <span class="mx-4 text-red-500 font-bold text-xl"> {{ resentView.product.price  }}  TK </span>   
+                                       </div>
+                                    </div>
+                                    <div class="">
+                                        <img class="w-20 h-20 rounded-md" :src="resentView.product.image_url" :alt="resentView.product_title">
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <NotificationAdminVue v-if="notification.message" :notification="notification" />
     </div>
 </template>
@@ -149,6 +239,10 @@ export default {
   data: function() {
     return {
         product:{ },
+        relatedProducts:[],
+        returnPolicy:'',
+        showReturnPolicy:false,
+        resentViewProducts:[],
         productImages:'',
         // from 
         productForm:{
@@ -187,7 +281,7 @@ export default {
             size_extra_payment:this.selectItemPrice,
         })
         .then(res => {
-            this.$router.push('/dhdk');
+            this.$router.push({name:'checkout'});
         })
     }
   },
@@ -195,9 +289,13 @@ export default {
     let slug = this.$route.params.slug;
     axios.get('/product/' + slug)
     .then( res =>{
-        this.product = res.data;
+        this.product = res.data['product'];
         let length = this.product.all_images.length;
-        this.productImages = this.product.all_images.slice(1,length)
+        this.productImages = this.product.all_images.slice(1,length);
+        this.relatedProducts = res.data['relatedProducts'];
+        this.returnPolicy  = res.data['returnPolicy'];
+        this.resentViewProducts = res.data['resentView'];
+
     })
   }
 };

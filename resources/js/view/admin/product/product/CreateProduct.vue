@@ -495,7 +495,6 @@ export default ({
         },
 
         updateProduct(){
-            alert(this.createForm);
             axios.put('/admin/product/update/'+this.$route.params.slug,{
                 product_title : this.product.product_title,
                 category_id: this.product.category_id,
@@ -577,7 +576,6 @@ export default ({
                 this.notification.message = 'color has been Created SuccessFully';
                 this.reloadPage();
                 this.modal = !this.modal;
-                this.createForm = true;
             })
             .catch(errors => {
                 this.errors = errors.response.data.errors;
@@ -640,7 +638,7 @@ export default ({
 
         axios.get('/admin/product/create')
         .then(res=>{
-            this.createForm = true;
+            this.createForm = false;
             this.categories = res.data[0];
             this.brands = res.data[1];
             this.sliders = res.data[2];
@@ -682,7 +680,6 @@ export default ({
         if(this.$route.params.slug){
             axios.get('/admin/product/edit/' + this.$route.params.slug)
             .then(res =>{
-                this.createForm = false;
                 this.product = res.data.product;
                 this.productDetails = this.product.description;
                 this.product.imgs = res.data.product_images;

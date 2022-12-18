@@ -109,7 +109,7 @@
                 </h4>
             </div>
 
-            <Product :products="weekSaleProduct" />
+            <Product :products="bestWeekSaleProducts" />
             
         </div>
 
@@ -131,63 +131,7 @@
                 </div>
             </div>
             <div class="my-8">
-                <div class="grid grid-cols-12 gap-4">
-                    <div v-for="n in 12" :key="n" class="my-4 col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 transition duration-300 hover:bg-white">
-                        <div class="h-[300px] w-full relative">
-                            <img class="block object-cover h-full w-full" :src="img" alt="">
-                            <!-- produt-status -->
-                            <span class="absolute left-2 top-2 rounded-md bg-red-500 text-white  px-4 py-1 text-white"> sole !</span>
-                            <span class="absolute right-2 top-2 rounded-md bg-orange-500 text-white  px-4 py-1 text-white"> 30%</span>
-                            <span class="absolute bg-orange-500 text-white px-4 py-1 rounded-md text-bold mx-4 left-[40%] bottom-[-10px]"> New </span>
-
-                            <!-- action div  -->
-                            <div class="absolute top-[20%] right-2">
-                                <div class="flex flex-col">
-                                    <button @mouseenter="show_product_cart_view_actionTitel='cart'+n"
-                                        @mouseleave="show_product_cart_view_actionTitel=false" class="relative bg-white my-2 w-10 h-10 flex items-center justify-center  rounded-full
-                                        transition duration-300 hover:bg-black hover:text-white"> 
-                                        <i class="fa-solid fa-cart-plus"></i>
-                                        <span v-if="show_product_cart_view_actionTitel=='cart'+n" class="absolute right-[100%] w-[100px] px-2 bg-orange-500 text-white"> Add to cart </span> 
-                                    </button>
-                                    <button @mouseenter="show_product_cart_view_actionTitel='qickView'+n"
-                                        @mouseleave="show_product_cart_view_actionTitel=false" class="relative bg-white  w-10 h-10 flex items-center justify-center  rounded-full
-                                        transition duration-300 hover:bg-black hover:text-white"> 
-                                        <i class="fa-regular fa-eye"></i>
-                                        <span v-if="show_product_cart_view_actionTitel=='qickView'+n" class="absolute right-[100%] w-[100px] px-2 bg-orange-500 text-white"> Quick view </span> 
-                                    </button>
-                                    <button @mouseenter="show_product_cart_view_actionTitel='compair'+n"
-                                        @mouseleave="show_product_cart_view_actionTitel=false" class="relative bg-white  my-2 w-10 h-10 flex items-center justify-center  rounded-full
-                                        transition duration-300 hover:bg-black hover:text-white"> 
-                                        <i class="fa-solid fa-right-left"></i>
-                                        <span v-if="show_product_cart_view_actionTitel=='compair'+n" class="absolute right-[100%] w-[100px] px-2 bg-orange-500 text-white"> Compair </span> 
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product detail my-4 px-2">
-                            <router-link to="/product/detalids" class="w-ful uppercase text-gray-600 transition duration-300 hover:font-bold text-sm">
-                                table
-                            </router-link><br>
-                            <router-link to="/product/detalids" class="w-ful text-gray-600 font-bold h-10 text-sm">
-                                9 Iconic Bed Decoration Ideas To ed Decoration
-                            </router-link>
-                            <div class="review flex items-center text-orange-500 text-sm my-2 -ml-2">
-                                <i class="fa-solid fa-star mx-2"></i>
-                                <i class="fa-solid fa-star mx-2"></i>
-                                <i class="fa-solid fa-star mx-2"></i>
-                                <i class="fa-solid fa-star mx-2"></i>
-                                <i class="fa-solid fa-star-half"></i>
-                                <span>
-                                    (10)
-                                </span>
-                            </div>
-                            <div class="price">
-                                <del class="text-gray-400 font-semibold"> 400 Tk</del>
-                                <span class="mx-2 text-orange-500"> 300 taka </span>
-                            </div>
-                        </div>
-                    </div>  
-                </div>
+                <Product :products="resentProducts" />
             </div>
         </div>
         <!-- page loading  -->
@@ -216,7 +160,11 @@ components:{Slider,Product,Footer, LoadingVue},
         // window widht 
         windowWidth: window.innerWidth,  
         // week_sale_product 
-        weekSaleProduct:[],
+        bestWeekSaleProducts:[],
+
+        //resent products
+
+        resentProducts:[],
         
         // loadmore 
         loadMore: true,
@@ -242,9 +190,6 @@ components:{Slider,Product,Footer, LoadingVue},
     }
   },
   created(){
-    this.img = 'https://media.istockphoto.com/id/1182454657/photo/bohemian-living-room-interior-3d-render.jpg?s=612x612&w=0&k=20&c=qw37MGIiTL_jML3_Tbm4bM-jNLCrocSWj7DanhBr_bY=';
-    axios.get('/get/sliders')
-    .then(res => this.sliders = res.data);
     axios.get('/get/cateogry/index/' + this.windowWidth)
     .then(res => {
         this.categories = res.data['categories']
@@ -253,9 +198,12 @@ components:{Slider,Product,Footer, LoadingVue},
         this.moreCategoies = (Object.keys(res.data['categories']).length - Object.keys(res.data['showCategories']).length);
 
     });
-    axios.get('/get/week/products')
+    axios.get('/get/hom/page/content')
     .then(res =>{
-        this.weekSaleProduct = res.data;
+        this.sliders = res.data['sliders'];
+        this.bestWeekSaleProducts = res.data['bestWeekSaleproducts'];
+        this.resentProducts = res.data['resentProducts'];
+        
     }) 
   }
 };

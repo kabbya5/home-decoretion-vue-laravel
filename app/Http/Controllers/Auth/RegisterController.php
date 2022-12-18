@@ -67,6 +67,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $data['password'] = Hash::make($data['password']);
+        $data['slug'] = str_slug($data['user_name']);
         unset($data['password_confirmation']);
         unset($data['checked']);
 

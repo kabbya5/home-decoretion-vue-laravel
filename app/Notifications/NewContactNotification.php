@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -48,7 +49,7 @@ class NewContactNotification extends Notification implements ShouldQueue
             ->line('subject:'. $this->contact['contact_subject'])
             ->line('message:' . $this->contact['contact_description'])
             ->action('View Contact', $url)
-            ->line('Thank you for using our application!');
+            ->line('Message was Sent About' .Carbon::now());
     }
 
     /**

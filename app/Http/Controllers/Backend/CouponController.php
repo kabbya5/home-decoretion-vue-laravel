@@ -38,7 +38,7 @@ class CouponController extends Controller
     {
         Coupon::create($request->validate([
             'coupon_name' => 'required|unique:coupons,coupon_name',
-            'discount'  => 'required',
+            'discount'  => 'required|integer',
         ]));
     }
       /**

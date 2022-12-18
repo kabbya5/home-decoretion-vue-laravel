@@ -133,7 +133,7 @@
                             <div class="my-4 bg-white w-full"> 
                                 <p class="text-center my-2"> preview</p>
                                 <div class="relative w-full">
-                                    <img class="block object-cover w-full h-600" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
+                                    <img class="block object-cover w-full h-600 brightness-75" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
                                     <div class="absolute flex flex-col justify-center items-center bottom-[50%] translate-y-[50%] z-10 text-white left-[20%]">
                                         <div class="ql-snow">
                                             <p class="ql-editor" v-html="contentHTML"></p>

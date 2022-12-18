@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Childcategory;
 use App\Models\Product;
 use App\Models\Slider;
 use Carbon\Carbon;
-use Cart;
-use Illuminate\Http\Request;
+
 
 class HomePageController extends Controller
 {
@@ -29,15 +29,18 @@ class HomePageController extends Controller
         ]);
     }
 
-    public function weekSaleProduct(){
-        $product = Product::with('category','images')->weekSaleProduct()->limit(12)->get();
-        return response()->json($product);
-    }
+    public function getHomePageContent(){
+        $weekSaleProduct = Product::with('category','subcategory','childcategory','images')->weekSaleProduct()->limit(12)->get();
 
-    public function getSliders(){
         $sliders = Slider::where('published_at','<=', Carbon::now())->get();
-        return response()->json($sliders);
-    }
 
-    
+        $resentPrdouct = Product::with('category','subcategory','childcategory','images')->where('published_at','<=', Carbon::now())->latest()->take(12)->get();
+       
+        return response()->json([
+           'sliders' => $sliders,
+           'resentProducts' => $resentPrdouct,
+           'bestWeekSaleproducts' => $weekSaleProduct,
+
+        ]);
+    } 
 }

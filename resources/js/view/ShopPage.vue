@@ -41,13 +41,13 @@
                     </div>
                     <div class="categories my-4 pr-2 bg-white text-gray-600 font-semibold">
                         <div v-for="product in popularProducts" :key="product.id" class="flex justify-between items-center border px-4 py-1">
-                            <router-link :to="{name:'categoryShopPage',params:{catSlug:product.slug}}" class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ product.product_title }} </router-link>
+                            <router-link :to="{name:'product-detail',params:{slug:product.slug}}" class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ product.product_title }} </router-link>
                             <img class="w-10 h-10 rounded-full" :src="product.image_url" :alt="product.product_title">
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="lg:ml-8">
                 <span class="px-4 text-xl text-gray-600"> showing {{showProducts.length}}   of {{allProductsLength}}  products</span>
                 <ProductVue :products="showProducts" />
 

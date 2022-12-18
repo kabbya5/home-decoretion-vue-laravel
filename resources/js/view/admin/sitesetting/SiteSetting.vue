@@ -13,7 +13,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.page_title}">
 
-                        <p v-if="errors.page_title" class="text-red-500"> {{errors.page_title[0] }}</p>
+                        <p v-if="errors.page_title" class="text-red-500"> {{errors.page_title }}</p>
                     </div>
                     <div class="flex flex-col">
                         <label for="company_name" class="px-1 my-2 text-gray-600 font-semibold"> Company Name </label>
@@ -22,7 +22,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.company_name}">
 
-                        <p v-if="errors.company_name" class="text-red-500 px-2"> {{errors.company_name[0]}}</p>
+                        <p v-if="errors.company_name" class="text-red-500 px-2"> {{errors.company_name}}</p>
                     </div>
 
                     <div class="flex flex-col">
@@ -32,7 +32,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.company_phone}">
 
-                        <p v-if="errors.company_phone" class="text-red-500 px-2"> {{errors.company_phone[0]}}</p>
+                        <p v-if="errors.company_phone" class="text-red-500 px-2"> {{errors.company_phone}}</p>
                     </div>
                     <div class="flex flex-col">
                         <label for="phone_number_2" class="px-1 my-2 text-gray-600 font-semibold"> Phone Number 2 </label>
@@ -41,7 +41,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.company_phone_2}">
 
-                        <p v-if="errors.company_phone_2" class="text-red-500 px-2"> {{errors.company_phone_2[0]}}</p>
+                        <p v-if="errors.company_phone_2" class="text-red-500 px-2"> {{errors.company_phone_2}}</p>
                     </div>
                     <div class="flex flex-col">
                         <label for="company_email" class="px-1 my-2 text-gray-600 font-semibold"> Company Email </label>
@@ -50,7 +50,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.company_email}">
 
-                        <p v-if="errors.company_email" class="text-red-500 px-2"> {{errors.company_email[0]}}</p>
+                        <p v-if="errors.company_email" class="text-red-500 px-2"> {{errors.company_email}}</p>
                     </div>
                     <div class="flex flex-col">
                         <label for="company_email_2" class="px-1 my-2 text-gray-600 font-semibold"> Company Email 2</label>
@@ -59,7 +59,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.company_email_2}">
 
-                        <p v-if="errors.company_email_2" class="text-red-500 px-2"> {{errors.company_email_2[0]}}</p>
+                        <p v-if="errors.company_email_2" class="text-red-500 px-2"> {{errors.company_email_2}}</p>
                     </div>
                     <div class="flex flex-col">
                         <label for="advance_payment_limit" class="px-1 my-2 text-gray-600 font-semibold"> advance payment limit</label>
@@ -68,7 +68,7 @@
                         class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
                         :class="{'border-red-500':errors.advance_payment_limit}">
 
-                        <p v-if="errors.advance_payment_limit" class="text-red-500 px-2"> {{errors.advance_payment_limit[0]}}</p>
+                        <p v-if="errors.advance_payment_limit" class="text-red-500 px-2"> {{errors.advance_payment_limit}}</p>
                     </div>
                     <div class="flex flex-col my-2">
                         <label for="titel" class="px-1 my-2 text-gray-600 font-semibold"> advance payment limit message </label>
@@ -257,21 +257,21 @@ export default{
         .then(res =>{
             let data = res.data;
             this.formCreate = false;
-            this.siteSetting.id = data[0].id;
-            this.siteSetting.page_title = data[0].page_title;
-            this.siteSetting.company_email = data[0].company_email;
-            this.siteSetting.company_name = data[0].company_name;
-            this.siteSetting.company_email_2 = data[0].company_email_2;
-            this.siteSetting.company_phone = data[0].company_phone;
-            this.siteSetting.company_phone_2 = data[0].company_phone_2;
-            this.siteSetting.seo_tag = data[0].seo_tag;
-            this.siteSetting.seo_content = data[0].seo_content;
-            this.siteSetting.old_title_image = data[0].title_image;
-            this.siteSetting.old_share_image = data[0].share_image;
-            this.treanAndConditon = data[0].trean_and_conditon;
-            this.returnPolicy = data[0].return_policy;
-            this.siteSetting.data[0].advance_payment_limit_message;
-            this.siteSetting.data[0].advance_payment_limit;
+            this.siteSetting.id = data.id;
+            this.siteSetting.page_title = data.page_title;
+            this.siteSetting.company_email = data.company_email;
+            this.siteSetting.company_name = data.company_name;
+            this.siteSetting.company_email_2 = data.company_email_2;
+            this.siteSetting.company_phone = data.company_phone;
+            this.siteSetting.company_phone_2 = data.company_phone_2;
+            this.siteSetting.seo_tag = data.seo_tag;
+            this.siteSetting.seo_content = data.seo_content;
+            this.siteSetting.old_title_image = data.title_image;
+            this.siteSetting.old_share_image = data.share_image;
+            this.treanAndConditon = data.trean_and_conditon;
+            this.returnPolicy = data.return_policy;
+            this.siteSetting.advance_payment_limit_message = data.advance_payment_limit_message;
+            this.siteSetting.advance_payment_limit = data.advance_payment_limit;
         })
          
     }
