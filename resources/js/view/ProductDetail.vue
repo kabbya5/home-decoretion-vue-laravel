@@ -120,8 +120,8 @@
 
 
                                 <div class="flex flex-col">
-                                    <p class="text-gray-600 my-4 font-bold"> Quanitity : {{ productForm.quanitity? 'Only' +' ' +  productForm.quanitity: 'Only' +' ' + 1 }} </p>
-                                    <select v-model="productForm.quanitity" class="border-2 border-gray focus:outline-none py-1"> 
+                                    <p class="text-gray-600 my-4 font-bold"> quantity : {{ productForm.quantity? 'Only' +' ' +  productForm.quantity: 'Only' +' ' + 1 }} </p>
+                                    <select v-model="productForm.quantity" class="border-2 border-gray focus:outline-none py-1"> 
                                         <option v-for="n in 5" :key="n" :value="n"> Only  {{ n }} </option>
                                     </select>
                                 </div>
@@ -264,7 +264,7 @@ export default {
         axios.post('/cart/add/'+slug,{
             size: this.productForm.size,
             color:this.productForm.color,
-            quanitity: this.productForm.quanitity,
+            quantity: this.productForm.quantity,
             size_extra_payment:this.selectItemPrice,
         })
         .then(res => {
@@ -277,7 +277,7 @@ export default {
         axios.post('/cart/add/'+ this.product.slug,{
             size: this.productForm.size,
             color:this.productForm.color,
-            quanitity: this.productForm.quanitity,
+            quantity: this.productForm.quantity,
             size_extra_payment:this.selectItemPrice,
         })
         .then(res => {

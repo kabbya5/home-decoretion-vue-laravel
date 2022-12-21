@@ -49,8 +49,8 @@
                                     Register
                                 </router-link>                            
                                 <div class="mt-10 xl:mt-24 text-slate-600 text-center">     
-                                    By signin up, you agree to our <a class="text-blue-800" href="">Terms and Conditions</a>
-                                    & <a class="text-blue-800" href="">Privacy Policy</a>
+                                    By signin up, you agree to our <router-link :to="{name:'team_and_condition'}" class="text-blue-800">Terms and Conditions
+                                    & Privacy Policy</router-link>
                                 </div>
                             </div>
                         </div>

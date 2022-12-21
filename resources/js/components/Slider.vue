@@ -21,7 +21,7 @@
             <div class="absolute flex flex-col justify-center items-center  bottom-[50%] translate-y-[50%] z-10 text-white left-[20%]">
               <div class="ql-snow">
                 <p class="ql-editor" v-html="slider.sliderText"></p>
-            </div>
+              </div>
 
             <button class="my-4 px-4 py-2 bg-white text-gray-600 font-bold uppercase rounded-md transition duration-300 hover:bg-gray-200 hover:scale-[1.05]"> {{ slider.buttonText }} </button>
             </div>    

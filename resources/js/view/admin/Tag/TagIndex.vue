@@ -255,9 +255,10 @@ export default{
             this.allTags = res.data;
             this.showTags = res.data.slice(0, this.length);
         });
+
         axios.get('/admin/product/image')
         .then(res =>{
-            let images = res.data;
+            let images = res.data['allImages'];
             images.forEach(img =>{
                 this.optionImages.push(
                     {

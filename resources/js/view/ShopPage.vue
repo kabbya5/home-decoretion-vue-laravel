@@ -48,6 +48,32 @@
                 </div>
             </div>
             <div class="lg:ml-8">
+
+                <div class="my-8">
+                    <div class="flex flex-wrap shop-nav">
+                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'all'}"> all Prdoucts 
+                        </button>
+
+                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'new-arrivals'}"> New arrivals  
+                        </button>
+
+                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'best-sellers'}"> Best sales  
+                        </button>
+
+                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'popular-products'}"> popular products  
+                        </button>
+
+                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'free-shipping-products '}"> free shipping products  
+                        </button>
+        
+                    </div>
+                </div>
+
                 <span class="px-4 text-xl text-gray-600"> showing {{showProducts.length}}   of {{allProductsLength}}  products</span>
                 <ProductVue :products="showProducts" />
 
@@ -105,23 +131,21 @@
 
         <!-- load more  -->
 
-        <LoadingVue v-if="loading" :loading="'loading'"> </LoadingVue>
+        <LoadingVue v-if="loading" :loading="'loading...'"> </LoadingVue>
 
         <!-- //Footer  -->
 
-        <FooterVue />
         
     </div>
 </template>
 <script>
 import LoadingVue from '../components/Loading.vue';
 import ProductVue from '../components/Product.vue';
-import FooterVue from '../components/Footer.vue';
 export default{
-    components:{LoadingVue,ProductVue,FooterVue},
+    components:{LoadingVue,ProductVue,},
     data(){
         return{
-            loading:'loading...',
+            loading:true,
             showProducts:[],
             allProducts:[],
             showProductsLength:12,
@@ -137,6 +161,10 @@ export default{
             //category for filter
             categories:[],
             popularProducts:[],
+
+            // top-nave-status 
+
+            acitveNav:'all',
 
             loadMorebtnMessage:'Load More'
         }
@@ -155,6 +183,18 @@ export default{
             
             this.btnMessage = 'load more'
             
+        },
+        shopPageProduct(status){
+            axios.get('/get/shop/products/'+ status)
+            .then(res =>{
+                this.allProducts = res.data['products'];
+                this.showProducts = this.allProducts.slice(0,this.showProductsLength);
+                this.allProductsLength = this.allProducts.length;
+                this.relatedProducts = res.data['relatedProducts'];
+                this.showRelatedProducts = this.relatedProducts.slice(0,this.showRelatedProductsLength)
+                this.loading = false;
+            })
+
         },
         catProducts(slug){   
             axios.get('/shop/category/product/'+ slug)
@@ -216,8 +256,25 @@ export default{
             this.subCatProducts(this.$route.params.subCatSlug);
         }else if(this.$route.params.childCatSlug){
             this.childCatProducts(this.$route.params.childCatSlug);
+        }else{
+            this.shopPageProduct('all');
         }
         
     }
 }
 </script>
+
+<style scoped>
+.shop-nav button{
+    font-family:sans-serif;
+    font-weight: 500;
+    line-height: 26px;
+    color:#201e1e;
+    size:16px;
+}
+.shop-nav .active{
+    border-bottom: 2px solid #000000;
+    color:#000000;
+    font-weight: 600;
+}
+</style>

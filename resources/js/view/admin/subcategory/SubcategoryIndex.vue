@@ -7,7 +7,7 @@
                 <div class="flex flex-row justify-between items-center pb-2">
                     
                     <HeaderSubcat  />
-                    <button @click="modalCreate" class="px-4 py-1 uppercase text-indigo-800 border-2 border-indigo-800
+                    <button @click="modalCreate" class="px-4 py-2 uppercase text-indigo-800 border-2 border-indigo-800
                         transition duration-300 hover:bg-indigo-800 hover:text-white">
                          create new
                     </button>
@@ -20,35 +20,47 @@
                             <table class="table-sorter table-bordered-bottom w-full text-gray-500">
                                 <thead>
                                     <tr class="bg-gray-200/60">
-                                        <th class="py-1 text-left md:px-4 my-2" style="width: 14.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2" style="width: 14.6262%;">
                                             subcategory Name
                                         </th>
-                                        <th class="py-1 text-left md:px-4 my-2" style="width: 16.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2" style="width: 16.6262%;">
                                             Category Name 
                                         </th>
-                                        <th class="py-1 text-left md:px-4" style="width: 14.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2 text-center" style="width: 16.6262%;">
+                                            chidlcategories
+                                        </th>
+                                        <th class="py-2 text-left md:px-4 my-2 text-center" style="width: 16.6262%;">
+                                            porudcts 
+                                        </th>
+                                        <th class="py-2 text-left md:px-4" style="width: 14.6262%;">
                                             Created At
                                         </th>
-                                        <th class="py-1 text-left md:px-4" style="width: 5.6262%;">
+                                        <th class="py-2 text-left md:px-4" style="width: 5.6262%;">
                                             Action
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-sm" style="margin:20px 0">
+                                <tbody class="text-sm">
                                     <tr v-for="subcategory in subcategories" :key="subcategory.id">
-                                        <td class="text-left text-lg py-2 text-text-gray-500">
+                                        <td class="text-left text-lg py-2 text-gray-600">
                                             {{ subcategory.subCatName}} 
                                         </td>                                        
-                                        <td v-if="subcategory.category" class="text-left text-lg py-2 text-text-gray-500">
+                                        <td v-if="subcategory.category" class="text-left text-lg py-2 text-gray-600">
                                             {{ subcategory.category.categoryName }}
                                         </td>
-                                        <td v-else class="text-left text-lg py-2 text-text-gray-500">
+                                        <td v-else class="text-left text-lg py-2 text-gray-600">
                                             category missing 
                                         </td>
-                                        <td class="text-left text-lg py-2 text-text-gray-500">
+                                        <td class="text-left text-lg py-2 text-gray-600 text-center">
+                                            {{ subcategory.products.length }}
+                                        </td>
+                                        <td class="text-left text-lg py-2 text-gray-600 text-center">
+                                            {{ subcategory.childcategories.length }}
+                                        </td>
+                                        <td class="text-left text-lg py-2 text-gray-600">
                                             {{ subcategory.date }}
                                         </td>
-                                        <td class="text-left text-lg py-2 text-text-gray-500">
+                                        <td class="text-left text-lg py-2 text-gray-600">
                                             <button @click="editModal(subcategory)">
                                                 <i class="fa-regular fa-pen-to-square"></i> 
                                             </button> 
@@ -82,7 +94,7 @@
 
         <!-- Edit update modal  -->
 
-        <div v-if="modal" class="fixed modal top-0 w-full h-screen bg-gray-200/60">
+        <div v-if="modal" class="fixed modal left-0 top-0 z-[50] w-full h-screen bg-gray-200/60">
             <div class="flex justify-center items-center">
                 <div class="w-96 -ml-10 bg-white px-4 my-10">
                     <button @click="modal = !modal" class="block w-full text-right">
@@ -183,7 +195,7 @@
                 this.selectItem = event.target.options[event.target.options.selectedIndex].getAttribute('data-name');
             },
             createSubCat(){
-                axios.post('/api/admin/subcategory',this.subcat)
+                axios.post('/admin/subcategory',this.subcat)
                 .then(res =>{
                     this.notification.type = 'success';
                     this.notification.message = 'The Category has been Created  SuccessFully   !';
@@ -205,17 +217,7 @@
                 this.modal = !this.modal;
             },
             updateSubCat(){
-                // fetch(`api/admin/subcategory/${this.updateSubcatid}`, {
-                //     method: 'PUT',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify({
-                        
-                //     })
-                // })
-
-                axios.put('/api/admin/subcatgory/update/'+this.updateSubcatid,{
+                axios.put('/admin/subcatgory/update/'+this.updateSubcatid,{
                     subCatName:this.subcat.subCatName,
                     category_id :this.subcat.category_id,
                 })
@@ -231,7 +233,7 @@
                 })
             },
             subCatDel(id){
-                axios.delete('/api/admin/subcategory/' + id)
+                axios.delete('/admin/subcategory/' + id)
                 .then(res=>{
                     this.notification.type ='delete';
                     this.notification.message = 'The category has been deleted!  Restore Now ?';
@@ -241,7 +243,7 @@
                 })
             },
             restoreCatgoryParent(){
-                axios.get('/api/admin/subcategory')
+                axios.get('/admin/subcategory')
                 .then(res =>{
                     this.allSubcategory = res.data[0];
                     this.subcategories = res.data[0].slice(0, this.length);
@@ -254,7 +256,7 @@
                 setTimeout(() => this.notification = {}, 10000)
             },
             reloadPage(){
-                axios.get('/api/admin/subcategory')
+                axios.get('/admin/subcategory')
                 .then(res =>{
                     this.allSubcategory = res.data[0];
                     this.subcategories = res.data[0].slice(0, this.length);
@@ -266,14 +268,14 @@
 
         },
         mounted(){
-            axios.get('/api/admin/subcategory')
+            axios.get('/admin/subcategory')
             .then(res =>{
                 this.allSubcategory = res.data[0];
                 this.subcategories = res.data[0].slice(0, this.length);
                 this.subcategoriesCount = res.data[1];
                 this.subcategoriesLength = res.data[0].length;
             }),
-            axios.get('/api/admin/category')
+            axios.get('/admin/category')
             .then(res=>{
                 this.categories = res.data[0];
             })

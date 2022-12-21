@@ -9,13 +9,6 @@ use Image;
 
 class BrandController extends Controller
 {
-    protected $uploadPath;
-
-    public function __construct()
-    {
-        // $this->middleware('auth');
-        //$this->uploadPath = public_path('/media/category/');
-    }
 
     public function index()
     {
@@ -70,7 +63,9 @@ class BrandController extends Controller
 
     private function deleteOldImg($oldImg){
         $oldImg = ltrim($oldImg,'/'); 
-        unlink($oldImg);
+        if(file_exists($oldImg)){   
+            unlink($oldImg);
+        }
     }
 
     private function brandImageName(){

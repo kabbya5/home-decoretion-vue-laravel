@@ -63,7 +63,7 @@ export default{
         return {
             loading:false,
             createForm:true,
-            contactSetting:{contact_title:''},
+            contactSetting:{},
             errors:{},
 
             notification:{
@@ -104,12 +104,11 @@ export default{
             this.loading = 'loading';
             this.contactSetting = res.data;
             this.loading = false;
-            this.createForm = false;
+            if(res.data.length > 0){
+                this.createForm = false;
+            }
         });
+        
     },
-    created(){
-        let pageTitel = document.title;
-        document.title = 'contact | admin | '+pageTitel;
-    }
 }
 </script>

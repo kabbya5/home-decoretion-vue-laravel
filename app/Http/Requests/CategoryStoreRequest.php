@@ -27,9 +27,12 @@ class CategoryStoreRequest extends FormRequest
             'categoryName' => 'required|min:5|unique:categories',
             ];
         switch($this->method()){
+            case "GET":
+                $rule['categoryImg'] = 'required';
             case "PATCH":
             case "PUT": 
                 $rule['categoryName'] = 'required|min:5|unique:categories,categoryName,'.$this->category->id;
+                $role['categoryImg']  = '';
         }
         return $rule;
     }

@@ -88,114 +88,67 @@
 
         <!-- Resent Order  -->
         <div class="flex">
-            <h4 class="text-gray-700 font-bold mx-4 my-6 capitalize"> Resent Order </h4>
+            <h4 class="text-black font-semibold mx-4 my-6 capitalize"> Resent Order </h4>
         </div>
 
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="py-3 px-6">
-                            order id
+                        <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
+                            oder code
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            status
+                            coupon
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            coustomer
+                            discount
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            date
+                            subtotal
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            total
+                          status
+                        </th>
+                        <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
+                            create date
+                        </th>
+                        
+                        <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
+                            action
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
+                    <tr v-for="order in orders" :key="order.id" class="border-b border-gray-200 dark:border-gray-700">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                            {{order.order_code }}
                         </th>
+                        <td  class="py-4 px-6">
+                            {{ order.coupon }}
+                        </td> 
                         <td class="py-4 px-6">
-                            Sliver
+                            {{ order.discount}}
                         </td>
                         <td class="py-4 px-6">
-                            Laptop
+                            {{ order.subtotal}}
                         </td>
                         <td class="py-4 px-6">
-                            $2999
+                            <button :id="order.status" class="text-white px-2 py-1 bg-blue-800 w-full capitalize">
+                                {{ order.status }}
+                            </button>
                         </td>
+                        
+                        
+                        
                         <td class="py-4 px-6">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            {{ order.created_date }}
                         </td>
-                    </tr>
-                    <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Microsoft Surface Pro
-                        </th>
+
                         <td class="py-4 px-6">
-                            White
-                        </td>
-                        <td class="py-4 px-6">
-                            Laptop PC
-                        </td>
-                        <td class="py-4 px-6">
-                            $1999
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Magic Mouse 2
-                        </th>
-                        <td class="py-4 px-6">
-                            Black
-                        </td>
-                        <td class="py-4 px-6">
-                            Accessories
-                        </td>
-                        <td class="py-4 px-6">
-                            $99
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Google Pixel Phone
-                        </th>
-                        <td class="py-4 px-6">
-                            Gray
-                        </td>
-                        <td class="py-4 px-6">
-                            Phone
-                        </td>
-                        <td class="py-4 px-6">
-                            $799
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple Watch 5
-                        </th>
-                        <td class="py-4 px-6">
-                            Red
-                        </td>
-                        <td class="py-4 px-6">
-                            Wearables
-                        </td>
-                        <td class="py-4 px-6">
-                            $999
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <router-link :to="{name:'adminOrderDetails',params:{slug:order.slug}}" class="py-1 px-2 bg-orange-500 text-white mr-4">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </router-link> 
                         </td>
                     </tr>
                 </tbody>
@@ -205,135 +158,93 @@
 
         <!-- Top saleing product  -->
 
-        <div class="grid grid-cols-12 gap-4 my-6">
-            <div class="col-span-12 lg col-span-8">
-                <div class="flex">
-                    <h4 class="text-gray-700 font-bold mx-4 my-6 capitalize"> Top saleing product </h4>
-                </div>
-        
-                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="py-3 px-6">
-                                    product name
-                                </th>
-                                <th scope="col" class="py-3 px-6">
-                                    Images
-                                </th>
-                                <th scope="col" class="py-3 px-6">
-                                    quatity
-                                </th>
-                                <th scope="col" class="py-3 px-6">
-                                    date
-                                </th>
-                                <th scope="col" class="py-3 px-6">
-                                    total
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple MacBook Pro 17"
-                                </th>
-                                <td class="py-4 px-6">
-                                    Sliver
-                                </td>
-                                <td class="py-4 px-6">
-                                    Laptop
-                                </td>
-                                <td class="py-4 px-6">
-                                    $2999
-                                </td>
-                                <td class="py-4 px-6">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Microsoft Surface Pro
-                                </th>
-                                <td class="py-4 px-6">
-                                    White
-                                </td>
-                                <td class="py-4 px-6">
-                                    Laptop PC
-                                </td>
-                                <td class="py-4 px-6">
-                                    $1999
-                                </td>
-                                <td class="py-4 px-6">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Magic Mouse 2
-                                </th>
-                                <td class="py-4 px-6">
-                                    Black
-                                </td>
-                                <td class="py-4 px-6">
-                                    Accessories
-                                </td>
-                                <td class="py-4 px-6">
-                                    $99
-                                </td>
-                                <td class="py-4 px-6">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Google Pixel Phone
-                                </th>
-                                <td class="py-4 px-6">
-                                    Gray
-                                </td>
-                                <td class="py-4 px-6">
-                                    Phone
-                                </td>
-                                <td class="py-4 px-6">
-                                    $799
-                                </td>
-                                <td class="py-4 px-6">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Apple Watch 5
-                                </th>
-                                <td class="py-4 px-6">
-                                    Red
-                                </td>
-                                <td class="py-4 px-6">
-                                    Wearables
-                                </td>
-                                <td class="py-4 px-6">
-                                    $999
-                                </td>
-                                <td class="py-4 px-6">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-span-12 my-6 lg:my-0 lg:col-span-4">
-                <div v-for="n in 10" :key="n" class="w-full">
-                    <img src="https://media.istockphoto.com/id/1350859272/photo/luxury-furniture-goods.jpg?b=1&s=170667a&w=0&k=20&c=608apow7e_EtKc-N899ru7BiYxrOt_8ar1_Ydh01sn4=" alt="">
-                </div>
-            </div>
+        <div class="flex my-4">
+            <h4 class="text-black font-semibold mx-4 my-6 capitalize"> Top saleing product </h4>
+        </div>
+
+        <div class="my-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="py-3 px-6">
+                            Product name
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            Category
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            price
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            quantity
+                        </th>
+                        <th v-if="(showProductsType=='all')" scope="col" class="py-3 px-6">
+                            published_at
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                            action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="product in products" :key="product.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            
+                            <div class="flex items-center">
+                                <router-link :to="{name:'adminPoductEdit',params:{slug:product.slug}}"
+                                class="underline">
+                                     {{ product.product_title }} 
+                                </router-link>
+                                <div class="flex mx-4">
+                                    <img v-for="img in product.images" :key="img.id"  :src="img.product_img" :alt="img.product_img_name"
+                                    class="w-12 h-10 rounded-full -ml-2 transition duration-300 hover:scale-[1.2]">
+                                </div>
+                            </div>   
+                        </th>
+                        <td class="py-4 px-6">
+                            {{product.category.categoryName}}
+                        </td>
+                        <td class="py-4 px-6">
+                           {{ product.discount_price ? product.discount_price : product.price }} TK
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ product.quantity }}
+                        </td>
+                        <td v-if="(showProductsType=='all')" class="py-4 px-6">
+                            {{ product.published }}
+                        </td>
+                        <td class="py-4 px-6">
+                            <router-link :to="{name:'product-detail',params:{slug:product.slug}}"  class="py-1 px-2 bg-indigo-700 text-white mr-4">
+                                <i class="fa-regular fa-eye"></i> 
+                            </router-link> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
+<script>
+    export default{
+        data(){
+            return{
+                orders: [],
+                products:[],
+            }
+        },
+        created(){
+            axios.get('/admin/dashboard/content')
+            .then(res =>{
+                this.orders = res.data['orders'];
+                this.products = res.data['products'];
+            });
+        }
+    }
+</script>
 
 
 <style lang="scss" scoped>
-.relative::before{
+.shoping-report::before{
     position: absolute;
     content: '';
     width: 80%;
@@ -346,7 +257,7 @@
     transition: all 0.3s;
 
 }
-.relative:hover:before{
+.shoping-report:hover:before{
     height: 10%;
 }
 </style>>

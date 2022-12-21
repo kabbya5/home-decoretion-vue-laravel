@@ -29,33 +29,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-// Admin 
-Route::controller(CategoryController::class)->group(function(){
-    Route::get('/admin/category','index');
-    Route::put('/admin/category/update/{category}','update');
-    Route::delete('/admin/category/delete/{category}','destroy');
-    Route::post('/admin/category/restore/{id}','restore');
-    Route::get('/admin/category/trashed','trashed');
-    Route::delete('/admin/category/force/delete/{id}','forceDelete');
 
-});
 
-Route::resource('/admin/subcategory',SubcategoryController::class)->only(['destroy','index','store']);
-Route::controller(SubcategoryController::class)->group(function (){
-    Route::delete('/admin/subcategory/restore/{id}','restore');
-    Route::get('/admin/subcategory/trashed','trashed');
-    Route::delete('/admin/subcategory/permament/delete/{subcatgory}','forceDelete');
-    Route::put('/admin/subcatgory/update/{id}','update');
-});
-Route::resource('/admin/brand',BrandController::class);
-Route::controller(BrandController::class)->group(function (){
-    Route::put('/admin/brand/update/{brand}','update');
-});
-
-Route::resource('/admin/slider',SliderController::class);
-Route::controller(SliderController::class)->group(function (){
-    Route::put('/admin/slider/update/{slider}','update');
-});
 
 Route::resource('/admin/product/image',ProductImageController::class)
 ->only(['index']);

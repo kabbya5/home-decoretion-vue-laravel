@@ -13,6 +13,7 @@ use App\Models\Subcategory;
 use App\Models\Childcategory;
 use Carbon\Carbon;
 use DB;
+
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
@@ -72,6 +73,7 @@ class Product extends Model
     public function childcategory(){
         return $this->belongsTo(Childcategory::class);
     }
+
     public function scopeWeekSaleProduct($query){
         return $query->where([
             ['published_at','<=', Carbon::now()],

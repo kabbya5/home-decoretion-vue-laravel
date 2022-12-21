@@ -20,6 +20,19 @@ class ShopController extends Controller
         ]);
     }
 
+    public function shopPageProducts($status){
+        if($status == 'all'){
+            $prdoucts = Product::OrderBy('view_count','desc')->take(50)->with('category')->get();
+
+            $relatedProducts = Product::OrderBy('top_rated','desc')->take(12)->with('category')->get();
+        }
+
+        return response()->json([
+            'products' => $prdoucts,
+            'relatedProducts' => $relatedProducts,
+        ]);
+    }
+
     public function tagProduct($slug){
         $tag = Tag::with('products.images','products.category',)->where('slug',$slug)->first();
         

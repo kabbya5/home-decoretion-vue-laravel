@@ -344,9 +344,18 @@ export default{
                 this.$router.push({name:'home'});
             })
             .catch(errors => {
-                this.loading = false;
-                this.errors = errors.response.data.errors;
+                this.handelErrors(errors.response.data.errors)
+                
             })
+        },
+        handelErrors(errors){
+            this.loading = false;
+            if(errors.unauthenticate){
+                alert('at first login your account');
+                this.$router.push('/login');
+            }else(
+                this.errors = errors
+            )
         },
         applyCoupon(){
             axios.get('/coupon/check',{params:{coupon_name:this.couponCheck.coupon_name}})
@@ -370,6 +379,10 @@ export default{
         },
     },
     created(){
+
+        if(this.errors.unauthenticate){
+            this.$router.push('/login');
+        }
         axios.get('/shopping/carts')
         .then(res => {
             this.carts = res.data['carts'];

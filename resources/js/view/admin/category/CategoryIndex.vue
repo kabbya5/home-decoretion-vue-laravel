@@ -5,12 +5,12 @@
           	<div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg h-full">
                 <div class="flex flex-row justify-between items-center pb-2">
                     <div class="flex">
-                        <router-link to="/admin/category/trashed/index" class="px-4 py-1 uppercase text-red-800 border-2 border-red-800
+                        <router-link to="/admin/category/trashed/index" class="px-4 py-2 uppercase text-red-800 border-2 border-red-800
                         transition duration-300 hover:bg-red-800hover:text-white"> 
                         Trashed Category
                         </router-link>
                     </div>
-                    <button @click="createModal" class="px-4 py-1 uppercase text-indigo-800 border-2 border-indigo-800
+                    <button @click="createModal" class="px-4 py-2 uppercase text-indigo-800 border-2 border-indigo-800
                         transition duration-300 hover:bg-indigo-800 hover:text-white"> create new</button>
                 </div>
           		<div class="overflow-x-auto my-10">
@@ -21,32 +21,50 @@
                             <table class="table-sorter table-bordered-bottom w-full text-gray-500 dark:text-gray-400 dataTable-table">
                                 <thead>
                                     <tr class="bg-gray-200 dark:bg-gray-900 dark:bg-opacity-40">
-                                        <th class="py-1 text-center" style="width: 14.6262%;">
-                                            Category Name
+                                        <th class="py-2" style="width: 14.6262%;">
+                                            Name
                                         </th>
-                                        <th class="py-1" style="width: 14.6262%;">
+                                        <th class="py-2" style="width: 14.6262%;">
                                             Image
                                         </th>
-                                        <th class="py-1" style="width: 14.6262%;">
+                                        <th class="py-2" style="width: 14.6262%;">
+                                            product
+                                        </th>
+                                        <th class="py-2" style="width: 14.6262%;">
+                                            subcategory
+                                        </th>
+                                        <th class="py-2" style="width: 14.6262%;">
+                                            created At
+                                        </th>
+                                        <th class="py-2" style="width: 14.6262%;">
                                             Action
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-sm">
                                     <tr v-for="cat in categories" :key="cat.id">
-                                        <td class="text-left text-lg py-2 text-text-gray-500">
+                                        <td class="text-left text-lg py-2 text-gray-500 ">
                                             {{ cat.categoryName}} 
                                         </td>
-                                        <td class="text-center text-lg py-2 text-text-gray-500">
+                                        <td class="text-center text-lg py-2 text-gray-500">
                                             <div class="flex justify-center">
                                                 <img class="w-14 h-14 rounded-full" :src="cat.categoryImg" alt="cat.catgoryImgName">
                                             </div>
                                         </td>
-                                        <td class="text-center text-lg py-2 text-text-gray-500">
-                                            <button @click="editModal(cat)" class="bg-green-500 px-2 py-1">
-                                                <i class="fa-regular fa-pen-to-square text-gray-500"></i> 
+                                        <td class="text-left text-lg py-2 text-gray-500 text-center">
+                                            {{ cat.products.length }} products
+                                        </td>
+                                        <td class="text-left text-lg py-2 text-gray-500 text-center">
+                                            {{ cat.subcategories.length }} subcategories
+                                        </td>
+                                        <td class="text-left text-lg py-2 text-gray-500 text-center">
+                                            {{ cat.created_date }}
+                                        </td>
+                                        <td class="text-center text-lg py-2 text-white">
+                                            <button @click="editModal(cat)" class="bg-green-500 px-2 py-2">
+                                                <i class="fa-regular fa-pen-to-square text-white"></i> 
                                             </button> 
-                                            <button @click="deleteCat(cat.id)" class="text-gray-600 ml-2 font-bold bg-red-600 px-2 py-1"> 
+                                            <button @click="deleteCat(cat.id)" class="text-white ml-2 font-bold bg-red-600 px-2 py-2"> 
                                                 <i class="fa-regular fa-trash-can"></i>
                                             </button>
                                         </td>
@@ -75,7 +93,7 @@
 		</div>
 
         <!-- form modal  -->
-        <div v-if="modal" class="fixed top-0 bg-gray-400/60 z-10 py-4 px-4 w-screen h-screen">
+        <div v-if="modal" class="fixed top-0 left-0 bg-gray-400/60 z-10 py-4 px-4 w-screen h-screen">
             <div class="flex justify-center items-center">
                 <div class="w-96 bg-white px-4">
                     <button @click="modal = !modal" class="block w-full text-right">
@@ -106,8 +124,6 @@
                             </div>
                             <p v-if="errors.categoryImg" class="text-red-500"> {{ errors.categoryImg[0] }} </p>
 
-                            <!-- hidden old image  -->
-                            <input type="hidden" v-model="category.oldImg">
                         </div>
                         <div class="flex justify-center">
                             <button type="submit" class="text-center my-4 px-4 py-2 uppercase trasition
@@ -139,6 +155,7 @@ import Notification from '../NotificationAdmin.vue';
                 btnMessage:"load more",
                 errors:{},
                 category:{
+                    oldImg:'',
                 },
                 createForm : true,
                 //create update notification
@@ -174,18 +191,18 @@ import Notification from '../NotificationAdmin.vue';
                 this.btnMessage = 'load more'
             },
             editModal: function(category){
+                this.category = {};
+                this.errors = {};
                 this.createForm = false;
                 this.modal = !this.modal;
-                this.category.categoryName = category.categoryName;
                 this.category.oldImg = category.categoryImg;
+                this.category.categoryName = category.categoryName;
                 this.category.id = category.id;
             },
             createCategory: function(){
-                axios.post('/api/admin/category',{
-                    categoryName: this.category.categoryName,
-                    categoryImg :this.category.categoryImg, 
-                })
+                axios.post('/admin/category',this.category)
                 .then(res =>{
+                    this.reloadPage();
                     this.modal = !this.modal;
                     this.notification.type = 'success';
                     this.notification.message = 'SuccessFully create';
@@ -195,9 +212,10 @@ import Notification from '../NotificationAdmin.vue';
                 });
             },
             updateCategory(){
-                axios.put('/api/admin/category/update/' + this.category.id,{
+                axios.put('/admin/category/update/' + this.category.id,{
                     categoryName : this.category.categoryName,
                     categoryImg : this.category.categoryImg,
+                    oldImg: this.category.oldImg,
                 }).then( res =>{
                     this.modal = !this.modal;
                     this.notification.type='edit';
@@ -208,15 +226,16 @@ import Notification from '../NotificationAdmin.vue';
                 })
             },
             deleteCat(id){
-                axios.delete('/api/admin/category/delete/'+id)
+                axios.delete('/admin/category/delete/'+id)
                 .then(res=>{
+                    this.categories = this.categories.filter(cat => cat.id !==id);
                     this.notification.type='delete';
                     this.notification.message="The category has been deleted successfull Restore Now ?";
                     this.notification.deleteId = id;
                 });
             },
             restore(id){
-                axios.post('/api/admin/category/restore/' + id)
+                axios.post('/admin/category/restore/' + id)
                 .then(res =>{
                     this.reloadPage();
                     this.notification.message = "The product Image has been Restore Successfully";
@@ -225,7 +244,7 @@ import Notification from '../NotificationAdmin.vue';
                 })
             },
             reloadPage(){
-                axios.get('/api/admin/category')
+                axios.get('/admin/category')
                 .then(res =>{
                     this.allCategor = res.data[0];
                     this.categories = res.data[0].slice(0, this.length);
@@ -235,7 +254,7 @@ import Notification from '../NotificationAdmin.vue';
             }
         },
         mounted(){
-            axios.get('/api/admin/category')
+            axios.get('/admin/category')
             .then(res =>{
                 this.allCategor = res.data[0];
                 this.categories = res.data[0].slice(0, this.length);

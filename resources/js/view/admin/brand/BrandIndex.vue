@@ -5,8 +5,7 @@
             <Notification  :notification="notification" v-if="notification.message" /> 
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="flex">
-                    <button> all </button>
-                    <button class="mx-4"> all </button>
+                    <button class="font-semibold"> All brands </button>
                 </div>
                 <button @click="modalCreate" class="px-4 py-1 text-white bg-blue-800 border-2 border-white transiton duration-300 capitalize hover:border-blue-800 hover:bg-transparent hover:text-blue-800 rounded-md"> create new</button>
             </div>
@@ -169,7 +168,7 @@ export default{
             reader.readAsDataURL(file);
         },
         createBrand(){
-            axios.post('/api/admin/brand',
+            axios.post('/admin/brand',
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -201,7 +200,7 @@ export default{
             };
         },
         updateBrand(){
-            axios.put('/api/admin/brand/update/' + this.brand.id,{
+            axios.put('/admin/brand/update/' + this.brand.id,{
                 'name':this.brand.name,
                 'brand_img' : this.brand.brand_img,
                 'oldImg' : this.brand.oldImg,
@@ -218,7 +217,7 @@ export default{
             });
         },
         reloadBrand(){
-            axios.get('/api/admin/brand')
+            axios.get('/admin/brand')
             .then(res =>{
                 this.notification.deleteId = null;
                 this.notification.type = 'success';
@@ -236,7 +235,7 @@ export default{
             this.brands = this.brands.filter(brand => brand.id !== id);
         },
         forceDelete(id){
-            axios.delete('/api/admin/brand/' + id)
+            axios.delete('/admin/brand/' + id)
             .then(res=>{
                 this.reloadBrand();
             })
@@ -244,7 +243,7 @@ export default{
                 
     },
     created(){
-        axios.get('/api/admin/brand')
+        axios.get('/admin/brand')
         .then(res =>{
             this.allBrand = res.data[0];
             this.brands = res.data[0].slice(0, this.length);

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Banner  -->
-        <Slider class="mt-20 lg:mt-0" :sliders="sliders"> 
+        <Slider class="mt-20 md:mt-0" :sliders="sliders"> 
 
         </Slider>
         <!-- End banner  -->
@@ -59,7 +59,7 @@
 
             <div class="grid grid-cols-6 gap-2">
                 <div class="bg-white h-[200px] md:h-full lg:h-[405px] col-span-2 md:row-span-2 md:col-span-2 xl:col-span-2">
-                    <router-link :to="{name:'categoryShopPage',params:{catSlug:firstCategory.slug}}">
+                    <router-link v-if="firstCategory.slug" :to="{name:'categoryShopPage',params:{catSlug:firstCategory.slug}}">
                         <div class="h-full relative overflow-hidden">
                             <img class="block object-cover boject-center w-full h-full brightness-75
                                 transition duration-300 hover:scale-[1.2]" 
@@ -72,7 +72,7 @@
                     
                 </div>
                 <div v-for="category in showCategories" :key="category.id" class="h-[200px] bg-white col-span-2 md:col-span-2 xl:col-span-1">
-                    <router-link :to="{name:'categoryShopPage',params:{catSlug:category.slug}}">
+                    <router-link v-if="category.slug" :to="{name:'categoryShopPage',params:{catSlug:category.slug}}">
                         <div class="h-full w-full relative overflow-hidden">
                             <img class="block object-cover boject-center w-full h-full 
                                 transition duration-300 -z-1 hover:scale-[1.2] hover:brightness-75" 

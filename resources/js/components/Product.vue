@@ -275,12 +275,26 @@ export default{
             })
         },
         addWishlist(slug){
-            axios.post('/user/wishlist/add/'+slug)
+            axios.post('/wishlist/add/'+slug)
             .then(res => {
-                this.notification.message = "The product has been add to cart successfully !";
+                this.notification.message = "The product has been add to wishlist successfully !";
                 this.notification.type = "success";
             })
+            .catch(errors => {
+                this.errorsMessageHandle(errors.response.data.errors);
+            })
+        },
+        errorsMessageHandle(errors){
+            if(errors.unauthenticate){
+                this.notification.type = 'errors';
+                this.notification.message = errors.unauthenticate;
+            }
+            else if(errors.product_exsist){
+                this.notification.type = 'errors';
+                this.notification.message = errors.product_exsist;
+            }
         }
+
     }
 }
 </script>

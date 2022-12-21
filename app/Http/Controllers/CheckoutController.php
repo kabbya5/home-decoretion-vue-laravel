@@ -13,7 +13,6 @@ use Cart;
 use Session;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Notification;
 
 class CheckoutController extends Controller
@@ -52,6 +51,14 @@ class CheckoutController extends Controller
         ],[
             'agree.required' => 'You must agree to the Terms and Conditions!'
         ]);
+
+        if(!Auth::check()){
+            return response()->json([
+                'errors' =>[
+                    'unauthenticate' => "At first login Your Account !",
+                ]
+            ],429);
+        }
 
         $input = $request->only('payment_type','delivery_type','delivery_cost');
         
@@ -102,14 +109,17 @@ class CheckoutController extends Controller
         }
         
     }
-
-    private function sendAdminOrderConfomation($input,$data,$carts){
-        $admins = User::where('is_admin',1)->get();
-        Notification::send($admins,new AdminOrderCreateNotificaton($input,$data,$carts));
-    }
-
     private function sendUserOrderConfomation($input,$data,$carts){
         $user = User::where('id', Auth::id())->first();
         Notification::send($user,new UserOrderConfomation($input,$data,$carts));
     }
+
+    private function sendAdminOrderConfomation($input,$data,$carts){
+        $total_product = $carts->count();
+        $product_image = $carts->first()->options->img;
+        $admins = User::where('is_admin',1)->get();
+        Notification::send($admins,new AdminOrderCreateNotificaton($input,$data,$product_image,$total_product));
+    }
+
+    
 }

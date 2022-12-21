@@ -8,69 +8,34 @@ use Illuminate\Http\Request;
 
 class ChildCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        $childcateogries = Childcategory::with('products','subcategory.category')->latest()->get();
+        return response()->json($childcateogries);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'childCatName' => 'required|unique:childcategories',
+            'subcategory_id' => 'required',
+        ]);
+        $data = $request->all();
+        $data['slug'] = str_slug($data['childCatName']);
+
+        Childcategory::create($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Childcategory  $childcategory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Childcategory $childcategory)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Childcategory  $childcategory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Childcategory $childcategory)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Childcategory  $childcategory
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Childcategory $childcategory)
     {
-        //
+        $childcategory->update(
+            $request->validate([
+                'childCatName' => 'required|unique:childcategories,childCatName,'.$childcategory->id,
+                'subcategory_id' => 'required',
+            ]) + ['slug' => str_slug($request->childCatName)
+        ]);
+            
     }
 
     /**
@@ -81,6 +46,6 @@ class ChildCategoryController extends Controller
      */
     public function destroy(Childcategory $childcategory)
     {
-        //
+        $childcategory->delete();
     }
 }

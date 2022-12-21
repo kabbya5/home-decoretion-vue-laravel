@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Childcategory;
 use App\Models\Product;
 use App\Models\Slider;
 use Carbon\Carbon;

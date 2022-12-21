@@ -59,6 +59,8 @@ class ProfileController extends Controller
 
     private function deleteold_img($old_img){
         $old_img = ltrim($old_img,'/'); 
-        unlink($old_img);
+        if(file_exists($old_img)){
+            unlink($old_img);
+        }
     }
 }

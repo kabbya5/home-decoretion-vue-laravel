@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <div class="my-10">
+        <div class="my-10 md:my-0 lg:my-10">
             <Notification  :notification="notification" v-if="notification.message" /> 
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <button @click="modalCreate" class="px-4 py-1 text-white bg-blue-800 border-2 border-white transiton duration-300 capitalize hover:border-blue-800 hover:bg-transparent hover:text-blue-800 rounded-md"> create new</button>

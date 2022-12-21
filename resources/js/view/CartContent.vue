@@ -1,5 +1,5 @@
 <template>
-    <div class="py-10 container mx-auto">
+    <div class="mt-[90px] md:mt-0 md:py-10 container mx-auto">
         <div class="my-4 text-center">
             <h2 class="text-gray-800 font-bold capitalize text-2xl">
                 Shopping Cart 
@@ -169,10 +169,12 @@
                 axios.put('/update/cart/' + rowId, {qty:qty})
                 .then(res => {
                     this.loading = true;
+                    this.reloadPage();
                     this.notification.type = 'success',
                     this.notification.message = " Successfully cart update !";
                     this.coupon = false;
                     this.loading = false;
+                    setTimeout(() => this.notification ={}, 2000)
                 })
             },
             
@@ -187,7 +189,6 @@
             cartDestroy(){
                 axios.delete('/cart/destroy')
                 .then(res => {
-                    this.reloadPage();
                     this.$route.push({name:'shopPage'});
                 })
             },
@@ -195,8 +196,8 @@
                 axios.get('/coupon/check',{params:{coupon_name:this.couponCheck.coupon_name}})
                 .then(res => {
                     this.coupon = res.data;
-                    this.errors = {},
-                    this.notification.type = 'success',
+                    this.errors = {};
+                    this.notification.type = 'success';
                     this.notification.message = " Successfully added Coupon !";
                     this.reloadPage();
                 })
@@ -210,6 +211,7 @@
                     this.carts = res.data['carts'];
                     this.siteSetting = res.data['siteSetting'];
                     this.subtotal = res.data['subtotal'];
+                    // this.resentViewProducts = res.data['resentProduct'];
                 })
             },
         },
@@ -219,7 +221,7 @@
                 this.carts = res.data['carts'];
                 this.siteSetting = res.data['siteSetting'];
                 this.subtotal = res.data['subtotal'];
-                this.resentViewProducts = res.data['resentProduct'];
+                // this.resentViewProducts = res.data['resentProduct'];
             })
         }
     }

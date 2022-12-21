@@ -50,6 +50,9 @@ export default{
         else if(this.notification.type == 'success'){
             this.type = 'bg-green-500';
         }
+        else if(this.notification.type == 'errors'){
+            this.type = 'bg-red-800';
+        }
         
     },
     methods:{

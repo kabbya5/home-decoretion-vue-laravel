@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('categoryName');
             $table->string('slug');
             $table->string('categoryImg');
-            $table->string('categoryImgName');
             $table->string('viewCount')->nullable();
             $table->softDeletes();
             $table->timestamps();

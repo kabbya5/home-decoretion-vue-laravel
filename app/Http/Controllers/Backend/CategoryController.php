@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category;
+use Image;
 
 class CategoryController extends Controller
 {
@@ -18,7 +19,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::with('products','subcategories')->latest()->get();
         $count = $categories->count();
 
         if($count > 1){
@@ -39,8 +40,11 @@ class CategoryController extends Controller
     private function  handelRequest($request){
 
         $input = $request->all();
-        $input['slug'] = $input['categoryName']; 
-        unset($input['oldImg']);
+        if($request->oldImg){
+            unset($input['oldImg']);
+            $this->deleteOldImg($request->oldImg);
+        }
+        
 
         if($request->categoryImg){
             if($request->oldImg){
@@ -54,20 +58,22 @@ class CategoryController extends Controller
             $temName = $this->categorycategoryName(); 
             $categoryImgName = $temName. '.' .$ext;
 
-            Category::make($request->categoryImg)->resize(400,300)->save(
+            Image::make($request->categoryImg)->resize(400,300)->save(
                 $this->uploadPath . $categoryImgName
             );
    
             $input['categoryImg'] = "/media/category/" . $categoryImgName;
         }
         $input['slug'] = str_slug($input['categoryName']);
-        $input['categoryImgName'] = str_slug($input['categoryName']);
 
         return $input;
     }
 
     private function deleteOldImg($oldImg){
-        unlink($oldImg);
+        $oldImg = ltrim($oldImg,'/'); 
+        if(file_exists($oldImg)){
+            unlink($oldImg);
+        }  
     }
 
     private function categorycategoryName(){

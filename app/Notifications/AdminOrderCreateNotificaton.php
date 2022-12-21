@@ -9,20 +9,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AdminOrderCreateNotificaton extends Notification 
+class AdminOrderCreateNotificaton extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $order;
-    private $shipping_data;
-    private $carts_count;
+    private $shipping_message;
+    private $total_product;
+    private $product_image;
 
 
-    public function __construct($input,$data,$carts)
+    public function __construct($input,$data,$product_image,$total_product)
     {
         $this->order = $input;
         $this->shipping_data = $data;
-        $this->carts = $carts->count();
+        $this->product_image = $product_image;
+        $this->total_product = $total_product;
     }
 
 
@@ -61,8 +63,9 @@ class AdminOrderCreateNotificaton extends Notification
     {
         return [
             'order_slug' => $this->order['slug'],
-            'order_user_id' => $this->order['user_id'],
             'order_message' => $this->shipping_data['comment'],
+            'total_product'   => $this->total_product,
+            'product_image'   => $this->product_image,
         ];
     }
 }

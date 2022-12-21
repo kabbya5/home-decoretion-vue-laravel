@@ -12,6 +12,10 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $data =['created_at'];
+
+    protected $appends = ['created_date'];
+
     protected $guarded = [];
 
     function subcategories(){
@@ -20,5 +24,9 @@ class Category extends Model
 
     public function products(){
         return $this->hasMany(Product::class);
+    }
+
+    public function getCreatedDateAttribute(){
+        return $this->created_at->diffForHumans();
     }
 }

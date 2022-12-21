@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Product;
 use App\Models\Contact;
+use App\Models\Order;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -46,5 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function contacts(){
         return $this->hasMany(Contact::class);
+    }
+
+    public function order(){
+        return $this->hasMany(Order::class);
     }
 }

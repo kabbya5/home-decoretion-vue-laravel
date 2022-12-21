@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Backend\AdminBashbordController;
+use App\Http\Controllers\Backend\AdminDashboardController;
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SizeController;
@@ -9,9 +13,11 @@ use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\ContactPageSettingController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DeliverySettingController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductImageController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -23,6 +29,7 @@ use App\Http\Controllers\ResentViewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\WishlistController;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,9 +46,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes(['verify' => true]);
-Route::get('/email/verify', [HomeController::class,'verifyEmail']);
-Route::get('/admin/dashboard/',[AdminBashbordController::class,'index']);
 
+Route::get('/email/verify', [HomeController::class,'verifyEmail']);
 
 Route::get('/', function () {
     return view('home');
@@ -50,6 +56,47 @@ Route::get('/', function () {
 //admin 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin','verified']],
 function(){
+
+  Route::controller(AdminDashboardController::class)->group(function(){
+    Route::get('/dashboard','index');
+    Route::get('/dashboard/content','dashboardContent');
+    Route::get('/navbar/content/','navBarContent');
+  });
+
+  // category 
+  Route::controller(CategoryController::class)->group(function(){
+    Route::get('/category','index');
+    Route::post('/category','store');
+    Route::put('/category/update/{category}','update');
+    Route::delete('/category/delete/{category}','destroy');
+    Route::post('/category/restore/{id}','restore');
+    Route::get('/category/trashed','trashed');
+    Route::delete('/category/force/delete/{id}','forceDelete');
+  });
+
+  //subcategory 
+
+  Route::resource('/subcategory',SubcategoryController::class)->only(['destroy','index','store']);
+  Route::controller(SubcategoryController::class)->group(function (){
+      Route::delete('/subcategory/restore/{id}','restore');
+      Route::get('/subcategory/trashed','trashed');
+      Route::delete('/subcategory/permament/delete/{subcatgory}','forceDelete');
+      Route::put('/subcatgory/update/{id}','update');
+  });
+
+  //childCategory 
+
+  Route::resource('/childcategory', ChildCategoryController::class)->only(['destroy','index','store']);
+  Route::controller(ChildCategoryController::class)->group(function (){
+    Route::put('/childcategory/update/{childcategory}','update');
+  });
+
+  // brand 
+  Route::resource('/brand',BrandController::class)->only(['destroy','index','store']);
+  Route::controller(BrandController::class)->group(function (){
+      Route::put('/brand/update/{brand}','update');
+  });
+
   //site-setting
 
   Route::post('/site/setting/create',[SiteSettingController::class,'store']);
@@ -124,6 +171,16 @@ function(){
   Route::resource('/coupon',CouponController::class)->except(['create','show','edit']);
   Route::put('/coupon/activity/change/{coupon}',[CouponController::class,'couponActiveUnactive']);
 
+  // order 
+
+  Route::controller(OrderController::class)->group(function(){
+    Route::get('/all/orders/{status}','allOrders');
+    Route::get('/order/{slug}','show');
+    Route::put('/order/update/{order}', 'update');
+  });
+
+  //user mange controller 
+
 });
 
 // user 
@@ -142,15 +199,15 @@ Route::controller(ProductDetailController::class)->group(function (){
 });
 
 Route::controller(NavbarRequestController::class)->group(function (){
-  Route::get('/get/navbar/site/setting','getSiteSetting');
+  Route::get('/get/navbar/content','getNavbarContents');
   Route::get('/navbar/category','getNavbarCategory');
   Route::get('/search/tags/','searchTags');
-  ROute::get('/cart/content','getNavbarCatContent');
 });
 
 //shop route for shop page
 
 Route::controller(ShopController::class)->group(function(){
+  Route::get('get/shop/products/{status}', 'shopPageProducts');
   Route::get('/shop/tag/product/{tag}','tagProduct');
   Route::get('/shop/page/sidebar/contents','shopPageContents');
   Route::get('/shop/category/product/{slug}','categoryProducts');
@@ -180,13 +237,19 @@ Route::controller(CheckoutController::class)->group(function (){
   Route::put('/order/store/','orderStore');
 });
 
+// wishlist 
+Route::controller(WishlistController::class)->group(function (){
+  Route::post('/wishlist/add/{product}','addProductToWishlist');
+});
+
 Route::group(['prefix' => 'user', 'middleware' => ['auth','verified']],
 function(){
-  // user dashboard 
 
-  Route::controller(WishlistController::class)->group(function (){
-    Route::post('/wishlist/add/{product}','addProductToWishlist');
+  Route::controller(CheckoutController::class)->group(function (){
+    
+    Route::put('/order/store/','orderStore');
   });
+  // user dashboard 
 
   Route::controller(ProfileController::class)->group(function (){
     Route::get('/get','getCurrentUser');
@@ -197,6 +260,12 @@ function(){
     Route::get('/resent/view/products', 'getProducts');
   });
 
+  // Wishlist 
+
+  Route::controller(WishlistController::class)->group(function (){
+    Route::get('/wishlists','index');
+    Route::delete('/wishlists/{wishlist}', 'delete');
+  });
   
 
   // notificaton for admin and user 
@@ -209,7 +278,7 @@ function(){
 Route::get('/notifications',[NotificationController::class,'getNotification']);
 
 
-Route::get('/admin/{any}', [AdminBashbordController::class,'index'])
+Route::get('/admin/{any}', [AdminDashboardController::class,'index'])
 ->where('any','.*');
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])
   ->where('any','.*')->name('home');

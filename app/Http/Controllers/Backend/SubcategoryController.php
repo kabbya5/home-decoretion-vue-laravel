@@ -18,7 +18,7 @@ class SubcategoryController extends Controller
      */
     public function index()
     {
-        $subcategories = Subcategory::with('category')->latest()->get();
+        $subcategories = Subcategory::with('category','childcategories','products')->latest()->get();
         $count = $subcategories->count();
         if($count > 1){
             $subcategoriesCount = $count . '  '.'subcategories';

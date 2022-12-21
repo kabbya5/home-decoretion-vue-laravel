@@ -12,12 +12,17 @@ import UserCartContent from  './view/CartContent.vue';
 import Checkout from './view/Checkout.vue';
 import TeamAndCondition from './view/TeamAndCondition.vue';
 import ResentViewProducts from './view/user/ResentViewProducts.vue';
+import WishlistIndex from './view/WishlistIndex.vue';
 
 // Admin 
+
+// slider and category 
+
 import AdminDashboard from './view/admin/AdminDashboard.vue';
 import CategoryIndex from './view/admin/category/CategoryIndex.vue';
 import TrashedCategory from './view/admin/category/TrashedCategory.vue';
 import SubcategoryIndex from './view/admin/subcategory/SubcategoryIndex.vue';
+import ChildCategory from './view/admin/childcategory/childCategory.vue';
 import SliderIndex from './view/admin/silder/SliderIndex.vue';
 import TrashedSubcat from './view/admin/subcategory/TrashedSubcat.vue';
 import BrandIndex from './view/admin/brand/BrandIndex.vue';
@@ -34,12 +39,19 @@ import Tag from './view/admin/Tag/TagIndex.vue';
 import SiteSetting  from './view/admin/sitesetting/SiteSetting.vue';
 import SocialMediaLink from './view/admin/sitesetting/SocialMedialLink.vue';
 import DeliverySetting from './view/admin/sitesetting/DeliverySetting.vue';
-import Test from './view/admin/product/product/test.vue';
+
+//order 
+import OrderIndex from './view/admin/order/OrderIndex.vue';
+import OrderDetails from './view/admin/order/OrderDetails.vue';
 import CouponIndex from './view/admin/coupon/CouponIndex.vue';
 
 // page setting 
 
 import ContactPageSetting from './view/admin/pagesetting/ContactPageSetting.vue';
+
+//UserDetails 
+import UserIndex from './view/admin/users/UsersIndex.vue';
+import AdminUserDetails from './view/admin/users/UserDetails.vue';
 
 
 const routes = [
@@ -50,7 +62,7 @@ const routes = [
   // user 
   {
     path:'/user/:slug/profile', Component:UserProfile,
-    name:'user-profile', meta:{title:'User Profile'}
+    name:'user-profile',
   },
   {
     path:"/login", name:'login', component: Login,
@@ -65,10 +77,14 @@ const routes = [
     path:'/contact', name:'contact', component:Contact,
   },
   {
-    path:'/user/:userSlug/dashboard/', name:'userDashboard',
+    path:'/user/:userSlug/dashboard/', name:'user-dashboard',
     component:UserDashboard,
   },
   // ShopPage
+  {
+    path:'/shop/page/products', name:'shop-page',
+    component:ShopPage
+  },
   {
     path:'/tag/:tagSlug', name:'tagShopPage',
     component:ShopPage,
@@ -89,6 +105,7 @@ const routes = [
       path:'/resent/view/prdouct/:slug', name:'resent-view-product',
       component:ResentViewProducts,
   },
+ 
 
   // cart and checkout 
 
@@ -101,6 +118,9 @@ const routes = [
   },
   {
     path:'/team-and-condition', name:"team_and_condition", component:TeamAndCondition,
+  },
+  {
+    path:'/user/wishlist/product', name:'wishlist',component:WishlistIndex,
   },
 
 
@@ -130,6 +150,10 @@ const routes = [
     component: TrashedSubcat,
   },
   {
+    path:'/admin/childcategory/index', name:'admin-childcategory',
+    component:ChildCategory,
+  },
+  {
     path:'/admin/brand/index', name:'adminBrand',
     component:BrandIndex,
   },
@@ -155,10 +179,6 @@ const routes = [
   {
     path:'/admin/product/:slug', name:'adminPoductEdit',
     component:CreateProduct,
-  },
-  {
-    path:'/admin/product/test' , name:'adminTest',
-    component:Test,
   },
   {
     path:'/admin/product/color/index', name:'adminProductColor',
@@ -192,6 +212,27 @@ const routes = [
   {
     path:'/admin/coupons', name:'adminCoupon',
     component:CouponIndex,
+  },
+
+  //Order 
+  {
+    path:'/admin/orders/index', name:'adminOrders',
+    component:OrderIndex,
+  },
+  {
+    path:'/admin/orders/details/:slug', name:'adminOrderDetails',
+    component:OrderDetails,
+  },
+
+  // users manage 
+
+  {
+    path:'/admin/users/index', name:'adminUsers',
+    component:UserIndex,
+  },
+  {
+    Path:'/admin/user/:slug', name:'adminUserDetails', 
+    component:AdminUserDetails,
   }
 ];
 
