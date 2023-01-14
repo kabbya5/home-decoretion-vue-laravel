@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-wrap flex-row"> 
-        <Notification :restoreCatgory="restoreCatgoryParent" :notification="notification" v-if="notification.message" /> 
+        <NotificationAdmin  :notification="notification" v-if="notification.message" /> 
 
         <div class="max-w-full px-4 w-full my-6">
           	<div class="p-6 bg-white rounded-lg shadow-lg h-full my-4">
@@ -20,22 +20,22 @@
                             <table class="table-sorter table-bordered-bottom w-full text-gray-500">
                                 <thead>
                                     <tr class="bg-gray-200/60">
-                                        <th class="py-2 text-left md:px-4 my-2" style="width: 14.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2" >
                                             subcategory Name
                                         </th>
-                                        <th class="py-2 text-left md:px-4 my-2" style="width: 16.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2">
                                             Category Name 
                                         </th>
-                                        <th class="py-2 text-left md:px-4 my-2 text-center" style="width: 16.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2 text-center">
                                             chidlcategories
                                         </th>
-                                        <th class="py-2 text-left md:px-4 my-2 text-center" style="width: 16.6262%;">
+                                        <th class="py-2 text-left md:px-4 my-2 text-center">
                                             porudcts 
                                         </th>
-                                        <th class="py-2 text-left md:px-4" style="width: 14.6262%;">
+                                        <th class="py-2 text-left md:px-4">
                                             Created At
                                         </th>
-                                        <th class="py-2 text-left md:px-4" style="width: 5.6262%;">
+                                        <th class="py-2 text-left md:px-4">
                                             Action
                                         </th>
                                     </tr>
@@ -43,7 +43,11 @@
                                 <tbody class="text-sm">
                                     <tr v-for="subcategory in subcategories" :key="subcategory.id">
                                         <td class="text-left text-lg py-2 text-gray-600">
-                                            {{ subcategory.subCatName}} 
+                                            <div class="flex items-center">
+                                                {{ subcategory.subCatName}} 
+
+                                                <img class="ml-4 w-20" :src="subcategory.img" alt="">
+                                            </div>
                                         </td>                                        
                                         <td v-if="subcategory.category" class="text-left text-lg py-2 text-gray-600">
                                             {{ subcategory.category.categoryName }}
@@ -129,6 +133,21 @@
                             <p v-if="errors.category_id" class="text-red-500">{{ errors.category_id[0] }}</p>
                             
                         </div>
+                        <div class="flex flex-col">
+                            <label for="name" class="my-2 mx-4 text-gray-500 font-semibold text-lg"> Category Image </label>
+
+                            <div class="flex justify-between items-center">
+                                <input type="file" placeholder="Category Image"
+                                    :class="{'border-1 border-red-500':errors.subcat_img}"
+                                    class="my-2 px-4 py-2 border-2 focus:outline-none
+                                    focus:border-gray-300" 
+                                    @change="onFileChange">
+
+                                <img class="ml-2 w-14 h-14 rounded-full" :src="subcat.subcat_img?subcat.subcat_img:'/'+subcat.oldImg" alt="">
+                            </div>
+                            <p v-if="errors.subcat_img" class="text-red-500"> {{ errors.subcat_img[0] }} </p>
+
+                        </div>
 
                         <button type="submit" class="capitalize py-2 my-4 px-4 bg-indigo-800 text-white rounded-md transition duratuion-300 hover:bg-indigo-600">
                              {{ formCreate ? 'create sub category' :'update sub category'}} 
@@ -141,9 +160,9 @@
 </template>
 <script>
     import HeaderSubcat from './HeaderSubcat.vue';
-    import Notification from '../../../components/Notification.vue';
+    import NotificationAdmin from '../NotificationAdmin.vue';
     export default{
-        components:{Notification,HeaderSubcat},
+        components:{NotificationAdmin,HeaderSubcat},
         data(){
             return {
                 modal:false,
@@ -154,13 +173,9 @@
                 subcategoriesLength:'',
                 btnMessage:"load more",
 
-                //subcategory form
-
+                //subcategory form       
                 categories:[],
-                subcat:{
-                    subCatName:'',
-                    category_id:'',
-                },
+                subcat:{ },
                 errors:[],
                 selectItem:'',
                 formCreate:true,
@@ -173,8 +188,6 @@
                     message:"",
                     deleteId:'',
                 }
-                
-
             }
         },
 
@@ -190,6 +203,19 @@
                 this.selectItem ='';
                 this.formCreate = true;
                 this.modal = !this.modal;
+            },
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.subcat.subcat_img = e.target.result;
+                };
+                reader.readAsDataURL(file);
             },
             handleChange (event){
                 this.selectItem = event.target.options[event.target.options.selectedIndex].getAttribute('data-name');
@@ -210,6 +236,7 @@
             editModal(data){
                 this.subcat.subCatName = data.subCatName;
                 this.subcat.category_id = data.category_id;
+                this.subcat.oldImg = data.subcat_img;
                 this.selectItem = data.category.categoryName;
                 this.formCreate = false;
                 this.updateSubcatid = data.id;
@@ -217,10 +244,7 @@
                 this.modal = !this.modal;
             },
             updateSubCat(){
-                axios.put('/admin/subcatgory/update/'+this.updateSubcatid,{
-                    subCatName:this.subcat.subCatName,
-                    category_id :this.subcat.category_id,
-                })
+                axios.put('/admin/subcatgory/update/'+this.updateSubcatid,this.subcat)
                 .then(res =>{
                     this.notification.type ='edit';
                     this.notification.message = 'The category has been updeted successfully';
@@ -242,13 +266,12 @@
                     this.restoreNotification();
                 })
             },
-            restoreCatgoryParent(){
-                axios.get('/admin/subcategory')
+            restore(id){
+                axios.post('/admin/subcategory/restore/' + id)
                 .then(res =>{
-                    this.allSubcategory = res.data[0];
-                    this.subcategories = res.data[0].slice(0, this.length);
-                    this.subcategoriesCount = res.data[1];
-                    this.subcategoriesLength = res.data[0].length;
+                    this.notification.type ='success';
+                    this.notification.message = 'The category has been updeted successfully';
+                    this.reloadPage();
                     this.restoreNotification();
                 })
             },
@@ -262,8 +285,7 @@
                     this.subcategories = res.data[0].slice(0, this.length);
                     this.subcategoriesCount = res.data[1];
                     this.subcategoriesLength = res.data[0].length;
-                    this.restoreNotification();
-                })
+                });
             }
 
         },

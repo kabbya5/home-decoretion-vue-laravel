@@ -1,28 +1,223 @@
 <template>
     <div class="w-full">
-        <header class="">
+        <header class="mb-[90px] lg:mb-0">
+            <!-- RESPONSIVE NAV  -->
+            <nav class="py-4 lg:hidden px-1 bg-white md:px-4 fixed top-0 z-50 w-full" id="top-nav">
+                <div class="flex-col justify-between items-center">
+                    <div class="flex justify-between items-center">
+                        <router-link :to="{name:'home'}" href="" class="flex items-center">
+                            <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
+                            <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
+                        </router-link>
+                        <div class="lg:hidden">
+                            <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">    
+                                <li>
+                                    <router-link v-if="wishlistCount" :to="{name:'wishlist'}" class="block py-2 pr-4 pl-3 text-black  font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                        <i class="fa-regular fa-heart fa-2x relative">
+                                            <span class="absolute top-[-21px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                                {{ wishlistCount }}
+                                            </span>
+                                        </i>
+                                    </router-link>
+                                </li>
+                                <li class="">
+                                    <router-link :to="{name:'cart-content'}" class="block py-2 pr-4 pl-3 text-black font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
+                                        <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                            <span  class="absolute top-[-20px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                                {{ cart.count }}
+                                            </span>
+                                        </i>
+                                        {{ cart.subtotal }} TK 
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex">
+                            <button @click='showSearchInput = !showSearchInput' type="button" class="inline-flex justify-center items-center mr-8  
+                                transition duration-300 text-gray-500 font-bold hover:text-gray-900">
+                                <i class="fa-solid fa-magnifying-glass text-gray-500 font-bold text-2xl"></i>
+                            </button>
+                            <button @click='responsiveNav = !responsiveNav' type="button" class="inline-flex justify-center items-center mr-2 
+                                transition duration-300 text-gray-500 font-bold hover:text-gray-900">
+                                <i class="fa-solid fa-bars fa-2x"></i>
+                            </button>
+                        </div>
+                        
+                    </div>
+                    
+                    <div v-if="showSearchInput" class="my-4">
+                        <ul>
+                            <li class="border-2 px-2 mx-auto w-full md:w-96 xl:w-[600px] relative">
+                                <form @mouseenter="(search=true)" @mouseleave="(search=false)" class="w-full">
+                                    <div class="flex items-center">
+                                        <input v-model="searchKeyword" type="search" class="px-4 text-gray-500 font-bold bg-transparent w-full py-2 
+                                            focus:outline-none"
+                                            placeholder="Search..">
+                                            <i class="fa-solid fa-magnifying-glass text-gray-500 font-bold text-2xl"></i>
+                                    </div>
+                                    <div v-if="search" class="absolute w-full bg-white -mx-2 px-2">
+                                        <ul v-if="(tags.length > 0)" class="overflow-x-auto">
+                                            <li v-for="tag in tags" :key="tag.id" class="my-2"> 
+                                               <router-link :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center py-2">
+                                                    <img v-if="tag.image" class="w-20 h-20 mx-4 rounded-md" :src="tag.image.product_img" :alt="tag.tag_name">
+                                                    {{ tag.tag_name }}
+                                               </router-link>
+                                            </li>    
+                                        </ul>
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>    
+                    </div>
+                </div>
+            </nav>
+            <div v-if="responsiveNav" id="responsive-nav" class="fixed top-0 left-0 shadow-md bg-slate-200/60 z-50 w-full overflow-auto">
+                <div class="w-[330px] bg-white">
+                    <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2 w-full text-right
+                        transition duration-300 text-black hover:text-red-900"> 
+                        <i class="fa-solid fa-xmark fa-2x mr-4"></i>
+                    </button>
+                    <div class="flex flex-col justify-center my-3">
+                        <ul class="flex  justify-around items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
+                            <li class="px-2 py-1">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-gray-500">
+                                            22
+                                        </span>
+                                    </i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-regular fa-heart fa-2x relative">
+                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-gray-500">
+                                            {{ cart.count }}
+                                        </span>
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="mb-[15px]">
+                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                    <i class="fa-regular fa-user fa-2x">
+                                        
+                                    </i>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="button flex justify-center border-b-2 border-gray-200 my-4 pb-3">
+                            <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-white uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
+                                {{ menuBtn=='category' ? 'menu':'category' }} 
+                            </button>
+                        </div>
+                        <div v-if="menuBtn =='category'" class="bg-gray-100 h-screen px-2 py-2">
+                            <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
+                                All Category 
+                            </h4>
+                            <ul class="mx-1 overflew-auto absolute w-[300px] h-full">
+                                <li v-for="cat in navCats" :key="cat.id" 
+                                    @mouseenter="showResponsiveSubcategory = cat.id" 
+                                    @mouseleave="showResponsiveSubcategory = false"                 
+                                    class="cat-li  border-b-2 border-gray-200  py-2">
+                                        <div class="flex items-center">
+                                            <img :src="cat.categoryImg" :alt="cat.categoryImgName"
+                                            class="w-8 h-8 rounded-full">
+                                            <router-link v-if="cat.slug" @click="responsiveNav =!responsiveNav" :to="{name:'categoryShopPage',params:{catSlug:cat.slug}}" class="ml-4">
+                                                {{cat.categoryName}}
+                                            </router-link>
+                                            
+                                            <button v-if="cat.subcategories.length >0" 
+                                                class="text-right right-2 px-4 bg-slate-200/60 h-full">
+                                                <i class="fa-solid fa-angle-down"></i>
+                                            </button>
+                                        </div>
+
+                                    <ul  v-if="(showResponsiveSubcategory === cat.id && cat.subcategories.length > 0)" class="subcat-ul  flex flex-col bg-gray-100  py-2">
+                                        <li  v-for="subcat in cat.subcategories" :key="subcat.id"
+                                            @mouseenter="showChildcategory = subcat.id" 
+                                            @mouseleave="showChildcategory = false"
+                                            class="pl-2 py-2 font-bold text-black"> 
+                                            <router-link @click="responsiveNav =!responsiveNav" :to="{name:'subCategoryShopPage',params:{subCatSlug:subcat.slug}}" class="ml-4">
+                                                {{subcat.subCatName}}
+                                            </router-link>
+
+                                            <ul v-if="(subcat.childcategories.length > 0)" 
+                                                class="px-2 bg-gray-100 z-50 py-1">
+                                                    <li  v-for="childcat in subcat.childcategories" :key="childcat.id"
+                                                        class="px-2 font-semibold text-gray-500">
+                                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'childCategoryShopPage',params:{childCatSlug:childcat.slug}}" class="ml-4">
+                                                            {{ childcat.childCatName }}
+                                                        </router-link>
+                                                    </li>
+                                                </ul>
+                                        </li>
+                                   
+                                    </ul>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+                        <div v-if="menuBtn =='menu'" class="px-4 my-3">
+                            <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
+                                All  Menu
+                            </h4>
+                            <div class="w-full md:w-auto md:order-1">
+                                <ul class="responsive-nav my-4 h-screen">
+                                    <li class="my-4">
+                                        <router-link to="/"  class="text-md  py-2 pl-3 text-gray-500 font-bold  capitalize">
+                                            Home
+                                        </router-link>
+                                    </li>
+                                    <li class="my-4">
+                                        <router-link to="/email/verification"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                            email/verification
+                                        </router-link>
+                                    </li>
+                                    <li class="my-4">
+                                        <a href="#" class="text-md py-2 pr-4 pl-3 text-gray-500 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Contact</a>
+                                    </li>
+                                    <li>
+                                        <router-link to="/login" class="block py-2 pr-4 pl-3 text-gray-500 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                            login / register
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- end  -->
+
+            <!-- laptop -->
+            
             <!-- TOP NAV -->
-            <nav class="py-4  px-1 z-50 bg-white md:px-4 fixed top-0 w-full border-b-2 border-gray-200" id="top-nav">
+            <nav class="py-4 hidden lg:block  px-1 z-50 bg-white md:px-4 fixed top-0 w-full border-b-2 border-gray-200" id="top-nav">
                 <div class="flex justify-between items-center">
                     <router-link :to="{name:'home'}" href="" class="flex items-center">
                         <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
-                        <span class="hidden md:block self-center text-xl font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
+                        <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
                     </router-link>
                     <div>
                         <ul>
                             <li class="border-2 px-2 w-full md:w-96 xl:w-[600px] relative">
                                 <form @mouseenter="(search=true)" @mouseleave="(search=false)" class="w-full">
                                     <div class="flex items-center">
-                                        <input v-model="searchKeyword" type="search" class="px-4 text-green-800 font-bold bg-transparent w-full py-2 
+                                        <input v-model="searchKeyword" type="search" class="px-4 text-gray-500 font-bold bg-transparent w-full py-2 
                                             focus:outline-none"
                                             placeholder="Search..">
-                                            <i class="fa-solid fa-magnifying-glass text-green-800 font-bold text-2xl"></i>
+                                            <i class="fa-solid fa-magnifying-glass text-gray-500 font-bold text-2xl"></i>
                                     </div>
                                     <div v-if="search" class="absolute w-full bg-white -mx-2 px-2">
                                         <ul v-if="(tags.length > 0)" class="overflow-x-auto">
-                                            <li v-for="tag in tags" :key="tag.id"> 
-                                               <router-link :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center">
-                                                    <img v-if="tag.image" class="w-10 h-10 mx-2" :src="tag.image.product_img" :alt="tag.tag_name">
+                                            <li v-for="tag in tags" :key="tag.id" class="my-2"> 
+                                               <router-link :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center py-2">
+                                                    <img v-if="tag.image" class="w-20 h-20 mx-4 rounded-md" :src="tag.image.product_img" :alt="tag.tag_name">
                                                     {{ tag.tag_name }}
                                                </router-link>
                                             </li>    
@@ -56,209 +251,113 @@
                         </ul>
                     </div>
                     <button @click='responsiveNav = !responsiveNav' type="button" class="inline-flex justify-center items-center mr-2 
-                        transition duration-300 text-green-800 font-bold hover:text-gray-900">
+                        transition duration-300 text-gray-500 font-bold hover:text-gray-900">
                         <i class="fa-solid fa-bars fa-2x"></i>
                     </button>
                 </div>
             </nav>
-
             <!-- BOTTOM NAV -->
 
-            <nav class="hidden px-1 mt-[90px]  md:px-4 md:block" id="bottom-nav">
-                <div class="flex flex-wrap justify-between items-center mx-auto">
-                    <div class="justify-between items-center w-full md:flex md:w-auto md:order-1">
-                        <ul class="mid-nav my-4 flex flex-col md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                            <li>
-                                <router-link to="/"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    Home
-                                </router-link>
-                            </li>
-                            <li>
-                                <a href="#" class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
-                            </li>
-                            <li>
-                                <router-link :to="{name:'contact'}"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    About
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link :to="{name:'shop-page'}"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    Shop page
-                                </router-link>
-                            </li>
-                            <li>
-                                <router-link :to="{name:'contact'}"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    Contact
-                                </router-link>
-                            </li>
-
-                            <li v-if="!currentUser">
-                                <router-link  to="/login"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    Login/Register
-                                </router-link>
-                            </li>
-                            <li v-if="currentUser">
-                                <router-link  :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    Resent view
-                                </router-link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mid-nav justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                        <ul class="flex flex-col items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                            <!-- <li>
-                                <router-link to="/login" class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                    <i class="fa-regular fa-user text-2xl"></i>
-                                </router-link>
-                            </li> -->
-                            <li v-if="currentUser" class="mb-2">
-                                <router-link :to="{name:'user-dashboard',params:{userSlug:currentUser.slug}}" class="relative block flex items-center justify-center w-10 h-10 bg-gray-200  font-bold rounded-full hover:bg-gray-300"
-                                    >
-                                    <!-- :class="{'text-red-500':notifications} -->
-                                    <img v-if="currentUser.profile_img" :src="currentUser.profile_img" :alt="currentUser.user_name" class="w-full h-full rounded-full">
-                                    <i v-else  class="fa-regular fa-user text-2xl"></i>
-                                    <!-- <span v-if="notifications" class="absolute bottom-[80%] right-0 bg-orange-500 text-white rounded-full w-5 h-5"> {{ notifications.length }} </span> -->
-                                </router-link>
-                            </li>
-                            <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-regular fa-heart"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- RESPONSIVE NAV  -->
-
-            <div v-if="responsiveNav" id="responsive-nav" class="fixed shadow-md bg-slate-200/60 z-50 w-full">
-                <div class="w-[330px] bg-white">
-                    <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2 w-full text-right
-                        transition duration-300 text-black hover:text-red-900"> 
-                        <i class="fa-solid fa-xmark fa-2x mr-4"></i>
-                    </button>
-                    <div class="flex flex-col justify-center my-3">
-                        <ul class="flex  justify-around items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                            <li class="px-2 py-1">
-                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-solid fa-cart-shopping fa-2x relative">
-                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
-                                            22
-                                        </span>
-                                    </i>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-regular fa-heart fa-2x relative">
-                                        <span class="absolute top-[-20px] right-[-20px] bg-red-800 w-8 h-8 flex items-center justify-center text-sm rounded-full text-green-800">
-                                            {{ cart.count }}
-                                        </span>
-                                    </i>
-                                </a>
-                            </li>
-                            <li class="mb-[15px]">
-                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-600 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-regular fa-user fa-2x">
-                                        
-                                    </i>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="button flex justify-center border-b-2 border-gray-200 my-4 pb-3">
-                            <button v-on:click="menuBtnToggler" type="boutton" class="bg-green-800 text-white uppercase px-4 py-1 transition duration-300 hover:bg-green-600">
-                                {{ menuBtn=='category' ? 'menu':'category' }} 
-                            </button>
-                        </div>
-                        <div v-if="menuBtn =='category'" class="bg-gray-100 h-screen px-2 py-2">
-                            <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
-                                All Category 
-                            </h4>
-                            <ul class="flex flex-col uppercase">
+            <div class="xl:container xl:mx-auto">
+                <nav class="hidden px-1 overflow-hidden lg:mt-[90px]  md:px-4 lg:block" id="bottom-nav">
+                    <div class="flex flex-wrap justify-between items-center mx-auto">
+                        <div class="justify-between items-center w-full md:flex md:w-auto md:order-1">
+                            <ul class="mid-nav my-4 flex flex-col md:flex-row md:space-x-4 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                                 <li v-for="cat in navCats" :key="cat.id" 
-                                    @mouseenter="showSubcategory = cat.id" 
-                                    @mouseleave="showSubcategory = false"                 
-                                    class="cat-li flex px-4 py-1 border-2 
-                                        border-slate-200 items-center">
+                                @mouseenter="showSubcategory = cat.id" 
+                                @mouseleave="showSubcategory = false"
+                                class="relative z-40">
 
-                                    <img :src="cat.categoryImg" :alt="cat.categoryImgName"
-                                        class="w-10 h-10 rounded-md">
-                                    <router-link v-if="cat.slug" @click="responsiveNav =!responsiveNav" :to="{name:'categoryShopPage',params:{catSlug:cat.slug}}" class="text-green-800 font-bold ml-4">
-                                        {{cat.categoryName}}
+                                    <router-link :to="{name:'categoryShopPage',params:{catSlug:cat.slug}}"  class="text-md block py-2 pl-2 text-slate-500 font-bold capitalize">
+                                       {{ cat.categoryName }}
                                     </router-link>
-                                    
 
-                                    <button v-if="cat.subcategories.length >0" 
-                                        class="absolute right-2 px-3 bg-slate-200/60 h-full">
-                                        <i class="fa-solid fa-angle-down"></i>
-                                    </button>
-
-                                    <ul v-if="(showSubcategory === cat.id && cat.subcategories.length > 0)" class="subcat-ul flex flex-col bg-gray-100 z-10 px-2 py-6 
-                                        border-2 border-gray-200 shadow-md">
-                                        <li  v-for="subcat in cat.subcategories" :key="subcat.id"
-                                            @mouseenter="showChildcategory = subcat.id" 
-                                            @mouseleave="showChildcategory = false"
-                                            class="pl-2 py-2  border-2 bg-white flex justify"> 
-                                            <router-link @click="responsiveNav =!responsiveNav" :to="{name:'subCategoryShopPage',params:{subCatSlug:subcat.slug}}" class="text-green-800 font-bold ml-4">
-                                                {{subcat.subCatName}}
-                                            </router-link>
-
-                                            <button v-if="subcat.childcategories.length >0" 
-                                                class="absolute right-2 px-3 bg-slate-200/60">
-                                                <i class="fa-solid fa-angle-down"></i>
-                                            </button>
-
-                                    
-                                            <ul v-if="(showChildcategory === subcat.id && subcat.childcategories.length > 0)" 
-                                            class="px-4 absolute left-[90%] bg-gray-100 z-50 w-[100%] py-4 top[-10px]">
-                                                <li  v-for="childcat in subcat.childcategories" :key="childcat.id"
-                                                    class="my-1 py-2 px-2 border-2 border-gray-200">
-                                                    <router-link @click="responsiveNav =!responsiveNav" :to="{name:'childCategoryShopPage',params:{childCatSlug:childcat.slug}}" class="text-green-800 font-bold ml-4">
-                                                        {{ childcat.childCatName }}
+                                    <div v-if="(showSubcategory === cat.id && cat.subcategories.length > 0)" class="child-category absolute top-[100%] w-screen z-10 border-t-2 border-gray-200">
+                                        <div class="flex mb-10 bg-white px-4">
+                                            <div 
+                                            class="py-9 fixed left-0 right-2 w-screen">
+                                            <ul class="subcat-ul  flex  bg-gray-100  py-2">
+                                                <li  v-for="subcat in cat.subcategories" :key="subcat.id"
+                                                    class="pl-2 py-2 font-bold text-black"> 
+                                                    <router-link @click="responsiveNav =!responsiveNav" :to="{name:'subCategoryShopPage',params:{subCatSlug:subcat.slug}}" class="ml-4">
+                                                        {{subcat.subCatName}}
                                                     </router-link>
+                                                    <ul class="childcat-ul px-2 bg-gray-100 z-50 py-2">
+                                                            <li  v-for="childcat in subcat.childcategories" :key="childcat.id"
+                                                                class="my-1 py-2 px-2">
+                                                                <router-link @click="responsiveNav =!responsiveNav" :to="{name:'childCategoryShopPage',params:{childCatSlug:childcat.slug}}" class="ml-4">
+                                                                    {{ childcat.childCatName }}
+                                                                </router-link>
+                                                            </li>
+                                                    </ul>
                                                 </li>
+                                           
                                             </ul>
-                                        </li>
-                                    </ul> 
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>
-                            </ul> 
+                                
+                                
+                                <li>
+                                    <a href="#" class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
+                                </li>
+                                <li>
+                                    <router-link :to="{name:'contact'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        About
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{name:'shop-page'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        Shop page
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{name:'contact'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        Contact
+                                    </router-link>
+                                </li>
+    
+                                <li v-if="!currentUser">
+                                    <router-link  to="/login"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        Login/Register
+                                    </router-link>
+                                </li>
+                                <li v-if="currentUser">
+                                    <router-link  :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        Resent view
+                                    </router-link>
+                                </li>
+                            </ul>
+                            
                         </div>
-                        <div  class="px-4 my-3">
-                            <h4 class="text-center font-bold text-gray-600 uppercase mb-4">
-                                All  Menu
-                            </h4>
-                            <div class="w-full md:w-auto md:order-1">
-                                <ul class="responsive-nav my-4 h-screen">
-                                    <li class="my-4">
-                                        <router-link to="/"  class="text-xl  py-2 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                            Home
-                                        </router-link>
-                                    </li>
-                                    <li class="my-4">
-                                        <router-link to="/email/verification"  class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold  rounded md:bg-transparent md:p-0">
-                                            email/verification
-                                        </router-link>
-                                    </li>
-                                    <li class="my-4">
-                                        <a href="#" class="text-xl py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Services</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-xl block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Contact</a>
-                                    </li>
-                                    <li>
-                                        <router-link to="/login" class="block py-2 pr-4 pl-3 text-green-800 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                            login / register
-                                        </router-link>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="mid-nav justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                            <ul class="flex flex-col items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
+                                <!-- <li>
+                                    <router-link to="/login" class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        <i class="fa-regular fa-user text-2xl"></i>
+                                    </router-link>
+                                </li> -->
+                                <li v-if="currentUser" class="mb-2">
+                                    <router-link :to="{name:'user-dashboard',params:{userSlug:currentUser.slug}}" class="relative block flex items-center justify-center w-10 h-10 bg-gray-200  font-bold rounded-full hover:bg-gray-300"
+                                        >
+                                        <!-- :class="{'text-red-500':notifications} -->
+                                        <img v-if="currentUser.profile_img" :src="'/' + currentUser.profile_img" :alt="currentUser.user_name" class="w-full h-full rounded-full">
+                                        <i v-else  class="fa-regular fa-user text-2xl"></i>
+                                        <!-- <span v-if="notifications" class="absolute bottom-[80%] right-0 bg-orange-500 text-white rounded-full w-5 h-5"> {{ notifications.length }} </span> -->
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <a href="#" class="block py-2 pr-4 pl-3 text-gray-500 font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                
-            </div>
+                </nav>
+            </div>  
         </header>
     </div>    
 </template>
@@ -267,9 +366,11 @@ export default{
     name:'Navbar',
     data(){
         return{
+            showSearchInput:false,
             responsiveNav:false,
             menuBtn:'category',
             showSubcategory:'',
+            showResponsiveSubcategory:'',
             showChildcategory:'',
             navCats:[],
             subcategories:[],
@@ -327,57 +428,25 @@ export default{
 }
 </script>
 <style scoped>
-
-    .mid-nav .router-link-active,.mid-nav.router-link-exact-active:after{
-        width: 100%;
-        height: 4px;
-    }
     .mid-nav a{
-        position: relative;
+        color:rgb(64, 72, 79);
+        font-weight: 500;
     }
-    .mid-nav a:after{
-        position: absolute;
-        content: '';
-        width: 0;
-        height: 3px;
-        background-color: #275c53;
-        bottom:0;
-        left: 50%;
-        transform: translateX(-50%);
-        transition: all 0.4s;
+    .mid-nav .subcat-ul a{
+        color:rgb(32, 33, 34);
+        font-weight: 600;
+        font-size: 20px;
     }
-    .mid-nav .router-link-active:after{
-        bottom:-30px;
-        width:100%;
+    .mid-nav .subcat-ul .childcat-ul a{
+        color:rgb(32, 33, 34);
+        font-weight: 600;
+        font-size: 16px;
     }
-    .mid-nav a:hover::after{
-        width: 100%;
-        bottom:-5px;
+    .mid-nav .router-link-active, .mid-nav a:hover{
+        color:rgb(105, 120, 6);
+        transition-duration: 3s all;
     }
-    
-    .responsive-nav .router-link-active,.mid-nav.router-link-exact-active:after{
-        width: 100%;
-        height: 4px;
-    }
-    .responsive-nav a{
-        position: relative;
-    }
-    .responsive-nav a:after{
-        position: absolute;
-        content: '';
-        width: 0;
-        height: 3px;
-        background-color: #275c53;
-        bottom:0;
-        left: 50%;
-        transform: translateX(-50%);
-        transition: all 0.4s;
-    }
-    .responsive-nav .router-link-active:after,
-        .responsive-nav a:hover::after{
-        width: 100%;
-        bottom:-4px;
-    }
+  
     
 
 </style>>

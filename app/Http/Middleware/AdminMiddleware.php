@@ -16,9 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth::check() && Auth::User()->is_admin ===1){
+        if(auth::check() && Auth::User()->is_admin === 'admin'){
             return $next($request);
-        }elseif(Auth::check() && Auth::user()->is_admin ===2){
+        }elseif(Auth::check() && Auth::user()->is_admin ==='seller'){
             return $next($request); 
         }else{
             return response()->json(['errors'],404);

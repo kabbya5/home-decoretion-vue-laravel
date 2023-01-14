@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="py-2 px-1 mt-[90px] md:mt-0 md:px-4" id="bottom-nav">
+        <div class="py-2 px-1 md:mt-0 md:px-4" id="bottom-nav">
             <router-link to="/"  class="text-md  mx-4 text-gray-500 font-bold">
                 home / profile
             </router-link>
@@ -8,7 +8,7 @@
                 <div class="flex justify-center items-center">
                     <div class="logo flex flex-col items-center justify-center">
                         
-                        <img v-if="userProfile.old_img" class="w-20 h-20 rounded-full" :src="userProfile.old_img?userProfile.old_img:userProfile.profile_img">
+                        <img v-if="userProfile.old_img" class="w-20 h-20 rounded-full" :src="userProfile.old_img? '/' + userProfile.old_img:userProfile.profile_img">
                         <i v-else class="fa-regular fa-user fa-3x"></i>
                         <h2 class="capitalize text-gray-600 font-bold my-2"> Md Kabbya </h2>
                         <button @click="logout" class="my-4 mx-6 px-4 py-1 rounded-md bg-red-500 text-white"> Logout </button>
@@ -44,7 +44,7 @@
                         <div class="flex h-12 w-full">
                             <input type="file" @change="onFileChange"
                             class="w-full h-full border-2 border-gray-200 py-2 px-3 focus:outline-none">
-                            <img :src="userProfile.profile_img ? userProfile.profile_img : userProfile.old_img" :alt="userProfile.slug">
+                            <img :src="userProfile.profile_img ? userProfile.profile_img : '/' + userProfile.old_img" :alt="userProfile.slug">
                         </div>
                     </div>
                     <div class="flex">
@@ -134,7 +134,6 @@ export default{
             })
             .catch(error => {
                 this.errors = error.response.data.errors;
-                console.log(this.errors);
             })
         }
     },

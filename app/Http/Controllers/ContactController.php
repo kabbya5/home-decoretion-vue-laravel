@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\ContactPageSetting;
 use App\Notifications\NewContactNotification;
 use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Notification;
-use Illuminate\Bus\Queueable;
 
-class ContactController extends Controller implements ShouldQueue
+
+class ContactController extends Controller
 {
     public function getSetting(){
         $contactSetting = ContactPageSetting::first();
@@ -30,7 +29,7 @@ class ContactController extends Controller implements ShouldQueue
         );
         $contact['user'] = \Auth::user();
 
-        $admin_email = User::where('is_admin',1)->first();
+        $admin_email = User::where('is_admin','admin')->first();
         
         Notification::sendNow($admin_email, new NewContactNotification($contact));
     }

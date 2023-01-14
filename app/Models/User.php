@@ -22,6 +22,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $guarded = [];
 
+    protected $date = ['created_at'];
+
+    protected $appends = ['created_date'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -51,5 +55,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function order(){
         return $this->hasMany(Order::class);
+    }
+
+    public function getCreatedDateAttribute(){
+        return $this->created_at->diffForHumans();
     }
 }

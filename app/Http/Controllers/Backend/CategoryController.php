@@ -40,11 +40,7 @@ class CategoryController extends Controller
     private function  handelRequest($request){
 
         $input = $request->all();
-        if($request->oldImg){
-            unset($input['oldImg']);
-            $this->deleteOldImg($request->oldImg);
-        }
-        
+
 
         if($request->categoryImg){
             if($request->oldImg){
@@ -62,15 +58,15 @@ class CategoryController extends Controller
                 $this->uploadPath . $categoryImgName
             );
    
-            $input['categoryImg'] = "/media/category/" . $categoryImgName;
+            $input['categoryImg'] = "media/category/" . $categoryImgName;
         }
         $input['slug'] = str_slug($input['categoryName']);
+        unset($input['oldImg']);
 
         return $input;
     }
 
-    private function deleteOldImg($oldImg){
-        $oldImg = ltrim($oldImg,'/'); 
+    private function deleteOldImg($oldImg){ 
         if(file_exists($oldImg)){
             unlink($oldImg);
         }  

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\Image;
 
 class Childcategory extends Model
 {
@@ -27,5 +28,9 @@ class Childcategory extends Model
 
     public function getCreatedDateAttribute(){
         return $this->created_at ? $this->created_at->diffForHumans() :' ';
+    }
+
+    public function image(){
+        return $this->belongsTo(Image::class);
     }
 }

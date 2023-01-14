@@ -44,7 +44,7 @@ class NavbarRequestController extends Controller
 
     function searchTags(Request $request)
     {
-        $tags = Tag::with('image')->where('tag_name','LIKE', '%' .$request->searchTag . '%')->get();
+        $tags = Tag::with('image')->where('tag_name','LIKE', '%' .$request->searchTag . '%')->take(10)->get();
         return response()->json($tags);
     }
 

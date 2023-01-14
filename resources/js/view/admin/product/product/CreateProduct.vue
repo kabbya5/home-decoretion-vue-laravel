@@ -174,10 +174,18 @@
                         </div>
 
                         <div class="flex flex-col my-4">
+                            <label  class="px-2 font-bold text-slate-600 capitalize"> product published : {{product.published}} </label>
+                        </div>
+
+                        <!-- published_at  -->
+
+                        <div class="flex flex-col my-4">
                             <label for="published_at" class="px-2 font-bold text-slate-600 capitalize"> Publish Now or Sate Upcomming </label>
                             <input class="my-3 border-2 border-cyan-200 px-1 py-2 focus:ouline-none" type="date" v-model="product.published_at" />
 
                         </div>
+
+
 
                         <div class="flex flex-col my-4">
                             <label for="published_at" class="px-2 font-bold text-slate-600 capitalize"> Product Video Link </label>
@@ -200,6 +208,7 @@
                         </div>
 
                         <!-- product image  -->
+
                         <div class="flex flex-col my-2">
                             <label for="product_img" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
                                 product image

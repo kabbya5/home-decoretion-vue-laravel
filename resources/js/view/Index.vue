@@ -41,7 +41,7 @@
                         <i class="fa-solid fa-money-check-dollar fa-2x text-gray-700 font-bold"></i>
                         <div class="px-4 sm:flex flex-col justify-center">
                             <h2 class="text-gray-800 font-bold text-lg"> Pay with Multiple </h2>
-                            <p class="pt-2 text-gray-500">  Credit Cards</p>
+                            <p class="pt-2 text-gray-500">  Account Cards</p>
                         </div>
                     </div>
                 </div>

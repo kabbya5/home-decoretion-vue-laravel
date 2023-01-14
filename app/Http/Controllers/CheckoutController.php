@@ -117,7 +117,7 @@ class CheckoutController extends Controller
     private function sendAdminOrderConfomation($input,$data,$carts){
         $total_product = $carts->count();
         $product_image = $carts->first()->options->img;
-        $admins = User::where('is_admin',1)->get();
+        $admins = User::where('is_admin','admin')->orWhere('is_admin','user')->get();
         Notification::send($admins,new AdminOrderCreateNotificaton($input,$data,$product_image,$total_product));
     }
 

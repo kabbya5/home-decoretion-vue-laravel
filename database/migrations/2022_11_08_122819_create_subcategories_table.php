@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->string('subCatName');
+            $table->string('subcat_img');
             $table->string('slug');
             $table->timestamps();
             $table->softDeletes();

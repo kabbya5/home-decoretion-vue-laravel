@@ -66,7 +66,7 @@ class ProductImageController extends Controller
             $img = Image::make($request->product_img)->resize(200,200);
 
             $img->save(public_path('/media/product/') . $productImgName);
-            $input["product_img"] = "/media/product/" . $productImgName;
+            $input["product_img"] = "media/product/" . $productImgName;
         }  
         return $input;
     }
@@ -139,7 +139,6 @@ class ProductImageController extends Controller
     }
 
     private function deleteOldImg($oldImg){
-        $oldImg = ltrim($oldImg,'/'); 
         if(file_exists($oldImg)){
             unlink($oldImg);
         }  

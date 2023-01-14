@@ -223,10 +223,10 @@
                         <ul v-show="link=='page-setting'" class="flex flex-col w-full mt-4">
                             <li class="w-full  py-1 transition
                                 duration-300 hover:bg-gray-300">
-                                <router-link to="/admin/site/setting/index"
+                                <router-link :to="{name:'homepage-entry'}"
                                     class=" block uppercase text-gray-600 w-full">
                                     <i class="fa-solid fa-home text-lg px-2"></i>
-                                    home page 
+                                    home page entry
                                 </router-link>
                             </li>
                             <li class="w-full  py-1 transition my-1
@@ -263,7 +263,7 @@
                         <ul class="flex items-center justify-center md:text-sm md:font-medium md:border-0 ">
                             <li class="mx-4">
                                 <router-link v-if="user.slug" :to="{name:'user-dashboard',params:{userSlug:user.slug}}" class="mr-2 w-10 h-10 block">
-                                    <img class="w-full h-full object-fill rounded-full" :src="user.profile_img" :alt="user.user_name">
+                                    <img class="w-full h-full object-fill rounded-full" :src="'/' + user.profile_img" :alt="user.user_name">
                                 </router-link>
                             </li>
                             <!-- <li>

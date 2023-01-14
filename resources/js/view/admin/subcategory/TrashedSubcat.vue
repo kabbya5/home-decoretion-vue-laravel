@@ -1,6 +1,8 @@
 <template>
     <div class="max-w-full px-4 w-full my-6">
-        <Notification :forceDeleteCategory="forceDeleteCategoryParent" :notification="notification" v-if="notification.message" /> 
+        <Notification :notification="notification" v-if="notification.message" /> 
+        
+        
         <div class="p-6 bg-white rounded-lg h-full my-4">
             <HeaderSubcat  />
         </div>
@@ -31,7 +33,7 @@
                             <button @click="restoreCatgory(trashed.id)" class="py-1 px-2 bg-orange-500 text-white mr-4">
                                 <i class="fa-solid fa-rotate-right"></i>
                             </button> 
-                            <button @click="forceDelete(trashed.id)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
+                            <button @click="forechDeletteSubcat(trashed.id)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
@@ -56,7 +58,7 @@
 
 </template>
 <script>
-import Notification from '../../../components/Notification.vue';
+import Notification from '../NotificationAdmin.vue';
 import HeaderSubcat from './HeaderSubcat.vue';
     export default{
         components:{HeaderSubcat,Notification},
@@ -85,32 +87,30 @@ import HeaderSubcat from './HeaderSubcat.vue';
                 this.btnMessage = 'load more'
             },
             restoreCatgory(id){
-                axios.delete('/api/admin/subcategory/restore/' + id)
+                axios.post('/admin/subcategory/restore/' + id)
                 .then(res=>{
                     this.notification.type ='success';
-                    this.notification.message = 'The category has been  Restored!';
+                    this.notification.message = 'The subcategory has been  Restored!';
                     this.trasheds= this.trasheds.filter(trashed => trashed.id !== id);
                 })
             },
-            forceDelete(id){  
+            forechDeletteSubcat(id){  
                 this.trasheds = this.trasheds.filter(trashed => trashed.id !== id);  
                 this.notification.type ='force';
                 this.notification.message = 'Do you wated deleted it permamently ? cancle now';
                 this.notification.deleteId = id;
                
             },
-            forceDeleteCategoryParent(){
-                axios.get('/api/admin/subcategory/trashed')
+            forceDelete(id){
+                axios.delete('/admin/subcategory/permament/delete/'+id)
                 .then(res =>{
-                    this.allTrasheds = res.data[0];
-                    this.trasheds = res.data[0].slice(0, this.length);
-                    this.trashedsCount = res.data[1];
-                    this.trashedsLength = res.data[0].length;
+                    this.notification.type ='success';
+                    this.notification.message = 'The category has been deleted successfully';
                 })
             }
         },
         mounted(){
-            axios.get('/api/admin/subcategory/trashed')
+            axios.get('/admin/subcategory/trashed')
             .then(res =>{
                 this.allTrasheds = res.data[0];
                 this.trasheds = res.data[0].slice(0, this.length);

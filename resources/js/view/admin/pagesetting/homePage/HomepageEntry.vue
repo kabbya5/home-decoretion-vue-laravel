@@ -1,11 +1,9 @@
 <template>
     <div class="w-full">
         <div class="my-10">
-            <!-- :restoreCatgory="restoreCatgoryParent" -->
-            <Notification  :notification="notification" v-if="notification.message" /> 
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="flex">
-                    <button class="font-semibold"> All child category </button>
+                    <button class="font-semibold"> Home Page Intry </button>
                 </div>
                 <button @click="modalCreate" class="px-4 py-1 text-white bg-blue-800 border-2 border-white transiton duration-300 capitalize hover:border-blue-800 hover:bg-transparent hover:text-blue-800 rounded-md"> create new</button>
             </div>
@@ -164,10 +162,10 @@
     </div>
 </template>
 <script>
-import Notification from '../NotificationAdmin.vue';
+import NotificationAdmin from '../../NotificationAdmin.vue';
 import Multiselect from '@vueform/multiselect';
 export default{
-    components:{Notification,Multiselect},
+    components:{NotificationAdmin,Multiselect},
     data(){
         return{
             modal:false,

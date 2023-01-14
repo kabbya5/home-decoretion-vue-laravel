@@ -48,7 +48,7 @@
                                         </td>
                                         <td class="text-center text-lg py-2 text-gray-500">
                                             <div class="flex justify-center">
-                                                <img class="w-14 h-14 rounded-full" :src="cat.categoryImg" alt="cat.catgoryImgName">
+                                                <img class="w-14 h-14 rounded-full" :src="cat.img" alt="cat.catgoryImgName">
                                             </div>
                                         </td>
                                         <td class="text-left text-lg py-2 text-gray-500 text-center">
@@ -120,7 +120,7 @@
                                     focus:border-gray-300" 
                                     @change="onFileChange">
 
-                                <img class="ml-2 w-14 h-14 rounded-full" :src="category.categoryImg?category.categoryImg:category.oldImg" alt="">
+                                <img class="ml-2 w-14 h-14 rounded-full" :src="category.categoryImg?category.categoryImg:'/'+category.oldImg" alt="">
                             </div>
                             <p v-if="errors.categoryImg" class="text-red-500"> {{ errors.categoryImg[0] }} </p>
 
@@ -170,8 +170,9 @@ import Notification from '../NotificationAdmin.vue';
             createModal(){
                 this.modal = !this.modal;
                 this.createForm = true;
+                this.category = {};
             },
-            onFileChange(e  ) {
+            onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;

@@ -22,7 +22,7 @@ class AdminDashboardController extends Controller
     public function navBarContent(){
         $siteLogo = SiteSetting::first()->title_image;
 
-        $user = User::where('is_admin', 1)->first();
+        $user = User::where('is_admin', 'admin')->first();
 
         foreach($user->unreadNotifications as $notification){
             $notification['created_data'] = $notification['created_at']->diffForHumans();

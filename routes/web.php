@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\ProfileController;
-use App\Http\Controllers\Backend\AdminBashbordController;
 use App\Http\Controllers\Backend\AdminDashboardController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -18,6 +17,7 @@ use App\Http\Controllers\Backend\ProductImageController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\Backend\SubcategoryController;
+use App\Http\Controllers\Backend\UserMangeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -29,7 +29,6 @@ use App\Http\Controllers\ResentViewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\WishlistController;
-use App\Models\Wishlist;
 use Illuminate\Support\Facades\Route;
 
 
@@ -46,8 +45,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes(['verify' => true]);
+// Auth::routes('');
 
-Route::get('/email/verify', [HomeController::class,'verifyEmail']);
+// Route::get('/email/verify', [HomeController::class,'verifyEmail']);
 
 Route::get('/', function () {
     return view('home');
@@ -78,7 +78,7 @@ function(){
 
   Route::resource('/subcategory',SubcategoryController::class)->only(['destroy','index','store']);
   Route::controller(SubcategoryController::class)->group(function (){
-      Route::delete('/subcategory/restore/{id}','restore');
+      Route::post('/subcategory/restore/{id}','restore');
       Route::get('/subcategory/trashed','trashed');
       Route::delete('/subcategory/permament/delete/{subcatgory}','forceDelete');
       Route::put('/subcatgory/update/{id}','update');
@@ -180,6 +180,14 @@ function(){
   });
 
   //user mange controller 
+
+  Route::controller(UserMangeController::class)->group(function(){
+    Route::get('/users/{status}', 'index');
+    Route::delete('/user/delete/{id}', 'delete');
+    Route::get('/user/show/{slug}','show');
+    Route::put('/user/profile/update/{user}', 'update');
+    Route::put('/user/role/change/{user}','UserRoleChange');
+  });
 
 });
 

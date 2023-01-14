@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Image;
 
 class SubcategoryController extends Controller
 {
@@ -48,9 +49,13 @@ class SubcategoryController extends Controller
         $request->validate([
             'subCatName' => 'required|min:3|max:250|unique:subcategories,subCatName',
             'category_id' => 'required',
+            'subcat_img' => 'required',
+        ],[
+           'category_id.required' => "Category name is required",
+           'subcat_img.required' => "Subcategory Image is required" 
         ]);
 
-        $input = $request->all();
+        $input = $this->handelRequest($request);
         $input['slug'] = $input['subCatName'];
 
         try{
@@ -62,6 +67,58 @@ class SubcategoryController extends Controller
             throw new CategoryNotFoundException();
         }
     }
+    private function  handelRequest($request){
+
+        $input = $request->all();
+
+
+        if($request->subcat_img){
+            if($request->oldImg){
+                $this->deleteOldImg($request->oldImg);
+            }
+            $position = strpos($request->subcat_img, ';');
+            $sub = substr($request->subcat_img, 0, $position);
+            $ext = explode('/',$sub)[1];
+
+            $temName = $this->subcatImageName(); 
+            $subcat_imgName = $temName. '.' .$ext;
+
+            Image::make($request->subcat_img)->resize(400,300)->save(
+                public_path('/media/subcategory/') . $subcat_imgName
+            );
+   
+            $input['subcat_img'] = "media/subcategory/" . $subcat_imgName;
+        }
+        $input['slug'] = str_slug($input['subCatName']);
+        unset($input['oldImg']);
+
+        return $input;
+    }
+
+    private function deleteOldImg($oldImg){ 
+        if(file_exists($oldImg)){
+            unlink($oldImg);
+        }  
+    }
+
+    private function subcatImageName(){
+        $charectere = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
+        $number = '123456789';
+        $newCharecter = explode(',',$charectere);
+        $charectere = implode('',$newCharecter);
+        $char = '';
+        
+        for($i=1; $i <= 10;$i++){
+          if($i <6){
+            $char .= $charectere[rand(0,25)];
+          }elseif($i<=9 && $i >= 5){
+            $char .= $number[rand(0,8)];
+          }elseif($i == 10){
+            $char .= $charectere[rand(0,25)];
+          }
+        }     
+        return $char;
+    }
     
     public function update(Request $request, $id)
     {
@@ -69,7 +126,7 @@ class SubcategoryController extends Controller
             'subCatName' => 'required|unique:subcategories,subCatName,'.$id,
             'category_id' => 'required',
         ]);
-        $data = $request->all();
+        $data =  $this->handelRequest($request);
         Subcategory::findOrFail($id)->update($data);  
     }
 
@@ -89,7 +146,10 @@ class SubcategoryController extends Controller
     }
 
     public function forceDelete($id){
-       Subcategory::where('id', $id)->forceDelete();
+        
+        $subcategory = Subcategory::withTrashed()->where('id',$id)->firstOrFail();
+        $this->deleteOldImg($subcategory->subcat_img);
+        $subcategory->forceDelete();
     }
 
 }

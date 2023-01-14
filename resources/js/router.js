@@ -46,7 +46,7 @@ import OrderDetails from './view/admin/order/OrderDetails.vue';
 import CouponIndex from './view/admin/coupon/CouponIndex.vue';
 
 // page setting 
-
+import HomepageEntry from './view/admin/pagesetting/homePage/HomepageEntry.vue';
 import ContactPageSetting from './view/admin/pagesetting/ContactPageSetting.vue';
 
 //UserDetails 
@@ -204,6 +204,10 @@ const routes = [
 
   // admin page setting 
   {
+    path:'/admin/home/page/entry', name:'homepage-entry',
+    component:HomepageEntry,
+  },
+  {
     path:'/admin/contact/page/setting' , name:'adminContactPageSetting',
     component:ContactPageSetting,
   },
@@ -227,11 +231,11 @@ const routes = [
   // users manage 
 
   {
-    path:'/admin/users/index', name:'adminUsers',
+    path:'/admin/all/users/index', name:'adminUsers',
     component:UserIndex,
   },
   {
-    Path:'/admin/user/:slug', name:'adminUserDetails', 
+    path:'/admin/user/details/:slug', name:'adminUserDetails',
     component:AdminUserDetails,
   }
 ];

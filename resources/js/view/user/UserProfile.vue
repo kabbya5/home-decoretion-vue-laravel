@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div>
         <div class="mt-10">
             <h2 class="text-gary-600 font-semiblod capitalize text-center text-xl"> My Account Information </h2>
@@ -94,4 +94,4 @@
             }
         }
     }
-</script>
+</script> -->

@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('childcategories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('subcategory_id');
+            $table->string('image_id');
             $table->string('childCatName');
+            $table->string('view_counts')->nullable();
             $table->string('slug');
-            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');

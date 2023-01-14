@@ -4,12 +4,12 @@
             <div class="flex flex-row my-10">
                 <button @click="getUsers('allUsers')" class="mx-2 px-4 py-1 uppercase border-2 border-blue-800
                     transition duration-300 hover:bg-blue-800 hover:text-white"
-                    :class="{'bg-blue-800 text-white':orderStatus=='all'}">
+                    :class="{'bg-blue-800 text-white':usersStatus=='allUsers'}">
                     users 
                 </button>
                 <button @click="getUsers('unverified')" class="mx-2 px-4 py-1 mx-4 uppercase border-2 border-red-800
                     transition duration-300 hover:bg-red-800 hover:text-white"
-                    :class="{'bg-red-800 text-white':orderStatus=='cancle'}">
+                    :class="{'bg-red-800 text-white':usersStatus=='unverified'}">
                         Unverified Users
                 </button>
     
@@ -50,35 +50,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="order in showOrders" :key="order.id" class="border-b border-gray-200 dark:border-gray-700">
+                    <tr v-for="(user , index) in showUsers" :key="user.id" class="border-b border-gray-200 dark:border-gray-700">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                            {{order.order_code }}
+                            #{{index +1}}
                         </th>
                         <td  class="py-4 px-6">
-                            {{ order.coupon }}
+                            {{ user.user_name }}
                         </td> 
                         <td class="py-4 px-6">
-                            {{ order.subtotal}}
+                            {{ user.email }}
                         </td>
                         <td class="py-4 px-6">
-                            <button :id="order.status" class="text-white px-2 py-1 bg-blue-800 w-full capitalize">
-                                {{ order.status }}
+                            <button :id="user.is_admin" class="text-white px-2 py-1 rounded-md bg-green-800 w-full capitalize">
+                                {{ user.is_admin ==1 ?'admin' : 'user'}}
                             </button>
+                            
                         </td>
-                        
-                        
-                        
+                         
                         <td class="py-4 px-6">
-                            {{ order.created_date }}
+                            {{ user.created_date }}
                         </td>
 
                         <td class="py-4 px-6">
-                            <router-link :to="{name:'adminOrderDetails',params:{slug:order.slug}}" class="py-1 px-2 bg-orange-500 text-white mr-4">
+                            <router-link :to="{name:'adminUserDetails',params:{slug:user.slug}}" class="py-1 px-2 bg-orange-500 text-white mr-4">
                                 <i class="fa-regular fa-eye"></i>
                             </router-link> 
-                            <!-- <button @click="deletechildcat(childcat.id,childcat.childCatName)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
+
+                            <button v-if="usersStatus =='unverified'" @click="deleteUsers(user.id,)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
                                 <i class="fa-regular fa-trash-can"></i>
-                            </button> -->
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -87,9 +87,9 @@
 
         <!-- more button  -->
 
-        <div v-if="allOrdersLength > showOrdersLength" @click="loadMore">
+        <div v-if="allUsersLength > showUsersLength" @click="loadMore">
             <div class="text-right pt-3 text-gray-500 capitalize font-semibold">
-                {{ allOrdersLength - showOrdersLength }} more orders
+                {{ allUsersLength - showUsersLength }} more orders
             </div>
             <div  class="flex justify-center my-4">
                 <button  class="uppercase bg-indigo-800 px-4 py-2 rounded-lg text-white
@@ -99,59 +99,86 @@
                 </button>
             </div>
         </div>
+
+        <NotificationVue v-if="notification.message" :notification="notification" />
     </div>
 </template>
 
 <script>
+
+import NotificationVue from '../NotificationAdmin.vue';
 export default{
+    components:[NotificationVue],
     data(){
         return {
-            orderStatus:'all',
-            showOrders:[],
-            allOrders: [],
-            allOrdersLength:'',
-            showOrdersLength:5,
+            usersStatus:'allUsers',
+            showUsers:{},
+            allUsers: [],
+            allUsersLength:'',
+            showUsersLength:10,
             btnMessage:"load more",
             searchUsersCount:'',
+
+            notification:{
+                type:'',
+                message:"",
+                deleteId:'',
+            },
         }
     },
     methods:{
 
         loadMore:function(){
             this.btnMessage = 'looding...'
-            this.showOrdersLength += 5;
-            this.showOrders = this.allOrders.slice(0, this.showOrdersLength);
+            this.showUsersLength += 5;
+            this.showUsers = this.allUsers.slice(0, this.showUsersLength);
             this.btnMessage = 'load more'
         },
 
-        getUsers(value){
-            this.orderStatus = value;
-            axios.get('/admin/all/orders/'+value)
+        getUsers(status){
+            this.usersStatus = status;
+            axios.get('/admin/users/'+ status)
             .then( res => {
-                this.allOrders = res.data;
-                this.showOrders = res.data.slice(0, this.showOrdersLength);
-                this.allOrdersLength = res.data.length;
+                this.allUsers = res.data;
+                this.showUsers = res.data.slice(0, this.showUsersLength);
+                this.allUsersLength = res.data.length;
             })
         },
+        
+        deleteUsers(id,name){
+            axios.delete('/admin/user/delete/' + id)
+            .then(res => {
+                this.showUsers = this.allUsers.filter(user => user.id !== id);
+            });
+        },
 
-        searchOrders(e){
+        searchUsers(e){
             let searchText = e.target.value.toLowerCase();
-            this.showOrders = this.allOrders.filter(
-                order => order.order_code.toLowerCase().includes(searchText)
+            
+            this.showUsers = this.allUsers.filter(
+                user => user.user_name.toLowerCase().includes(searchText)
             );
 
-            let count = this.showOrders.length;
+            let count = this.showUsers.length;
 
-            this.searchUsersCount = count > 1 ? count + ' Orders' : count + "  order";
-        }
+            this.searchUsersCount = count > 1 ? count + ' Users' : count + "  User";
+        },
     },
     created(){
-        axios.get('/admin/all/orders/' + 'allOrder')
+        axios.get('/admin/users/' + 'allUsers')
         .then(res =>{
-            this.allOrders = res.data;
-            this.showOrders = res.data.slice(0, this.showOrdersLength);
-            this.allOrdersLength = res.data.length;
-        })
+            this.allUsers = res.data;
+            this.showUsers = res.data.slice(0, this.showUsersLength);
+            this.allUsersLength = res.data.length;
+        });
     }
 }
 </script>
+<style scoped>
+    button#admin{
+        background-color: rgb(142, 11, 11);
+        color:white;
+        font-size: 16px;
+        font-weight: 500;
+    }
+</style>

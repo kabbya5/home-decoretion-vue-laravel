@@ -33,7 +33,7 @@
                         <th scope="row" class="py-2 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                             <div class="flex items-center">
                                 {{ cat.categoryName }}
-                                <img :src="cat.categoryImg" :alt="cat.categoryImgName" class="
+                                <img :src="cat.img" :alt="cat.categoryImgName" class="
                                     w-10 h-10 rounded-full mx-4"> 
                             </div>    
                         </th>
@@ -113,7 +113,7 @@ export default{
 
         },
         restore(id){
-            axios.post('/api/admin/category/restore/' + id)
+            axios.post('/admin/category/restore/' + id)
             .then(res =>{
                 this.notification={};
                 this.notification.message = "The category has been Restore Successfully";
@@ -122,7 +122,7 @@ export default{
             })
         },
         forceDelete(id){
-            axios.delete('/api/admin/category/force/delete/' + id)
+            axios.delete('/admin/category/force/delete/' + id)
             .then(res =>{
                 this.notification={};
                 this.notification.message = "The category delete has been  Successfully";
@@ -131,7 +131,7 @@ export default{
             })
         },
         reloadPage(){
-            axios.get('/api/admin/category/trashed')
+            axios.get('/admin/category/trashed')
             .then(res =>{
                 this.allTrashCategory = res.data[0];
                 this.allTrashCategoryCount = res.data[1];
@@ -141,7 +141,7 @@ export default{
         }
     },
     created(){
-        axios.get('/api/admin/category/trashed')
+        axios.get('/admin/category/trashed')
         .then(res =>{
             console.log(res.data);
             this.allTrashCategory = res.data[0];

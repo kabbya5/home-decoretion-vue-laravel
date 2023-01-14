@@ -14,7 +14,7 @@ class Category extends Model
 
     protected $data =['created_at'];
 
-    protected $appends = ['created_date'];
+    protected $appends = ['created_date','img'];
 
     protected $guarded = [];
 
@@ -28,5 +28,9 @@ class Category extends Model
 
     public function getCreatedDateAttribute(){
         return $this->created_at->diffForHumans();
+    }
+
+    public function getImgAttribute(){
+        return '/'.$this->categoryImg;
     }
 }

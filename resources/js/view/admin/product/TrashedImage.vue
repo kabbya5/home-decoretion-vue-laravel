@@ -37,7 +37,7 @@
                         <th scope="row" class="py-2 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                             <div class="flex items-center">
                                 {{ image.product_img_name }}
-                                <img :src="image.product_img" :alt="image.product_img_name" class="
+                                <img :src="image.img" :alt="image.product_img_name" class="
                                     w-10 h-10 rounded-full mx-4"> 
                             </div>
                             

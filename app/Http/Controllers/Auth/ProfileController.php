@@ -33,7 +33,7 @@ class ProfileController extends Controller
     }
     private function  handelRequest($request){
 
-        $input = $request->all();
+        $input = $request->except('created_date');
         $input['slug'] = str_slug($input['user_name']); 
         unset($input['old_img']);
 
@@ -51,14 +51,13 @@ class ProfileController extends Controller
             $img = Image::make($request->profile_img)->resize(150,200);
 
             $img->save(public_path('/media/user/') . $userImageName);
-            $input["profile_img"] = "/media/user/" . $userImageName;
+            $input["profile_img"] = "media/user/" . $userImageName;
         }
 
         return $input;
     }
 
     private function deleteold_img($old_img){
-        $old_img = ltrim($old_img,'/'); 
         if(file_exists($old_img)){
             unlink($old_img);
         }

@@ -14,7 +14,7 @@ class Subcategory extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['date',];
+    protected $appends = ['date','img'];
 
     public function category(){
         return $this->belongsTo(Category::class);
@@ -31,5 +31,9 @@ class Subcategory extends Model
     public function getDateAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function getImgAttribute(){
+        return '/'.$this->subcat_img;
     }
 }
