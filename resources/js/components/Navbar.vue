@@ -2,7 +2,7 @@
     <div class="w-full">
         <header class="mb-[90px] lg:mb-0">
             <!-- RESPONSIVE NAV  -->
-            <nav class="py-4 lg:hidden px-1 bg-white md:px-4 fixed top-0 z-50 w-full" id="top-nav">
+            <nav class="py-4 lg:hidden px-1 bg-white md:px-4 fixed top-0 z-10 w-full " id="top-nav">
                 <div class="flex-col justify-between items-center">
                     <div class="flex justify-between items-center">
                         <router-link :to="{name:'home'}" href="" class="flex items-center">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </nav>
-            <div v-if="responsiveNav" id="responsive-nav" class="fixed top-0 left-0 shadow-md bg-slate-200/60 z-50 w-full overflow-auto">
+            <div v-if="responsiveNav" id="responsive-nav" class="fixed z-[100] top-0 left-0 shadow-md bg-slate-200/60 z-50 w-full overflow-auto">
                 <div class="w-[330px] bg-white">
                     <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2 w-full text-right
                         transition duration-300 text-black hover:text-red-900"> 

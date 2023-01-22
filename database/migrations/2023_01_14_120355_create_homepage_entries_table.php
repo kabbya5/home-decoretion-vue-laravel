@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('homepage_entries', function (Blueprint $table) {
             $table->id();
-            $table->string('tag_name');
-            $table->string('slug');
-            $table->unsignedBigInteger('image_id')->nullable();
-            $table->integer('popularity');
+            $table->string('icon');
+            $table->string('title');
+            $table->string('text');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('homepage_entries');
     }
 };

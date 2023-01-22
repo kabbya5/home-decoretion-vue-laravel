@@ -29,24 +29,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
-
-
-Route::resource('/admin/product/image',ProductImageController::class)
-->only(['index']);
-
-Route::controller(ColorController::class)->group(function(){
-    Route::post('/admin/product/color/create','store');
-    Route::get('/admin/product/color','index');
-    Route::put('/admin/product/color/update/{color}','update');
-});
-
-Route::controller(ProductController::class)->group(function (){
-    Route::get('/admin/product/create','create');
-    Route::post('/admin/product/store','store');
-});
-
-Route::controller(SizeController::class)->group(function(){
-    Route::post('/admin/size/store','store');
-});
-

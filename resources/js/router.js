@@ -34,6 +34,7 @@ import PoductImage from './view/admin/product/PoductImage.vue';
 import TrashedImage from './view/admin/product/TrashedImage.vue';
 import Color from './view/admin/product/Color.vue';
 import Tag from './view/admin/Tag/TagIndex.vue';
+import ProductSize from './view/admin/product/SizeIndex.vue';
 
 // Site Setting
 import SiteSetting  from './view/admin/sitesetting/SiteSetting.vue';
@@ -179,6 +180,10 @@ const routes = [
   {
     path:'/admin/product/:slug', name:'adminPoductEdit',
     component:CreateProduct,
+  },
+  {
+    path:'/admin/product/size/index', name:'product-size',
+    component:ProductSize,
   },
   {
     path:'/admin/product/color/index', name:'adminProductColor',

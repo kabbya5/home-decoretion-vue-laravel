@@ -19,12 +19,14 @@ class TagController extends Controller
         $request->validate([
             'tag_name' => 'required|min:5|max:250',
             'image_id' => 'required|max:1',
+            'popularity' => 'integer',
         ]);
         
         Tag::create([
             'tag_name' => $request->tag_name,
             'slug'     => str_slug($request->tag_name),
             'image_id' => $request->image_id[0],
+            'popularity' => $request->popularity,
         ]);
 
     }
@@ -34,11 +36,13 @@ class TagController extends Controller
         $request->validate([
             'tag_name' => 'required|min:5|max:250|unique:tags,tag_name,'.$tag->id,
             'image_id' => 'required|max:1',
+            'popularity' => 'integer',
         ]);
         $tag->update([
             'tag_name' => $request->tag_name,
             'slug'     => str_slug($request->tag_name),
             'image_id' => $request->image_id[0],
+            'popularity' => $request->popularity,
         ]);
 
     }

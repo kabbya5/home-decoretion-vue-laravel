@@ -57,7 +57,7 @@
                                      {{ product.product_title }} 
                                 </router-link>
                                 <div class="flex mx-4">
-                                    <img v-for="img in product.images" :key="img.id"  :src="img.product_img" :alt="img.product_img_name"
+                                    <img v-for="img in product.images" :key="img.id"  :src="img.img" :alt="img.product_img_name"
                                     class="w-12 h-10 rounded-full -ml-2 transition duration-300 hover:scale-[1.2]">
                                 </div>
                             </div>   

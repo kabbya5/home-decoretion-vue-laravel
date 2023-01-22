@@ -30,7 +30,7 @@
                             {{ slider.sliderName }}
                         </th>
                         <td class="py-4 px-6">
-                            <img class="w-10 h-10" :src="slider.sliderImg" alt="{{ slider.sliderName }}">
+                            <img class="w-10 h-10" :src="'/' + slider.sliderImg" alt="{{ slider.sliderName }}">
                         </td>
                         <td class="py-4 px-6">
                             <button @click="publishedDateChange(slider.id,slider.published_at)" class="bg-green-800 text-white px-2 py-1 capitalize transition duration-300 hover:bg-red-500"
@@ -106,7 +106,7 @@
                                             :class="{'border-1 border-red-500':errors.sliderImg}"
                                             @change="onFileChange">
     
-                                        <img class="ml-2 w-14 h-14 rounded-full" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
+                                        <img class="ml-2 w-14 h-14 rounded-full" :src="slider.sliderImg ? slider.sliderImg :'/' + slider.oldImg" alt="">
                                         <input type="hidden" v-model="oldImg">
                                     </div>
                                     <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
@@ -133,7 +133,7 @@
                             <div class="my-4 bg-white w-full"> 
                                 <p class="text-center my-2"> preview</p>
                                 <div class="relative w-full">
-                                    <img class="block object-cover w-full h-600 brightness-75" :src="slider.sliderImg ? slider.sliderImg : slider.oldImg" alt="">
+                                    <img class="block object-cover w-full h-600 brightness-75" :src="slider.sliderImg ? slider.sliderImg : '/' + slider.oldImg" alt="">
                                     <div class="absolute flex flex-col justify-center items-center bottom-[50%] translate-y-[50%] z-10 text-white left-[20%]">
                                         <div class="ql-snow">
                                             <p class="ql-editor" v-html="contentHTML"></p>

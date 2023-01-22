@@ -32,13 +32,34 @@
                         <div class="col-span-2 md:col-span-1">
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="col-span-2 w-full h-80">
-                                    <img :src="product.image_url" :alt="product.product_title"
+                                    <img :src="'/'+product.image_url" :alt="product.product_title"
                                     class="w-full h-full object-cover">
                                 </div>
-                                <div v-for="image in productImages" :key="image.id" class="col-span-1 w-full h-48">
-                                    <img :src="image.product_img" :alt="image.product_img_name"
-                                    class="w-full h-full object-cove transition duration-400 hover:scale-[1.5]">
+                                <div v-if="product.video_link" class="col-span-2">
+                                    <button @click="productVideo =!productVideo" 
+                                        class="text-gray-900 font-semibold border-2 border-gray-200 rounded-md
+                                        px-4 py-2 trasiton duration-300 hover:bg-orange-700 hover:text-white"
+                                        :class="{'bg-orange-700 text-white':productVideo}"> 
+                                        Video
+                                    </button>
+                                    <button @click="productVideo =!productVideo" 
+                                        class="text-gray-900 font-semibold border-2 border-gray-200 rounded-md
+                                        px-4 py-2 trasiton duration-300 hover:bg-orange-700 hover:text-white"
+                                        :class="{'bg-orange-700 text-white':!productVideo}"> 
+                                        Images
+                                    </button>
                                 </div>
+                                <div class="col-span-2">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div v-if="productVideo" class="col-span-2 row-span-2">
+                                            <iframe width="100%" height="315" :src="product.video_link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                        </div>
+                                        <div v-else v-for="image in productImages" :key="image.id" class="col-span-1 w-full h-48">
+                                            <img :src="image.img" :alt="image.product_img_name"
+                                            class="w-full h-full object-cove transition duration-400 hover:scale-[1.5]">
+                                        </div>
+                                    </div>
+                                </div>   
                             </div>  
                         </div>
                         <div class="col-span-2 md:col-span-1 px-4">
@@ -219,7 +240,7 @@
                                        </div>
                                     </div>
                                     <div class="">
-                                        <img class="w-20 h-20 rounded-md" :src="resentView.product.image_url" :alt="resentView.product_title">
+                                        <img class="w-20 h-20 rounded-md" :src="'/'+resentView.product.image_url" :alt="resentView.product_title">
                                     </div>
                                 </div>  
                             </div>
@@ -238,9 +259,11 @@ export default {
     components:{NotificationAdminVue},
   data: function() {
     return {
+        productVideo:false,
         product:{ },
         relatedProducts:[],
         returnPolicy:'',
+
         showReturnPolicy:false,
         resentViewProducts:[],
         productImages:'',
@@ -295,8 +318,11 @@ export default {
         this.relatedProducts = res.data['relatedProducts'];
         this.returnPolicy  = res.data['returnPolicy'];
         this.resentViewProducts = res.data['resentView'];
-
-    })
+        
+        if(this.product.video_link){
+            this.productVideo = true;
+        }
+    });
   }
 };
 

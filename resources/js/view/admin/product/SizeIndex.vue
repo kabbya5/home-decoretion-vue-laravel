@@ -11,10 +11,10 @@
                 <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                     <tr>
                         <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
-                           color Name
+                           size title
                         </th>
                         <th scope="col" class="py-3 px-6">
-                           color Code
+                           size extary TK
                         </th>
                         <th scope="col" class="py-3 px-6">
                            Created At
@@ -25,21 +25,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="color in colors" :key="color.id" class="border-b border-gray-200 dark:border-gray-700">
+                    <tr v-for="size in sizes" :key="size.id" class="border-b border-gray-200 dark:border-gray-700">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                            {{ color.name }}
+                            {{ size.size_title }}
                         </th>
                         <td class="py-4 px-6">
-                            {{ color.colorCode }}
+                            {{ size.size_extra_payment }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ color.date }}
+                            {{ size.created_date }}
                         </td>
                         <td class="py-4 px-6 bg-gray-50 dark:bg-gray-800">
-                            <button @click="editModal(color)" class="py-1 px-2 bg-orange-500 text-white mr-4">
+                            <button @click="editModal(size)" class="py-1 px-2 bg-orange-500 text-white mr-4">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </button> 
-                            <button @click="deletecolor(color.id,color.colorName)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
+                            <button @click="deletesize(size.id,size.sizeName)" class="py-1 px-2 bg-red-700 text-white mr-4"> 
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </td>
@@ -50,9 +50,9 @@
         <!-- more button  -->
         <div @click="loadMore">
             <div class="text-right pt-3 text-gray-500 capitalize font-semibold">
-                {{ colorsCount }}
+                {{ sizesCount }}
             </div>
-            <div v-if="length <= colorLength" class="flex justify-center my-4">
+            <div v-if="length <= sizeLength" class="flex justify-center my-4">
                 <button  class="uppercase bg-indigo-800 px-4 py-2 rounded-lg text-white
                 transition duration-300 hover:bg-indigo-600">
                     {{ btnMessage }}
@@ -68,23 +68,34 @@
                     <button @click='modal=!modal' class="w-full text-right block">
                         <i class="fa-solid fa-xmark border-gray-400 border-2 py-3 px-4  rounded-full transition duration hover:text-white hover:bg-black"></i>
                     </button>
-                    <form @submit.prevent="formCreate ?createcolor() : updatecolor()" enctype="multipart/form-data">
-                        <div class="flex flex-col">
-                            <label for="name" class="capitalize px-2 my-2 text-gray-600"> color name </label>
-                            <input type="text" v-model="color.name" :class="{'border-red-500':errors.name}" 
-                            class="px-2 py-2 border-2 border-gray-200 focus:outline-none" placeholder="Color Name">
-                            <p v-if="errors.name" class="my-2 color-red-500"> {{ errors.name[0] }}</p>
-
+                    <form @submit.prevent="formCreate ?createSize() : updateSize()" enctype="multipart/form-data">
+                        <div class="flex flex-col my-4">
+                            <div class="flex items-center">
+                                <label for="title" class="text-gray-500 font-semibold px-1 my-2"> Size Title : </label>
+                                <i class="fa-regular fa-star text-red-500 my-2"></i>
+                            </div>
+                            <textarea  v-model="size.size_title"
+                                class="px-2 py-1 border-2 border-gray-200 focus:outline-none"
+                                :class="{'border-red-500':errors.size_title}"> 
+                            </textarea>
+                            <p v-if="errors.size_title" class="px-1 text-red-500"> {{errors.size_title[0]}}</p>
                         </div>
                         <div class="flex flex-col my-4">
-                            <label for="color Code" class="capitalize px-2 my-2 text-gray-600"> color code </label>
-                            <input type="text" v-model="color.colorCode" 
-                            class="px-2 py-2 border-2 border-gray-200 focus:outline-none" placeholder="Color Name">    
+                            <div class="flex items-center">
+                                <label for="title" class="text-gray-500 font-semibold px-1 my-2"> For extra in taka(intial:0) : </label>
+                                <i class="fa-regular fa-star text-red-500 my-2"></i>
+                            </div>
+                            <input type="text"  v-model="size.size_extra_payment" placeholder="extar payment"
+                                class="px-2 py-1 border-2 border-gray-200 focus:outline-none"
+                                :class="{'border-red-500':errors.size_extra_payment}"> 
+                            <p v-if="errors.size_extra_payment" class="px-1 text-red-500"> {{errors.size_extra_payment[0]}}</p>
                         </div>
-
-                        <button class="px-4 py-1 uppercase text-white bg-blue-800 transition duration-300 rounded-md hover:bg-blue-600">
-                            {{ formCreate ?'Create Color':'Update Color' }}
-                        </button>
+                        
+                       <div class="flex justify-center">
+                            <button class="py-1 px-4 text-white bg-cyan-500 transition duration rounded-md hover:bg-cyan-800">
+                                {{ formCreate?"create size":"update size" }}
+                            </button>
+                       </div>
                     </form>
                 </div>
             </div>
@@ -98,18 +109,18 @@ export default{
     data(){
         return{
             modal:false,
-            colors:[],
-            colorsCount:'',
+            sizes:[],
+            sizesCount:'',
             length:5,
-            allColors: [],
-            colorLength:'',
+            allsizes: [],
+            sizeLength:'',
             btnMessage:"load more",
             
             // form data 
             content:'',
-            color:{
-                name:'',
-                colorCode:'',
+            size:{
+                size_title:'',
+                size_extra_payment:'',
             }, 
             errors:{},
             formCreate:true,
@@ -123,74 +134,73 @@ export default{
     methods: {
         modalCreate(){
             this.errors = this.errors ? '': this.errors;
-            this.color = {},
+            this.size = {},
             this.modal = !this.modal;
             this.formCreate = true;
         },
         loadMore:function(){
             this.btnMessage = 'looding...'
             this.length += 5;
-            this.colors= this.allColors.slice(0, this.length);
+            this.sizes= this.allsizes.slice(0, this.length);
             this.btnMessage = 'load more'
         },
-        createcolor(){
-            axios.post('/api/admin/product/color/create',this.color)
+        createSize(){
+            axios.post('/admin/size/store',this.size)
             .then(response => {
                 this.notification.type = 'success',
-                this.notification.message = 'color has been Created SuccessFully';
-                this.reloadcolor();
+                this.notification.message = 'size has been Created SuccessFully';
+                this.reloadsize();
                 this.modal = !this.modal;
             })
             .catch(errors => {
                 this.errors = errors.response.data.errors;
             });
         },
-        editModal(color){
+        editModal(size){
+            
             this.errors = this.errors ? '': this.errors;
             this.modal = !this.modal;
             this.formCreate = false;
-            this.color = {
-                id: color.id,
-                name:color.name,
-                colorCode:color.colorCode,
-                
-            };
+            this.size.id = size.id;
+            this.size.size_title = size.size_title;
+            this.size.size_extra_payment = size.size_extra_payment;
         },
-        updatecolor(){
-            axios.put('/api/admin/product/color/update/' + this.color.id,this.color)
+        updateSize(){
+            axios.put('/admin/size/update/'+this.size.id, this.size)
             .then(response => {
                 
                 this.notification.type = 'edit',
-                this.notification.message = 'Color has been updated SuccessFully';
-                this.reloadcolor();
+                this.notification.message = 'size has been updated SuccessFully';
+                this.reloadsize();
                 this.modal = !this.modal;
             
             }).catch(errors => {
                 this.errors = errors.response.data.errors;
             });
         },
-        reloadcolor(){
-            axios.get('/api/admin/product/color')
+        deletesize(id,name){
+            this.notification.type = 'force',
+                this.notification.message = 'size has been updated SuccessFully';
+        },
+        reloadsize(){
+            axios.get('/admin/size/index')
             .then(res =>{
-                this.notification.deleteId = null;
-                this.notification.type = 'success';
-                this.notification.message = 'The color has been deleted successsfully';
-                this.allColors = res.data[0];
-                this.colors= res.data[0].slice(0, this.length);
-                this.colorsCount = res.data[1];
-                this.colorLength = res.data[0].length;
-            })
+                this.allsizes = res.data;
+                this.sizes= res.data.slice(0, this.length);
+                this.sizesCount = res.data.length +' sizes';
+                this.sizeLength = res.data.length;
+            });
         },          
     },
     created(){
-        axios.get('/admin/product/color')
+        axios.get('/admin/size/index')
         .then(res =>{
-            this.allColors = res.data[0];
-            this.colors= res.data[0].slice(0, this.length);
-            this.colorsCount = res.data[1];
-            this.colorLength = res.data[0].length;
+            this.allsizes = res.data;
+            this.sizes= res.data.slice(0, this.length);
+            this.sizesCount = res.data.length +' sizes';
+            this.sizeLength = res.data.length;
         });
-        document.title = 'Admin/color'
+        document.title = 'Admin/Size'
     },
 }
 </script>

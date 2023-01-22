@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\ContactPageSettingController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DeliverySettingController;
+use App\Http\Controllers\Backend\HomepageSettingController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductImageController;
 use App\Http\Controllers\Backend\SliderController;
@@ -115,6 +116,12 @@ function(){
   });
 
   //page setting 
+  
+  Route::controller(HomepageSettingController::class)->group(function(){
+    Route::get('/hompage/entry','indexHomepageEntry');
+    Route::post('/hompage/entry/create','cratetHomePageEntry');
+    ROute::put('/hompage/entry/update/{homepage_entry}','updateHomePageEntry');
+  });
   Route::controller(ContactPageSettingController::class)->group(function(){
     Route::post('/contact/page/settings','store');
     Route::put('/contact/page/settings/{contactPageSetting}','update');
@@ -133,12 +140,19 @@ function(){
   Route::get('/product/trashed',[ProductController::class,'trashed']);
   Route::delete('/product/force/delete/{slug}',[ProductController::class,'forceDelete']);
 
+  // colors 
   Route::controller(ColorController::class)->group(function(){
     Route::post('/product/color/create','store');
     Route::get('/product/color','index');
     Route::put('/product/color/update/{color}','update');
   });
-  Route::post('/size/store',[SizeController::class,'store']);
+
+  // Sizes 
+  Route::controller(SizeController::class)->group(function(){
+    Route::get('/size/index','index');
+    Route::put('/size/update/{size}','update');
+    Route::post('/size/store','store');
+  });
 
   // Tag 
 

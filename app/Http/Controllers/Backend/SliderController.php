@@ -51,7 +51,7 @@ class SliderController extends Controller
             $img = Image::make($request->sliderImg)->resize(900,700);
 
             $img->save(public_path('/media/slider/') . $sliderImageName);
-            $input["sliderImg"] = "/media/slider/" . $sliderImageName;
+            $input["sliderImg"] = "media/slider/" . $sliderImageName;
         }
         $input['slug'] = $input['sliderName'];
 
@@ -59,7 +59,6 @@ class SliderController extends Controller
     }
 
     private function deleteOldImg($oldImg){
-        $oldImg = ltrim($oldImg,'/'); 
         unlink($oldImg);
     }
 

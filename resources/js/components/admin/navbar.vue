@@ -64,6 +64,13 @@
                             </li>
                             <li class="w-full  py-1 transition my-1
                                 duration-300 hover:bg-gray-300">
+                                <router-link to="/admin/product/size/index" class="py-1 block uppercase text-gray-800 w-full">
+                                    <i class="fa-solid fa-sitemap text-lg px-2"></i>
+                                    Size
+                                </router-link>
+                            </li>
+                            <li class="w-full  py-1 transition my-1
+                                duration-300 hover:bg-gray-300">
                                 <router-link to="/admin/product/color/index" class="py-1 block uppercase text-gray-800 w-full">
                                     <i class="fa-solid fa-palette text-lg px-2"></i>
                                     color

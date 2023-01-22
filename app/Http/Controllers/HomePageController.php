@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\HomepageEntry;
 use App\Models\Product;
 use App\Models\Slider;
 use Carbon\Carbon;
+use App\Models\Tag;
 
 
 class HomePageController extends Controller
 {
     public function getCategory($width){
-        $all_categories = Category::orderBy('viewCount','DESC')->get();
+        $all_categories = Category::orderBy('viewCount','DESC')->with('products')->get();
         $firstCategory = $all_categories[0];
         $categories = $all_categories->skip(1)->all();
         if($width < 768 || $width >= 1280){
@@ -34,12 +36,17 @@ class HomePageController extends Controller
         $sliders = Slider::where('published_at','<=', Carbon::now())->get();
 
         $resentPrdouct = Product::with('category','subcategory','childcategory','images')->where('published_at','<=', Carbon::now())->latest()->take(12)->get();
+
+        $entrySection = HomepageEntry::orderBy('popularity','DESC')->get();
+
+        $popularTags = Tag::Orderby('popularity','DESC')->with('image','products')->limit(12)->get();
        
         return response()->json([
            'sliders' => $sliders,
            'resentProducts' => $resentPrdouct,
            'bestWeekSaleproducts' => $weekSaleProduct,
-
+           'entrySection' => $entrySection,
+           'popularTags' => $popularTags,
         ]);
     } 
 }

@@ -7,7 +7,7 @@
                     @mouseleave="(show_product_cart_view_button=false)">
                     <div class="h-[300px] w-full relative">
                         <router-link :to="{name:'product-detail',params:{slug:product.slug}}"> 
-                            <img v-if="product.image_url" class="block object-cover h-full w-full" :src="product.image_url" :alt="product.product_title">
+                            <img v-if="product.image_url" class="block object-cover h-full w-full" :src=" '/' + product.image_url" :alt="product.product_title">
                         </router-link>
                     
                         <!-- produt-status -->

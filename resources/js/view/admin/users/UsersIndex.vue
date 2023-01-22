@@ -62,7 +62,7 @@
                         </td>
                         <td class="py-4 px-6">
                             <button :id="user.is_admin" class="text-white px-2 py-1 rounded-md bg-green-800 w-full capitalize">
-                                {{ user.is_admin ==1 ?'admin' : 'user'}}
+                                {{ user.is_admin =='admin' ?'admin' : 'user'}}
                             </button>
                             
                         </td>

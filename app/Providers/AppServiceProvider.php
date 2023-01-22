@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\SiteSetting;
+use App\View\Composers\HomepageComposer;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,7 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $site_setting = SiteSetting::first();
-            view()->share('site_setting',$site_setting);
+        view()->composer(['layouts.app','adminbashboard'],HomepageComposer::class);
     }
 }

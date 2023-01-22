@@ -10,10 +10,41 @@
 
         <div class="product-form my-4">
             <form @submit.prevent="createForm ?createProduct():updateProduct()">
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-4">
-                         <!-- price -->
-                        <div class="flex flex-col w-full">
+                <div class="grid grid-cols-4 gap-4">
+                    <!-- product name  -->
+                    <div class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col">
+                            <label for="product_img" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
+                                product name
+                                <i class="fa-regular fa-star text-red-500"></i>
+                            </label>
+                            <input type="text" v-model="product.product_title" placeholder="Product Code"
+                            class="py-2 px-4 border-2 border-gray-200 focus:outline-none"
+                            :class="{'border-red-500 border-1':errors.product_title}">
+
+                            <p class="text-red-500" v-if="errors.product_title">{{ errors.product_title[0] }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- product code  -->
+                    <div class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col">
+                            <label for="product_img" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
+                                product code
+                                <i class="fa-regular fa-star text-red-500"></i>
+                            </label>
+                            <input type="text" v-model="product.product_code" placeholder="Product Code"
+                            class="py-2 px-4 border-2 border-gray-200 focus:outline-none"
+                            :class="{'border-red-500 border-1':errors.product_code}">
+
+                            <p class="text-red-500" v-if="errors.product_code">{{ errors.product_code[0] }}</p>
+                        </div>
+                    </div>
+
+                    <!-- price -->
+
+                    <div class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col w-full ">
                             <label for="product_img" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
                                 regular price  
                                 <i class="fa-regular fa-star text-red-500"></i>
@@ -24,15 +55,44 @@
                             
                             <p v-if="errors.price" class="text-red-500"> {{ errors.price[0] }} </p>
                         </div>
+                    </div>
 
+                    <!-- discount price  -->
+                    <div class="col-span-2 lg:col-span-1">
                         <div class="flex flex-col w-full">
                             <label for="discount_price" class="my-4 text-slate-500 px-2 capitalize font-semibold"> discount price <span v-if="product.discount_percentence" class="ml-4 text-orange-500"> {{ product.discount_percentence }}% discount  </span>  </label>
                             <input type="text" v-model="product.discount_price" placeholder="discount price"
                             class="px-2 py-2 border-gray-200 border-2 focus:outline-none">
                         </div>
-                        
+                    </div>
 
-                        <div class="flex flex-col my-2">
+                    <!-- quantity -->
+                    <div class="col-span-2 lg:col-span-1">  
+                        <div class="flex flex-col w-full">
+                            <label for="product_img" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
+                                Prouduct quantity
+                                <i class="fa-regular fa-star text-red-500"></i>
+                            </label>
+                            <input type="text" v-model="product.quantity" placeholder="quantity"
+                            class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
+                            :class="{'border-red-500':errors.quantity}">
+                            
+                            <p v-if="errors.quantity" class="text-red-500"> {{ errors.quantity[0] }} </p>
+                        </div>    
+                    </div>
+
+                    <!-- weight  -->
+                    <div class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col w-full">
+                            <label for="weight" class="my-4 text-slate-500 px-2 capitalize font-semibold"> product weight </label>
+                            <input type="text" v-model="product.weight" placeholder="weight"
+                            class="px-2 py-2 border-gray-200 border-2 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- category  -->
+                    <div class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col">
                             <div class="text-gray-500 capitalize my-4 px-1"> 
                                 Select Category: 
                                 <span v-if="selectItem.category" class="px-2 text-gray-500 font-bold"> {{ selectItem.category }}  </span>
@@ -48,10 +108,12 @@
                             </select>
                             <p v-if="errors.category_id" class="text-red-500"> {{ errors.category_id[0] }}  </p>
                         </div>
-
-                        <div v-if="subcategories" class="flex flex-col">
+                    </div>
+                    <!-- subcategory  -->
+                    <div v-if="subcategories" class="col-span-2 lg:col-span-1">
+                        <div  class="flex flex-col">
                             <div v-if="(subcategories.length > 0)" class="w-full">
-                                    <div class="text-gray-500 capitalize my-4 px-1"> 
+                                <div class="text-gray-500 capitalize my-4 px-1"> 
                                     Select subcategory: <span v-if="selectItem.subcat" class="px-2 text-gray-500 font-bold"> {{ selectItem.subcat }}  </span>
                                 </div>
                                 <select  @change="handleChange" v-model="product.subcategory_id" class="py-2 border-2 border-gray-200 w-full text-gray-500 focus:outline-none">
@@ -63,8 +125,10 @@
                                 </select>
                             </div> 
                         </div>
-
-                        <div v-if="childcategories" class="flex flex-col">
+                    </div>
+                    <!-- childcategory  -->
+                    <div v-if="childcategories" class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col">
                             <div v-if="childcategories.length > 0">
                                 <div class="text-gray-500 capitalize my-4 px-1"> 
                                     Select childcategory: <span v-if="selectItem.childcat" class="px-2 text-gray-500 font-bold"> {{ selectItem.childcat }}  </span>
@@ -78,9 +142,10 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- brand  -->
-
+                    <!-- brand  -->
+                    <div class="col-span-2 lg:col-span-1">
                         <div class="flex flex-col">
                             <div class="text-gray-500 capitalize my-4 px-1"> 
                                 Selected brand: <span v-if="selectItem.brand" class="px-2 text-gray-500 font-bold"> {{ selectItem.brand }}  </span>
@@ -93,9 +158,10 @@
                             
                             </select>
                         </div>
+                    </div>
 
-                        <!-- Slider  -->
-
+                    <!-- Slider  -->
+                    <div class="col-span-2 lg:col-span-1">
                         <div class="flex flex-col">
                             <div class="text-gray-500 capitalize my-4 px-1"> 
                                 Selected slider: <span v-if="selectItem.slider" class="px-2 text-gray-500 font-bold"> {{ selectItem.slider}}  </span>
@@ -108,9 +174,9 @@
                             
                             </select>
                         </div>
-                        
-                        <!-- color  -->
-
+                    </div>
+                    <!-- color  -->
+                    <div class="col-span-2 lg:col-span-1">
                         <div class="flex flex-col">
                             <div class="text-gray-500 capitalize my-4 px-1 flex justify-between">
                                 <div class="flex items-center">
@@ -132,61 +198,43 @@
                             </Multiselect>
                             <p v-if="errors.colors" class="text-red-500"> {{ errors.colors[0] }} </p>
                         </div>
+                    </div>
 
-                        <!-- quantity and weight  -->
-
-                        <div class="flex flex-col items-center my-4">
-                            <div class="flex flex-col w-full">
-                                <label for="product_img" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
-                                    Prouduct quantity
-                                    <i class="fa-regular fa-star text-red-500"></i>
-                                </label>
-                                <input type="text" v-model="product.quantity" placeholder="quantity"
-                                class="px-2 py-2 border-2 border-gray-200 focus:outline-none"
-                                :class="{'border-red-500':errors.quantity}">
-                                
-                                <p v-if="errors.quantity" class="text-red-500"> {{ errors.quantity[0] }} </p>
+                    <!-- size  -->
+                    <div class="col-span-2 lg:col-span-1">
+                        <div class="flex flex-col">
+                            <div class="text-gray-500 capitalize my-4 px-1 flex justify-between">
+                                <div class="flex items-center">
+                                    <p class="text-slate-600 font-bold capitalzie"> select size: </p> 
+                                    <i class="fa-regular fa-star mx-2 text-orange-500"></i>  
+                                </div>
+                                <i @click="createSize" class="fa-solid fa-plus px-4 text-cyan-500" title="create size"></i>
                             </div>
+                            <Multiselect class="w-[100%]"
+                                v-model="product.sizes"
+                                :options="sizesOption"
+                                mode="tags"
+                                placeholder="Select product size"
+                                track-by="name"
+                                label="name"
+                                :close-on-select="false"
+                                :searchable="true"
+                            >
+                            </Multiselect>
+                        </div>
+                    </div>
 
-                            <div class="flex flex-col w-full">
-                                <label for="weight" class="my-4 text-slate-500 px-2 capitalize font-semibold"> product weight </label>
-                                <input type="text" v-model="product.weight" placeholder="weight"
-                                class="px-2 py-2 border-gray-200 border-2 focus:outline-none">
-                            </div>
-                        </div>
-                        
-                        <div class="flex my-4 items-center">
-                            <input type="checkbox" v-model="product.is_furniture" id="is_furniture" true-value="1"  false-value="0">
-                            <label for="is_furniture" class="px-4 font-bold text-slate-600 capitalize"> is furniture</label>
-                        </div>
-
-                        <div class="flex my-4 items-center">
-                            <input type="checkbox" v-model="product.free_shipping" id="free_shipping" true-value="1"  false-value="0">
-                            <label for="free_shipping" class="px-4 font-bold text-slate-600 capitalize"> Free shipping </label>
-                        </div>
-                        <div class="flex my-4 items-center">
-                            <input type="checkbox" v-model="product.top_rated" id="top_rated" true-value="1"  false-value="0">
-                            <label for="top_rated" class="px-4 font-bold text-slate-600 capitalize">top rated </label>
-                        </div>
-                        <div class="flex my-4 items-center">
-                            <input type="checkbox" v-model="product.is_weekly_sale" id="is_weekly_sale" true-value="1"  false-value="0">
-                            <label for="is_weekly_sale" class="px-4 font-bold text-slate-600 capitalize">week sale </label>
-                        </div>
-
-                        <div class="flex flex-col my-4">
-                            <label  class="px-2 font-bold text-slate-600 capitalize"> product published : {{product.published}} </label>
-                        </div>
-
-                        <!-- published_at  -->
-
+                    <!-- Publish Date  -->
+                    <div class="col-span-2 lg:col-span-1">
                         <div class="flex flex-col my-4">
                             <label for="published_at" class="px-2 font-bold text-slate-600 capitalize"> Publish Now or Sate Upcomming </label>
+                            <span v-if="product.published"> {{product.published}}</span>
                             <input class="my-3 border-2 border-cyan-200 px-1 py-2 focus:ouline-none" type="date" v-model="product.published_at" />
-
                         </div>
+                    </div>
 
-
-
+                    <!-- Vide link  -->
+                    <div class="col-span-2 lg:col-span-1">
                         <div class="flex flex-col my-4">
                             <label for="published_at" class="px-2 font-bold text-slate-600 capitalize"> Product Video Link </label>
                             <input class="my-3 border-2 border-cyan-200 px-1 py-2 focus:ouline-none" type="text"
@@ -194,21 +242,33 @@
 
                         </div>
                     </div>
-                    <div class="col-span-8">
-                        <div class="flex flex-col my-2">
-                            <label for="product_img" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
-                                product name
-                                <i class="fa-regular fa-star text-red-500"></i>
-                            </label>
-                            <input type="text" v-model="product.product_title" placeholder="Product Name"
-                            class="py-2 px-4 border-2 border-gray-200 focus:outline-none"
-                            :class="{'border-red-500 border-1':errors.product_title}">
 
-                            <p class="text-red-500" v-if="errors.product_title">{{ errors.product_title[0] }}</p>
+                    <!-- status  -->
+                    <div class="col-span-2 lg:col-span-3">
+                        <div class="flex items-center justify-center my-10">
+                            <div class="flex my-4 items-center">
+                                <input type="checkbox" v-model="product.is_furniture" id="is_furniture" true-value="1"  false-value="0">
+                                <label for="is_furniture" class="px-4 font-bold text-slate-600 capitalize"> is furniture</label>
+                            </div>
+    
+                            <div class="flex my-4 items-center">
+                                <input type="checkbox" v-model="product.free_shipping" id="free_shipping" true-value="1"  false-value="0">
+                                <label for="free_shipping" class="px-4 font-bold text-slate-600 capitalize"> Free shipping </label>
+                            </div>
+                            <div class="flex my-4 items-center">
+                                <input type="checkbox" v-model="product.top_rated" id="top_rated" true-value="1"  false-value="0">
+                                <label for="top_rated" class="px-4 font-bold text-slate-600 capitalize">top rated </label>
+                            </div>
+                            <div class="flex my-4 items-center">
+                                <input type="checkbox" v-model="product.is_weekly_sale" id="is_weekly_sale" true-value="1"  false-value="0">
+                                <label for="is_weekly_sale" class="px-4 font-bold text-slate-600 capitalize">week sale </label>
+                            </div>
                         </div>
+                        
+                    </div>
 
-                        <!-- product image  -->
-
+                    <!-- product image  -->
+                    <div class="col-span-2">
                         <div class="flex flex-col my-2">
                             <label for="product_img" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
                                 product image
@@ -245,45 +305,11 @@
                             </Multiselect>
                             <p v-if="errors.images" class="text-red-500"> {{ errors.images[0] }}</p>
                         </div>
+                    </div>
 
-
-                        <div class="flex flex-col my-4">
-                            <label for="short_text" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
-                                product short text
-                                <i class="fa-regular fa-star text-red-500"></i>
-                            </label>
-
-                            <textarea v-model="product.short_text"  cols="30" rows="3"
-                                class="px-4 py-4 border-2 border-gray-200 focus:outline-none"
-                                :class="{'order-1 border-red-500':errors.short_text}">
-
-                            </textarea>
-                            
-                        </div>
-                        <p v-if="errors.short_text" class="text-red-500"> {{errors.short_text[0]}} </p>
-
-                        <!-- product description  -->
-
-                        <div class="flex flex-col my-4">
-                            <label for="text" class="my-4 text-slate-500 px-4 capitalize font-semibold">
-                                 product description 
-                                 <i class="fa-regular fa-star text-orange-500"></i>
-                                </label>
-                                <QuillEditor v-model:content="productDetails" contentType="html" toolbar="full" >
-                                    
-                                </QuillEditor>
-                                
-                        </div>
-
-                        <div v-if="!createForm" class="w-full">
-                            <div class="ql-snow">
-                                <p class="ql-editor" v-html="productDetails"></p>
-                            </div>
-                        </div>
-
-                        <!-- tags -->
-
-                        <div class="flex flex-col my-4">
+                    <!-- tags -->
+                    <div class="col-span-2">
+                        <div class="flex flex-col my-2">
                             <label for="tags" class="my-4 text-slate-500 px-2 capitalize font-semibold"> 
                                 Select Tags  
                                 <i class="fa-regular fa-star text-red-500"></i>
@@ -301,37 +327,54 @@
                             </Multiselect>
                             <p v-if="errors.tags" class="text-red-500"> {{ errors.tags[0] }}</p>
                         </div>
-
-                        <!-- size  -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-500 capitalize my-4 px-1 flex justify-between">
-                                <div class="flex items-center">
-                                    <p class="text-slate-600 font-bold capitalzie"> select size: </p> 
-                                    <i class="fa-regular fa-star mx-2 text-orange-500"></i>  
-                                </div>
-                                <i @click="createSize" class="fa-solid fa-plus px-4 text-cyan-500" title="create size"></i>
+                    </div>
+                    <!-- product short text  -->
+                    <div class="col-span-4">
+                        <div>
+                            <div class="flex flex-col my-4">
+                                <label for="short_text" class="my-4 text-slate-500 px-4 capitalize font-semibold"> 
+                                    product short text
+                                    <i class="fa-regular fa-star text-red-500"></i>
+                                </label>
+    
+                                <textarea v-model="product.short_text"  cols="30" rows="3"
+                                    class="px-4 py-4 border-2 border-gray-200 focus:outline-none"
+                                    :class="{'order-1 border-red-500':errors.short_text}">
+    
+                                </textarea>
+                                
                             </div>
-                            <Multiselect class="w-[100%]"
-                                v-model="product.sizes"
-                                :options="sizesOption"
-                                mode="tags"
-                                placeholder="Select product size"
-                                track-by="name"
-                                label="name"
-                                :close-on-select="false"
-                                :searchable="true"
-                            >
-                            </Multiselect>
+                            <p v-if="errors.short_text" class="text-red-500"> {{errors.short_text[0]}} </p>    
+                        </div>
+                    </div>
+
+                    <!-- product description  -->
+                    <div class="col-span-4">
+                        <div class="flex flex-col my-4">
+                            <label for="text" class="my-4 text-slate-500 px-4 capitalize font-semibold">
+                                 product description 
+                                 <i class="fa-regular fa-star text-orange-500"></i>
+                                </label>
+                                <QuillEditor v-model:content="productDetails" contentType="html" toolbar="full" >
+                                    
+                                </QuillEditor>
+                                
                         </div>
 
-
+                        <div v-if="!createForm" class="w-full">
+                            <div class="ql-snow">
+                                <p class="ql-editor" v-html="productDetails"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="flex justify-end my-4">
-                    <button type="submit" class="px-4 py-2 rounded-md bg-cyan-500 text-white font-bold tansition duration-300 hover:bg-cyan-600 uppercase ">
-                        {{ createForm ? 'Create Product' : 'update product' }} 
-                    </button>
-                </div>                
+                <div class="my-8">
+                    <div class="flex justify-center">
+                        <button class="py-1 px-4 text-white bg-cyan-500 transition duration rounded-md hover:bg-cyan-800">
+                            {{createForm?"create product" :"update product"}}
+                        </button>
+                   </div>
+                </div>               
             </form>
         </div>
 
@@ -470,6 +513,7 @@ export default ({
         createProduct(){
             axios.post('/admin/product/store',{
                 product_title : this.product.product_title,
+                product_code:this.product.product_code,
                 category_id: this.product.category_id,
                 subcategory_id: this.product.subcategory_id,
                 childcategory_id : this.product.childcategory_id,
@@ -506,6 +550,7 @@ export default ({
         updateProduct(){
             axios.put('/admin/product/update/'+this.$route.params.slug,{
                 product_title : this.product.product_title,
+                product_code:this.product.product_code,
                 category_id: this.product.category_id,
                 subcategory_id: this.product.subcategory_id,
                 childcategory_id : this.product.childcategory_id,
@@ -531,7 +576,7 @@ export default ({
             .then(res=>{
                 this.notification.type = 'success';
                 this.notification.message = 'The product has been updated';
-                this.createForm = false;
+                this.$router.push({name:'adminProductIndex'});
             })
             .catch(errors =>{
                 this.errors = errors.response.data.errors;
@@ -647,7 +692,7 @@ export default ({
 
         axios.get('/admin/product/create')
         .then(res=>{
-            this.createForm = false;
+            this.createForm = true;
             this.categories = res.data[0];
             this.brands = res.data[1];
             this.sliders = res.data[2];
@@ -663,7 +708,7 @@ export default ({
                     {
                         value:img.id,
                         name:img.product_img_name,
-                        image:img.product_img,
+                        image:img.img,
                     }
                 )
             });
@@ -689,6 +734,7 @@ export default ({
         if(this.$route.params.slug){
             axios.get('/admin/product/edit/' + this.$route.params.slug)
             .then(res =>{
+                this.createForm = false;
                 this.product = res.data.product;
                 this.productDetails = this.product.description;
                 this.product.imgs = res.data.product_images;

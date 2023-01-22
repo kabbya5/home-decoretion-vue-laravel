@@ -36,7 +36,7 @@
                             {{ tag.tag_name }}
                         </th>
                         <td class="py-4 px-6">
-                            <img v-if="tag.image" class="w-10 h-10" :src="tag.image.product_img" :alt="tag.tag_name">
+                            <img v-if="tag.image" class="w-10 h-10" :src="tag.image.img" :alt="tag.tag_name">
                             <button v-else @click="editModal(tag)" class="py-1 px-2 bg-orange-500 text-white mr-4">
                                 <i class="fa-regular fa-pen-to-square"></i> 
                             </button> 
@@ -80,7 +80,7 @@
                     <form @submit.prevent="formCreate ?createtag() : updateTag()">
                         <div class="flex flex-col w-full">
                             <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Uniqe Tag Name </label>
-                            <input type="text" placeholder="tag Name"
+                            <input type="text" placeholder="Tag Name"
                             :class="{'border-1 border-red-500':errors.tag_name}"
                             class="my-2 px-4 py-2 border-2 focus:outline-none
                                 focus:border-gray-300 w-full" v-model="tag.tag_name">
@@ -120,6 +120,16 @@
                                 </template>
                             </Multiselect>
                             <p v-if="errors.image_id" class="text-red-500">{{errors.image_id[0]}}</p>
+                        </div>
+
+                        <div class="flex flex-col w-full">
+                            <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Tag Popularity </label>
+                            <input type="text" placeholder="Tag Popularity"
+                            :class="{'border-1 border-red-500':errors.popularity}"
+                            class="my-2 px-4 py-2 border-2 focus:outline-none
+                                focus:border-gray-300 w-full" v-model="tag.popularity">
+
+                            <p v-if="errors.popularity" class="text-red-500"> {{ errors.popularity[0] }} </p>
                         </div>
                             
                         <div class="flex justify-center">
@@ -264,7 +274,7 @@ export default{
                     {
                         value:img.id,
                         name:img.product_img_name,
-                        image:img.product_img,
+                        image:img.img,
                     }
                 )
             })

@@ -4,7 +4,7 @@
             <div class="w-full md:w-[600px] mx-auto">
                 <div class="flex justify-center items-center">
                     <div class="logo flex flex-col items-center justify-center">     
-                        <img v-if="user.old_img" class="w-20 h-20 rounded-full" :src="user.old_img?user.old_img:user.profile_img" :alt="user.slug">
+                        <img v-if="user.old_img" class="w-20 h-20 rounded-full" :src="user.old_img?'/'+user.old_img:user.profile_img" :alt="user.slug">
                         <i v-else class="fa-regular fa-user fa-3x"></i>
                         <h2 class="capitalize text-gray-600 font-bold my-2"> Md Kabbya </h2>
                         <button :id="user.is_admin" @click="changeUserRole(user.id)"  class="my-4 mx-6 px-4 py-1 rounded-md bg-orange-700 text-white">
@@ -42,7 +42,7 @@
                         <div class="flex h-12 w-full">
                             <input type="file" @change="onFileChange"
                             class="w-full h-full border-2 border-gray-200 py-2 px-3 focus:outline-none">
-                            <img :src="user.old_img ? user.old_img : user.profile_img " :alt="user.slug">
+                            <img :src="user.profile_img ? user.profile_img : '/'+ user.old_img" :alt="user.slug">
                         </div>
                     </div>
                     <div class="flex">
