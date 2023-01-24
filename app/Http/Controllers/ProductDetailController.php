@@ -12,8 +12,6 @@ class ProductDetailController extends Controller
     public function productDetails($slug){
         $product = Product::with('category','subcategory','childcategory')->where('slug',$slug)->first();
 
-        $product->increment('view_count',1);
-
         $returnPolicy = SiteSetting::first()->return_policy;
 
         $relatedProducts = Product::with('category',)->whereHas('tags', function ($q) use ($product) {
@@ -26,6 +24,8 @@ class ProductDetailController extends Controller
 
 
         $this->add_product_on_resent_view_table($product->id,$product);
+
+        $this->incrementColumn($product);
 
         return response()->json([
             'product' => $product,
@@ -57,5 +57,11 @@ class ProductDetailController extends Controller
             $resent_products = ResentViewProduct::with('product')->where('user_id',Auth::id())->latest()->take(10)->get();
             return $resent_products;
         }
+    }
+
+    private function incrementColumn($product){
+        $product->update(['view_count' => $product->view_count + 1]);
+
+        $product->category->update(['view_count' => $product->category->view_count + 1]);
     }
 }

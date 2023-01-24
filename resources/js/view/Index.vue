@@ -24,7 +24,7 @@
         <!-- Category  -->
         <div class="my-5 container mx-auto" id="category">
             <div class="my-8 text-center">
-                <h4 class="text-black uppercase font-bold text-left text-xl xl:text-[30px]">
+                <h4 class="text-black uppercase font-bold text-left text-xl">
                     All Popular Category 
                 </h4>
             </div>
@@ -76,7 +76,7 @@
         <!-- Popular tags  -->
         <div class="my-5 container mx-auto" id="category">
             <div class="my-8 text-left">
-                <h4 class="text-black uppercase font-bold text-xl xl:text-[30px]">
+                <h4 class="text-black uppercase font-bold text-xl">
                     All Popular Tags
                 </h4>
             </div>
@@ -89,7 +89,7 @@
                                 transition duration-300 -z-1 hover:scale-[1.2] hover:brightness-75" 
                                 :src="tag.image.img"  :alt="tag.tag_name">
                         </div>
-                        <div class="flex items-center justify-between my-1">
+                        <div class="flex items-center justify-between my-1 px-2">
                             <p class="text-md font-[600] text-gray-700">
                                 {{ tag.tag_name }}
                             </p>
@@ -104,12 +104,12 @@
             </div>
         </div>
 
-        <!-- end subcategoery  -->
+        <!-- End Popular tags  -->
 
         <!-- Week Sale Product  -->
         <div class="my-5 container mx-auto" id="category">
             <div class="my-8 flex justifiy-between">
-                <h4 class="text-black text-[24px] uppercase font-bold md:text-[30px]">
+                <h4 class="text-black uppercase font-bold text-xl">
                     Best Week Sale Products 
                 </h4>
             </div>
@@ -121,26 +121,18 @@
         <!-- Recomadation  -->
 
         <div class="my-5 container mx-auto" id="category">
-            <div class="my-8 flex flex-col justify-center items-center lg:flex-row lg:justify-between border-b-2 border-slate-200 px-2 md:px-4">
-                <h4 class="text-black uppercase font-semibold text-[18px] pb-2">
+            <div class="my-8 flex justifiy-between">
+                <h4 class="text-black uppercase font-bold text-xl">
                     Recomadation products
                 </h4>
-                <div class="flex">
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> top 24 </button>
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> New arrivals </button>
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> Best rated </button>
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> all </button>
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> top 24 </button>
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> top 24 </button>
-                    <button class="capitalize border-b-2 border-orange-500 -mb-2 mx-4"> top 24 </button>
-                </div>
             </div>
             <div class="my-8">
                 <Product :products="resentProducts" />
             </div>
         </div>
-        <!-- page loading  -->
 
+
+        <!-- page loading  -->
         <LoadingVue v-if="loading" :loading="'loading...'" />
 
     </div>

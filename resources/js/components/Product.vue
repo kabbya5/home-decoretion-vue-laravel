@@ -88,11 +88,11 @@
                         <div class="col-span-2 md:col-span-1">
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="col-span-2 w-full h-80">
-                                    <img :src="product.image_url" :alt="product.product_title"
+                                    <img :src="'/'+product.image_url" :alt="product.product_title"
                                     class="w-full h-full object-cover">
                                 </div>
                                 <div v-for="image in images" :key="image.id" class="col-span-1 w-full h-48">
-                                    <img :src="image.product_img" :alt="image.product_img_name"
+                                    <img :src="'/'+image.product_img" :alt="image.product_img_name"
                                     class="w-full h-full object-cover">
                                 </div>
                             </div>  
@@ -156,7 +156,7 @@
                                             Extra Payment {{ selectItemPrice }} TK need for this size 
                                         </span>   
                                         <span v-else class="px-4 text-gray-500 font-bold">
-                                             {{ product.product_sizes[product.product_sizes.length - 1].size_title }}
+                                            {{  product.product_sizes[0].size_title }}
                                         </span> 
                                     </p>
                                     <p v-else class="text-gray-600 my-1">
@@ -165,7 +165,7 @@
                                             Extra Payment {{ selectItemPrice }} TK  need for this size 
                                         </span> 
                                         <span v-else class="px-4 text-gray-500 font-bold">
-                                            {{  product.product_sizes[product.product_sizes.length - 1].size_title }}
+                                            {{ product.product_sizes[0].size_title }}
                                        </span>  
                                     </p> 
                                     <select  class="border-2 border-gray focus:outline-none py-2" @change="sizeOptionChange" v-model="productForm.size"> 

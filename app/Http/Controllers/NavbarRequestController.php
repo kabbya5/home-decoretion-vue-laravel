@@ -14,7 +14,7 @@ class NavbarRequestController extends Controller
 {
     public function getNavbarCategory(){
 
-        $categories = Category::with('subcategories.childcategories')->orderBy('viewCount', 'desc')->get();
+        $categories = Category::with('subcategories.childcategories')->orderBy('view_count', 'desc')->get();
         return response()->json($categories);
     }
 

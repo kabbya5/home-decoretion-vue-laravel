@@ -222,6 +222,7 @@ export default{
                 id: tag.id,
                 tag_name:tag.tag_name,
                 image_id: tag.image_id?[tag.image_id]:[],
+                popularity:tag.popularity,
                
             };
         },

@@ -13,7 +13,7 @@ use App\Models\Tag;
 class HomePageController extends Controller
 {
     public function getCategory($width){
-        $all_categories = Category::orderBy('viewCount','DESC')->with('products')->get();
+        $all_categories = Category::orderBy('view_count','DESC')->with('products')->get();
         $firstCategory = $all_categories[0];
         $categories = $all_categories->skip(1)->all();
         if($width < 768 || $width >= 1280){
@@ -39,7 +39,7 @@ class HomePageController extends Controller
 
         $entrySection = HomepageEntry::orderBy('popularity','DESC')->get();
 
-        $popularTags = Tag::Orderby('popularity','DESC')->with('image','products')->limit(12)->get();
+        $popularTags = Tag::Orderby('popularity','DESC')->with('image','products')->where('popularity', '>=', 1)->limit(12)->get();
        
         return response()->json([
            'sliders' => $sliders,
