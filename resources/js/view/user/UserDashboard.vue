@@ -101,9 +101,7 @@ export default{
             notification:{
                 type:'',
                 message:'',
-            }
-            
-            
+            }   
         }
     },
     methods:{

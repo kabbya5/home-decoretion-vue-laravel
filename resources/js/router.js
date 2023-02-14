@@ -3,16 +3,20 @@ import { createWebHistory, createRouter } from "vue-router";
 import Index from './view/Index.vue';
 import Login from './view/user/Login.vue';
 import Register from './view/user/Register.vue';
-import UserProfile from './view/user/UserProfile.vue';
 import ProductDetail from './view/ProductDetail.vue';
 import ShopPage from './view/ShopPage.vue';
 import Contact from './view/Contact.vue';
 import UserDashboard from './view/user/UserDashboard.vue';
+import UserOrders from './view/user/Orders.vue';
+import UserOrderDetails from './view/user/OrderDetails.vue';
 import UserCartContent from  './view/CartContent.vue';
 import Checkout from './view/Checkout.vue';
 import TeamAndCondition from './view/TeamAndCondition.vue';
 import ResentViewProducts from './view/user/ResentViewProducts.vue';
 import WishlistIndex from './view/WishlistIndex.vue';
+// page details like abouts us , contact for user and admin
+
+import PageDetails from './view/admin/pages/PageDetails.vue'; 
 
 // Admin 
 
@@ -49,21 +53,38 @@ import CouponIndex from './view/admin/coupon/CouponIndex.vue';
 // page setting 
 import HomepageEntry from './view/admin/pagesetting/homePage/HomepageEntry.vue';
 import ContactPageSetting from './view/admin/pagesetting/ContactPageSetting.vue';
+import PagesIndex from "./view/admin/pages/Index.vue";
 
 //UserDetails 
 import UserIndex from './view/admin/users/UsersIndex.vue';
 import AdminUserDetails from './view/admin/users/UserDetails.vue';
 
+// Message 
+import MessageIndex from './view/admin/Message/Index.vue';
 
+// extra page 
+import CompanyPage from './view/companyPage/index.vue';
 const routes = [
   
   {
     path: "/", name: "home", component: Index,
   },
+  {
+    path:'/:slug', name:'other-page',
+    component:CompanyPage,
+  },
+  {
+    path:'/:slug/details', name:'page-details',
+    component:PageDetails,
+  },
   // user 
   {
-    path:'/user/:slug/profile', Component:UserProfile,
-    name:'user-profile',
+    path:'/orders/:slug',component:UserOrders,
+    name:'orders'
+  },
+  {
+    path:'/order/:slug', component:UserOrderDetails,
+    name:'user-order-details',
   },
   {
     path:"/login", name:'login', component: Login,
@@ -85,6 +106,10 @@ const routes = [
   {
     path:'/shop/page/products', name:'shop-page',
     component:ShopPage
+  },
+  {
+    path:'/:sliderSlug', name:'sliderShopPage',
+    component:ShopPage,
   },
   {
     path:'/tag/:tagSlug', name:'tagShopPage',
@@ -216,6 +241,10 @@ const routes = [
     path:'/admin/contact/page/setting' , name:'adminContactPageSetting',
     component:ContactPageSetting,
   },
+  {
+    path:'/admin/pages/index', name:'adminPageIndex',
+    component:PagesIndex,
+  },
   // coupon 
 
   {
@@ -242,7 +271,14 @@ const routes = [
   {
     path:'/admin/user/details/:slug', name:'adminUserDetails',
     component:AdminUserDetails,
-  }
+  },
+
+  // message 
+  {
+    path:'/admin/message', name:'adminMessage',
+    component:MessageIndex,
+  },
+
 ];
 
 const router = createRouter({

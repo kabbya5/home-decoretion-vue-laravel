@@ -40,13 +40,17 @@ class HomePageController extends Controller
         $entrySection = HomepageEntry::orderBy('popularity','DESC')->get();
 
         $popularTags = Tag::Orderby('popularity','DESC')->with('image','products')->where('popularity', '>=', 1)->limit(12)->get();
-       
+
+        $freeShippingProducts = Product::where('free_shipping',1)->with('category','subcategory','childcategory','images')->limit(12)->get();
+
         return response()->json([
            'sliders' => $sliders,
            'resentProducts' => $resentPrdouct,
            'bestWeekSaleproducts' => $weekSaleProduct,
            'entrySection' => $entrySection,
            'popularTags' => $popularTags,
+           'freeShippingProducts' => $freeShippingProducts,
         ]);
+
     } 
 }

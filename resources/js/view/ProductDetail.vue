@@ -228,7 +228,7 @@
                         </div>
                         <div class="my-4 pr-2 bg-white text-gray-600 font-semibold">
                             <div v-for="resentView in resentViewProducts" :key="resentView.id" class="flex justify-between items-center border px-4 py-1">
-                                <div class="flex w-full">
+                                <div v-if="resentView.product" class="flex w-full">
                                     <div class="w-full">
                                         <router-link :to="{name:'product-detail',params:{slug:resentView.product.slug}}"  class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ resentView.product_title }} </router-link>
                                         <div v-if="resentView.product.discount_price" class="flex items-center my-4">
@@ -257,56 +257,57 @@
 import NotificationAdminVue from './admin/NotificationAdmin.vue';
 export default {
     components:{NotificationAdminVue},
-  data: function() {
-    return {
-        productVideo:false,
-        product:{ },
-        relatedProducts:[],
-        returnPolicy:'',
+    data: function() {
+        return {
+            productVideo:false,
+            product:{ },
+            relatedProducts:[],
+            returnPolicy:'',
 
-        showReturnPolicy:false,
-        resentViewProducts:[],
-        productImages:'',
-        // from 
-        productForm:{
-            size:'',
+            showReturnPolicy:false,
+            resentViewProducts:[],
+            productImages:'',
+            // from 
+            productForm:{
+                size:'',
+            },
+            selectItemPrice:'',
+
+            notification:{
+                type:'',
+                message:'',
+            }
+        }; 
+    },
+    methods:{
+        sizeOptionHandel(event){
+            this.selectItemPrice = event.target.options[event.target.options.selectedIndex].getAttribute('data-price');
         },
-        selectItemPrice:'',
-
-        notification:{
-            type:'',
-            message:'',
+        addToCart(slug){
+            axios.post('/cart/add/'+slug,{
+                size: this.productForm.size,
+                color:this.productForm.color,
+                quantity: this.productForm.quantity,
+                size_extra_payment:this.selectItemPrice,
+            })
+            .then(res => {
+                this.notification.message = "The product has been add to cart successfully !";
+                this.notification.type = "success";
+                this.$store.dispatch('fetchNavbarContent');
+            })
+        },
+        buyProduct(){
+            axios.post('/cart/add/'+ this.product.slug,{
+                size: this.productForm.size,
+                color:this.productForm.color,
+                quantity: this.productForm.quantity,
+                size_extra_payment:this.selectItemPrice,
+            })
+            .then(res => {
+                this.$store.dispatch('fetchNavbarContent');
+                this.$router.push({name:'checkout'});
+            })
         }
-    }; 
-  },
-  methods:{
-    sizeOptionHandel(event){
-        this.selectItemPrice = event.target.options[event.target.options.selectedIndex].getAttribute('data-price');
-    },
-    addToCart(slug){
-        axios.post('/cart/add/'+slug,{
-            size: this.productForm.size,
-            color:this.productForm.color,
-            quantity: this.productForm.quantity,
-            size_extra_payment:this.selectItemPrice,
-        })
-        .then(res => {
-            this.notification.message = "The product has been add to cart successfully !";
-            this.notification.type = "success";
-            this.$router.go();
-        })
-    },
-    buyProduct(){
-        axios.post('/cart/add/'+ this.product.slug,{
-            size: this.productForm.size,
-            color:this.productForm.color,
-            quantity: this.productForm.quantity,
-            size_extra_payment:this.selectItemPrice,
-        })
-        .then(res => {
-            this.$router.push({name:'checkout'});
-        })
-    }
   },
   created(){
     let slug = this.$route.params.slug;

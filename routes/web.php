@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Backend\AdminDashboardController;
 use App\Http\Controllers\Backend\BrandController;
@@ -13,7 +14,9 @@ use App\Http\Controllers\Backend\ContactPageSettingController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DeliverySettingController;
 use App\Http\Controllers\Backend\HomepageSettingController;
+use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\ProductImageController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\TagController;
@@ -21,6 +24,7 @@ use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\UserMangeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FooterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\NavbarRequestController;
@@ -29,9 +33,9 @@ use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\ResentViewController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -117,16 +121,29 @@ function(){
 
   //page setting 
   
+  Route::controller(PageController::class)->group(function(){
+    Route::post('/page/create','store');
+    Route::get('/page/index','index');
+    Route::put('/page/update/{page}','update');
+  });
+
   Route::controller(HomepageSettingController::class)->group(function(){
     Route::get('/hompage/entry','indexHomepageEntry');
     Route::post('/hompage/entry/create','cratetHomePageEntry');
     ROute::put('/hompage/entry/update/{homepage_entry}','updateHomePageEntry');
   });
+
+  // Contact PageSetting 
+
   Route::controller(ContactPageSettingController::class)->group(function(){
     Route::post('/contact/page/settings','store');
     Route::put('/contact/page/settings/{contactPageSetting}','update');
     Route::get('/contact/page/settings/','index');
   });
+
+
+
+
 
   // product 
 
@@ -203,6 +220,13 @@ function(){
     Route::put('/user/role/change/{user}','UserRoleChange');
   });
 
+  // Message 
+
+  Route::controller(MessageController::class)->group(function(){
+    Route::get('/message/index', 'index');
+    Route::delete("/message/delete",'deleteOldMessage');
+  });
+
 });
 
 // user 
@@ -214,8 +238,16 @@ Route::controller(HomePageController::class)->group(function (){
   Route::get('/get/sliders','getSliders');
 });
 
-//product details 
+// Footer 
 
+Route::controller(FooterController::class)->group(function(){
+  Route::get('/footer/content','index');
+});
+
+// page detials for user and admin for admin page controller 
+
+Route::get('/page/details/{slug}',[PageController::class,'show']);
+//product details 
 Route::controller(ProductDetailController::class)->group(function (){
   Route::get('/product/{slug}','productDetails');
 });
@@ -235,6 +267,7 @@ Route::controller(ShopController::class)->group(function(){
   Route::get('/shop/category/product/{slug}','categoryProducts');
   Route::get('/shop/subcat/product/{slug}','subCategoryProducts');
   Route::get('/shop/childcat/product/{slug}','childCategoryProducts');
+  Route::get('/shop/slider/product/{slug}', 'sliderProduct');
 });
 
 // contact 
@@ -246,6 +279,7 @@ Route::controller(ContactController::class)->group( function(){
 //  Cart  and coupon 
 
 Route::controller(ShoppingCartController::class)->group(function (){
+  Route::get('/shopping/carts/index','index');
   Route::post('/cart/add/{product}','addCart');
   Route::put('/update/cart/{rowId}', 'updateCartQty');
   Route::delete('/remove/cart/product/{rowId}','removedCartProduct');
@@ -268,7 +302,6 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth','verified']],
 function(){
 
   Route::controller(CheckoutController::class)->group(function (){
-    
     Route::put('/order/store/','orderStore');
   });
   // user dashboard 
@@ -276,6 +309,13 @@ function(){
   Route::controller(ProfileController::class)->group(function (){
     Route::get('/get','getCurrentUser');
     Route::put('/profile/update/{user}','updateProfile');
+  });
+
+  // user orders 
+
+  Route::controller(UserOrderController::class)->group(function(){
+    Route::get('/orders','index');
+    Route::get('/order/details/{slug}','userOrderDetails');
   });
 
   Route::controller(ResentViewController::class)->group(function (){
@@ -288,11 +328,7 @@ function(){
     Route::get('/wishlists','index');
     Route::delete('/wishlists/{wishlist}', 'delete');
   });
-  
-
   // notificaton for admin and user 
-  
-
 });
 
 

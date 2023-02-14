@@ -43,7 +43,7 @@ class SiteSettingController extends Controller
         }
 
         $img->save(public_path('/media/setting/') . $imgName);
-        $img_name =  "/media/setting/" . $imgName;
+        $img_name =  "media/setting/" . $imgName;
         return $img_name;
         
     }
@@ -92,11 +92,12 @@ class SiteSettingController extends Controller
         }
         unset($data['old_title_image']);
         unset($data['old_share_image']);
+
         $site_setting->update($data);
     }
-    private function deleteOldImage($img){
-        $oldImg = ltrim($img,'/'); 
-        unlink($oldImg);
+
+    private function deleteOldImage($img){ 
+        unlink($img);
     }
 
     // cocial media link 

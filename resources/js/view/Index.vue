@@ -1,5 +1,5 @@
 <template>
-    <div class="px-2 lg:px-0">
+    <div class="px-2 xl:px-0">
         <!-- Banner  -->
         <Slider class="mt-20 md:mt-0" :sliders="sliders"> 
 
@@ -7,7 +7,7 @@
         <!-- End banner  -->
 
         <!-- Entery  -->
-        <div class="entery container mx-auto my-4">
+        <div class="entery container mx-auto my-10">
             <div class="grid grid-cols-4 gap-4 border-2 border-gray-200 py-6">
                 <div v-for="entry in entries" :key="entry.id" class="col-span-2 md:col-span-2 lg:col-span-1">
                     <div class="flex flex-col md:flex-row items-center justify-center">
@@ -106,6 +106,18 @@
 
         <!-- End Popular tags  -->
 
+        <!-- Free Shipping Product  -->
+        <div class="my-5 container mx-auto" id="category">
+            <div class="my-8 flex justifiy-between">
+                <h4 class="text-black uppercase font-bold text-xl">
+                    Free shipping product 
+                </h4>
+            </div>
+
+            <Product :products="freeShippingProducts" />
+            
+        </div>
+
         <!-- Week Sale Product  -->
         <div class="my-5 container mx-auto" id="category">
             <div class="my-8 flex justifiy-between">
@@ -159,13 +171,18 @@ components:{Slider,Product,Footer, LoadingVue},
         // window widht 
         //tags 
         tags:[],
-        windowWidth: window.innerWidth,  
+        windowWidth: window.innerWidth, 
+
         // week_sale_product 
         bestWeekSaleProducts:[],
 
         //resent products
         resentProducts:[],
-        
+
+        // free shipping product
+
+        freeShippingProducts:[],
+
         // loadmore 
         loadMore: true,
         moreCategoies:'',
@@ -196,8 +213,9 @@ components:{Slider,Product,Footer, LoadingVue},
         this.sliders = res.data['sliders'];
         this.entries = res.data['entrySection'];
         this.tags = res.data['popularTags'];
+        this.freeShippingProducts = res.data['freeShippingProducts'];
         this.bestWeekSaleProducts = res.data['bestWeekSaleproducts'];
-        this.resentProducts = res.data['resentProducts'];
+        this.resentProducts = res.data['resentProducts']
         
     });
     axios.get('/get/cateogry/index/' + this.windowWidth)
@@ -206,6 +224,7 @@ components:{Slider,Product,Footer, LoadingVue},
         this.firstCategory = res.data['firstCategory'];
         this.showCategories = res.data['showCategories'];
         this.moreCategoies = (Object.keys(res.data['categories']).length - Object.keys(res.data['showCategories']).length);
+        this.loading = false;
     });
   }
 };

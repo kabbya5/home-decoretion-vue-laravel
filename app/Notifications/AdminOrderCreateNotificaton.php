@@ -13,27 +13,19 @@ class AdminOrderCreateNotificaton extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $order;
-    private $shipping_message;
-    private $total_product;
-    private $product_image;
+    public $order;
 
 
-    public function __construct($input,$data,$product_image,$total_product)
+    public function __construct($order)
     {
-        $this->order = $input;
-        $this->shipping_data = $data;
-        $this->product_image = $product_image;
-        $this->total_product = $total_product;
+        $this->order = $order;
     }
-
 
     public function via($notifiable)
     {
         return ['mail','database'];
     }
 
-  
     public function toMail($notifiable)
     {
         $url = url('/admin/order/'.$this->order['slug']);
@@ -43,14 +35,14 @@ class AdminOrderCreateNotificaton extends Notification implements ShouldQueue
             ->subject('Great News, You got An Order')
             ->greeting($this->order['slug'] . $this->order['subtotal'])
             ->line('Shipping Detail')
-            ->line( $this->shipping_data['name'])
-            ->line( $this->shipping_data['email'])
-            ->line( $this->shipping_data['phone'])
-            ->line( $this->shipping_data['address'])
-            ->line( $this->shipping_data['district'])
-            ->line( $this->shipping_data['comment'])
+            ->line( $this->order->shipping->name)
+            ->line( $this->order->shipping->email)
+            ->line( $this->order->shipping->phone)
+            ->line( $this->order->shipping->address)
+            ->line( $this->order->shipping->district)
+            ->line( $this->order->shipping->comment)
             ->action('View order', $url)
-            ->line('Message was Sent About' .Carbon::now());
+            ->line('Message was Sent About' .Carbon::now()->format('Y-m-d'));
     }
 
     /**
@@ -62,10 +54,9 @@ class AdminOrderCreateNotificaton extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'order_slug' => $this->order['slug'],
-            'order_message' => $this->shipping_data['comment'],
-            'total_product'   => $this->total_product,
-            'product_image'   => $this->product_image,
+            'order_slug' => $this->order->slug,
+            'order_user_id' => $this->order->user_id,
+            'order_message' => $this->order->shipping->comment,
         ];
     }
 }

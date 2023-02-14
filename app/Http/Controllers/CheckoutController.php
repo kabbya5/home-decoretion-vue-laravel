@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderCheckoutEvent;
 use App\Models\DeliverySetting;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\Shipping;
-use App\Models\User;
-use App\Notifications\AdminOrderCreateNotificaton;
-use App\Notifications\UserOrderConfomation;
 use Cart;
 use Session;
 use Auth;
 use Illuminate\Http\Request;
-use Notification;
+;
 
 class CheckoutController extends Controller
 {
@@ -62,7 +60,7 @@ class CheckoutController extends Controller
 
         $input = $request->only('payment_type','delivery_type','delivery_cost');
         
-        $order_code = 'MDBD'. rand();
+        $order_code = md5(uniqid(mt_rand(), true));
     
         $input['user_id'] = Auth::id();
         $input['order_code'] = $order_code;
@@ -99,8 +97,7 @@ class CheckoutController extends Controller
             OrderDetails::create($details); 
         }
 
-        $this->sendAdminOrderConfomation($input,$shipping_data,$carts);
-        $this->sendUserOrderConfomation($input,$shipping_data,$carts);
+        $this->sendOrderConfomation($order_id);
 
         Cart::destroy();
 
@@ -109,17 +106,7 @@ class CheckoutController extends Controller
         }
         
     }
-    private function sendUserOrderConfomation($input,$data,$carts){
-        $user = User::where('id', Auth::id())->first();
-        Notification::send($user,new UserOrderConfomation($input,$data,$carts));
-    }
-
-    private function sendAdminOrderConfomation($input,$data,$carts){
-        $total_product = $carts->count();
-        $product_image = $carts->first()->options->img;
-        $admins = User::where('is_admin','admin')->orWhere('is_admin','user')->get();
-        Notification::send($admins,new AdminOrderCreateNotificaton($input,$data,$product_image,$total_product));
-    }
-
-    
+    private function sendOrderConfomation($order_id){
+        event(new OrderCheckoutEvent($order_id));
+    }   
 }

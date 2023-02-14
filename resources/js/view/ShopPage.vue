@@ -239,6 +239,17 @@ export default{
                 this.showRelatedProducts = this.relatedProducts.slice(0,this.showRelatedProductsLength)
                 this.loading = false;
             })
+        },
+        sliderProducts(slug){
+            axios.get('/shop/slider/product/' + slug)
+            .then(res =>{
+                this.allProducts = res.data['sliderProducts'];
+                this.showProducts = this.allProducts.slice(0,this.showProductsLength);
+                this.allProductsLength = this.allProducts.length;
+                this.relatedProducts = res.data['relatedProducts'];
+                this.showRelatedProducts = this.relatedProducts.slice(0,this.showRelatedProductsLength)
+                this.loading = false;
+            })
         }
     },
     created(){
@@ -256,7 +267,10 @@ export default{
             this.subCatProducts(this.$route.params.subCatSlug);
         }else if(this.$route.params.childCatSlug){
             this.childCatProducts(this.$route.params.childCatSlug);
-        }else{
+        }else if(this.$route.params.sliderSlug){
+            this.sliderProducts(this.$route.params.sliderSlug);
+        }
+        else{
             this.shopPageProduct('all');
         }
         

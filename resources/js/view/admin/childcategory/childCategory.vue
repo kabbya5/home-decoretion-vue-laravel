@@ -106,7 +106,7 @@
 
                         <div class="flex flex-col my-4">
                             <div class="text-gray-500 capitalize my-2 px-4 text-lg"> 
-                                Selected Childcategory: <span class="px-2 text-gray-500 font-bold"> {{ selectItem }}  </span>
+                                Selected Subcategory: <span class="px-2 text-gray-500 font-bold"> {{ selectItem }}  </span>
                             </div>
                             <select @change="changeSubcatSelectInput" v-model="childcat.subcategory_id" class="py-2 border-2 border-gray-200 text-gray-500 focus:outline-none"
                              :class="{'border-1 border-red-500':errors.subcategory_id}">

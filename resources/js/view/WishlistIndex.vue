@@ -37,9 +37,9 @@
 
                         <tr v-for="wishlist in wishlists" :key="wishlist" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <div class="flex w-96">
+                                <div class="flex items-center w-96">
                                     <div class="w-32 h-32">
-                                        <img  class="w-full h-full object-fit" :src="wishlist.product.image_url" :alt="wishlist.product_title">
+                                        <img  class="w-full h-full object-fit" :src="'/'+wishlist.product.image_url" :alt="wishlist.product_title">
                                     </div>
                                     <router-link :to="{name:'product-detail',params:{slug:wishlist.product.slug}}" class="text-gray-900 font-semibold text-lg mx-4 w-60"> {{wishlist.product.product_title}}</router-link>
                                 </div>
@@ -54,7 +54,7 @@
                                </div>
                             </td>
                             <td class="py-4 px-6 text-lg font-semibold text-slate-700">
-                                <div class="flex h-10 w-[90px] items-center">
+                                <div class="flex h-10 w-[130px] items-center">
                                     {{ wishlist.created_date }}
                                 </div>
                             </td>

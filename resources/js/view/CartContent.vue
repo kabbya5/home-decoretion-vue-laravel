@@ -44,7 +44,7 @@
                             <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div class="flex w-96">
                                     <div class="w-32 h-32">
-                                        <img  class="w-full h-full object-fit" :src="cart.options.img" :alt="cart.id">
+                                        <img  class="w-full h-full object-fit" :src="'/'+cart.options.img" :alt="cart.id">
                                     </div>
                                     <router-link :to="{name:'product-detail',params:{slug:cart.id}}" class="text-gray-900 font-semibold text-lg mx-4 w-60"> {{cart.options.product_title}}</router-link>
                                 </div>
@@ -168,6 +168,7 @@
                 let qty = e.target.value;
                 axios.put('/update/cart/' + rowId, {qty:qty})
                 .then(res => {
+                    this.$store.dispatch('fetchNavbarContent');
                     this.loading = true;
                     this.reloadPage();
                     this.notification.type = 'success',
@@ -183,6 +184,7 @@
                 .then(res =>{
                     this.notification.message = 'The product has been remove';
                     this.notification.type = 'success';
+                    this.$store.dispatch('fetchNavbarContent');
                     this.reloadPage();
                 })
             },
@@ -190,6 +192,7 @@
                 axios.delete('/cart/destroy')
                 .then(res => {
                     this.$route.push({name:'shopPage'});
+                    this.$store.dispatch('fetchNavbarContent');
                 })
             },
             applyCoupon(){
@@ -199,6 +202,7 @@
                     this.errors = {};
                     this.notification.type = 'success';
                     this.notification.message = " Successfully added Coupon !";
+                    this.$store.dispatch('fetchNavbarContent');
                     this.reloadPage();
                 })
                 .catch(errors =>{
@@ -211,7 +215,7 @@
                     this.carts = res.data['carts'];
                     this.siteSetting = res.data['siteSetting'];
                     this.subtotal = res.data['subtotal'];
-                    // this.resentViewProducts = res.data['resentProduct'];
+                    this.resentViewProducts = res.data['resentProduct'];
                 })
             },
         },
@@ -221,7 +225,7 @@
                 this.carts = res.data['carts'];
                 this.siteSetting = res.data['siteSetting'];
                 this.subtotal = res.data['subtotal'];
-                // this.resentViewProducts = res.data['resentProduct'];
+                this.resentViewProducts = res.data['resentProduct'];
             })
         }
     }

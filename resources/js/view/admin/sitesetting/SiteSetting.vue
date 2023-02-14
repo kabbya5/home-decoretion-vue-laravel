@@ -86,7 +86,7 @@
                         <div class="flex item-center">
                             <input type="file"  placeholder="Page Title" @change="onFileChange" name="title_image"
                             class="px-2 py-2 w-full border-2 border-gray-200 focus:outline-none">
-                            <img  :src="siteSetting.title_image?siteSetting.title_image:siteSetting.old_title_image" alt="" class="w-12 h-12 rounded-full mx-2">
+                            <img  :src="siteSetting.title_image?siteSetting.title_image:'/'+siteSetting.old_title_image" alt="" class="w-12 h-12 rounded-full mx-2">
                             <input type="hidden" v-model="siteSetting.old_title_image" class="hidden">
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                         <div class="flex item-center">
                             <input type="file"  placeholder="Page Title" @change="onFileChange" name="share_image"
                             class="px-2 py-2 w-full border-2 border-gray-200 focus:outline-none">
-                            <img  :src="siteSetting.share_image?siteSetting.share_image:siteSetting.old_share_image" alt="" class="w-12 h-12 rounded-full mx-2">
+                            <img  :src="siteSetting.share_image?siteSetting.share_image:'/'+siteSetting.old_share_image" alt="" class="w-12 h-12 rounded-full mx-2">
                             <input type="hidden" v-model="siteSetting.old_share_image">
                         </div>
                     </div>
@@ -190,6 +190,7 @@ export default{
             }
         }
     },
+    
     methods:{
         onFileChange(e) {
             let name = e.target.getAttribute('name');
@@ -232,22 +233,26 @@ export default{
         },
         updateSiteSetting(){
             axios.put('/admin/site/setting/update/'+ this.siteSetting.id,{
-              page_title:this.siteSetting.page_title,
-              seo_tag : this.siteSetting.seo_tag,
-              title_image: this.siteSetting.title_image,
-              old_title_image: this.siteSetting.old_title_image,
-              share_image: this.siteSetting.share_image, 
-              old_share_image :this.siteSetting.old_share_image,
-              advance_payment_limit_message: this.siteSetting.advance_payment_limit_message,
-              advance_payment_limit: this.siteSetting.advance_payment_limit,
-
-              seo_content :this.siteSetting.seo_content,
-              trean_and_conditon : this.treanAndConditon,
-              return_policy : this.returnPolicy,
+                page_title:this.siteSetting.page_title,
+                company_name: this.siteSetting.company_name,
+                company_phone: this.siteSetting.company_phone,
+                company_phone_2: this.siteSetting.company_phone_2,
+                company_email: this.siteSetting.company_email,
+                company_email_2: this.siteSetting.company_email_2,
+                seo_tag : this.siteSetting.seo_tag,
+                title_image: this.siteSetting.title_image,
+                old_title_image: this.siteSetting.old_title_image,
+                share_image: this.siteSetting.share_image, 
+                old_share_image :this.siteSetting.old_share_image,
+                seo_content :this.siteSetting.seo_content,
+                trean_and_conditon : this.treanAndConditon,
+                return_policy : this.returnPolicy,
+                advance_payment_limit_message: this.siteSetting.advance_payment_limit_message,
+                advance_payment_limit: this.siteSetting.advance_payment_limit,
             })
             .then(res =>{
-                    this.notification.type ='success',
-                    this.notification.message = " The site Setting has been updated successfully";
+                this.notification.type ='success',
+                this.notification.message = " The site Setting has been updated successfully";
             })
         },
     },

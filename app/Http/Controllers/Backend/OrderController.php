@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Events\OrderProcessedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 class OrderController extends Controller
@@ -48,17 +50,32 @@ class OrderController extends Controller
     }
 
     public function update(Request $request,Order $order){
+        $status = $request->status;
         $order->update([
-            'status' => $request->status
+            'status' => $status
         ]);
+
+        $user_id = $order->user_id;
+        $order_details = $order->orderDetails;  
+        if($status=="shipping" || $status == "accept" || $status == "cacle"){
+            event(new OrderProcessedEvent($user_id,$order,$status,$order_details));
+        }
+        
+        if($status =='completed'){
+            foreach($order_details as $detail){
+                $product = Product::where('id',$detail->product_id)->first();
+                $product->update([
+                    'quantity' => $product->quantity - $detail->quantity
+                ]);
+            }
+        }
     }
 
     public function notificationRead(){
-        $user = User::where('is_admin', 1)->first();
-        $unreadNotification = $user->unreadNotificaions;
-        if($unreadNotification){
-            $id = $user->unreadNotifications[0]->id;
-            $user->unreadNotifications->where('id', $id)->markAsRead();
-        }
+        $user = User::where([['id', auth()->user()->id],['is_admin','admin']])->first();
+        if(! $user->unreadNotifications === null){
+            $id = auth()->user()->unreadNotifications[0]->id;
+            auth()->user()->unreadNotifications->where('id', $id)->markAsRead();
+        }  
     }
 }

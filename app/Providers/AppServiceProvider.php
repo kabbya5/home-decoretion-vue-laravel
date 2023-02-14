@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer(['layouts.app','adminbashboard'],HomepageComposer::class);
+        view()->composer(['layouts.app','adminbashboard','auth.verify'],HomepageComposer::class);
     }
 }

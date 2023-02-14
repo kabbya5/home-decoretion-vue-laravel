@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="my-4">
-            <h2 class="text-gray-900 font-bold text-sm md:text-[18px] mx-4"> Shipping Address </h2>
+            <h2 class="text-gray-600 font-bold text-sm md:text-[18px]"> Shipping Address </h2>
             <div class="my-8">
                 <div class="grid grid-cols-3 gap-6">
                     <div class="col-span-3 md:col-span-1">
@@ -104,7 +104,7 @@
                     <div class="col-span-3 md:col-span-2">
                         <div class="grid grid-cols-2 gap-6">
                             <div class="col-span-2 md:col-span-1">
-                                <h2 class="text-gray-900 font-bold text-sm md:text-[18px] mx-4"> Payment Method </h2>
+                                <h2 class="text-gray-600 font-bold text-sm md:text-[18px] mx-4 my-4"> Payment Method </h2>
                                 <div class="my-2 px-4">
                                     <div class="flex">
                                         <input type="radio" id="cash_on_delivery" checked v-model="shipping.payment_method" value="cash_on_delivery" />
@@ -114,7 +114,7 @@
                                         <input type="radio" id="online_payment" v-model="shipping.payment_method" value="online_payment" />
                                         <label for="online_payment" class="text-gray-600 font-semibold  mx-4"> Online Payment </label>
                                     </div>   
-                                    <div v-if="shipping.delivery_method=='online_payment'" class="text-gray-500  my-4">
+                                    <div v-if="shipping.payment_method==='online_payment'" class="text-gray-500  my-4">
                                         Nagad Marchent Number : {{ siteSetting.company_phone_2 }} 
                                         Bkash Marchent Number : {{ siteSetting.company_phone }} 
                                         Please pay on and enter the account 
@@ -124,17 +124,12 @@
                                 </div>
                             </div>
                             <div class="col-span-2 md:col-span-1">
-                                <h2 class="text-gray-900 font-bold text-sm md:text-[18px] mx-4"> Delivery Method </h2>
+                                <h2 class="text-gray-600 font-bold text-sm md:text-[18px] mx-4 my-4"> Delivery Method </h2>
                                 <div class="px-2">
                                     <div v-if="free_shipping" class="my-4 flex items-center">
                                         <h2 class="text-gray-900 font-semibold text-sm md:text-[16px] mx-4"> free Shipping </h2>
                                     </div>
                                     <div v-else class="flex flex-col my-2"> 
-                                        <label  class="my-1 pl-2"> 
-                                            <input type="radio" @change="changeDeliverySystems" v-model="delivery_method.title" 
-                                            :value="delivery_method.title" :data-cost="delivery_method.cost" class="mr-2"> 
-                                            {{ delivery_method.title }}- <span class="tex-sm">{{ delivery_method.cost }} TK </span> 
-                                        </label>
                                         <label v-for="item in delivery_methods" :key="item.id" class="my-1 pl-2"> 
                                             <input type="radio" @change="changeDeliverySystems" v-model="delivery_method.title" 
                                             :value="item.delivery_title" :data-cost="item.delivery_cost" class="mr-2"> 
@@ -148,7 +143,7 @@
                         <div class="col-span-2">
                             <div class="my-4 grid grid-cols-12 gap-4">
                                 <div class="my-4 col-span-12">
-                                    <h2 class="text-gray-900 font-bold text-sm md:text-[18px] mx-4"> Your order </h2>
+                                    <h2 class="text-gray-600 font-bold text-sm md:text-[18px] mx-4"> Your order </h2>
                                     <div class="my-8 overflow-x-auto relative shadow-md sm:rounded-lg">
                                         <table class="w-full text-sm text-left text-gray-500">
                                             <thead class="text-xs text-gray-700 uppercase">
@@ -314,9 +309,9 @@ export default{
             this.delivery_method.cost = parseInt(cost);
         },
         createOrder(){
+            this.subtotal = this.subtotal + this.delivery_method.cost;
             this.loading = true;
             this.errors = {},
-
             axios.put('/order/store',{
                 name: this.shipping.name,
                 phone: this.shipping.phone,
@@ -328,20 +323,18 @@ export default{
                 coupon: this.coupon,
 
                 subtotal: this.subtotal,
-                
+                delivery_cost: this.delivery_method.cost,
                 payment_type: this.shipping.payment_method,
 
                 delivery_type: this.delivery_method.title,
-                delivery_method:this.delivery_method.cost,
-
+                delivery_cost: this.delivery_method.cost,
                 agree: this.team_and_conditon,
 
-                
             })
             .then(res => {
                 this.errors = {};
                 this.loading = false;
-                this.$router.push({name:'home'});
+                // this.$router.push({name:'home'});
             })
             .catch(errors => {
                 this.handelErrors(errors.response.data.errors)
@@ -379,7 +372,6 @@ export default{
         },
     },
     created(){
-
         if(this.errors.unauthenticate){
             this.$router.push('/login');
         }
@@ -397,7 +389,7 @@ export default{
             this.delivery_method.title = delivery_system.delivery_title;
             this.delivery_method.cost =  parseInt(delivery_system.delivery_cost);
 
-            this.delivery_methods = res.data['deliverySystem'].slice(1,5);
+            this.delivery_methods = res.data['deliverySystem'].slice(0,5);
 
             this.coupon = res.data['coupon'];
 

@@ -15,7 +15,7 @@
                         <span v-if="product.free_shipping" class="absolute right-0 top-0  bg-orange-500 text-white  px-2 py-1 text-white"> 
                             Free Shipping
                         </span>
-                        <span class="absolute bg-orange-500 text-white px-4 py-1 text-bold mx-4 left-[50%] translate-x-[-60%] bottom-[-10px]"> {{ product.discount_status_or_new }} </span>
+                        <span class="absolute bg-orange-500 text-white px-3 py-2 text-bold mx-4 left-[50%] translate-x-[-60%] bottom-[-13px] rounded-full"> {{ product.discount_status_or_new }} </span>
 
                         <!-- action div  -->
                         <div v-if="(show_product_cart_view_button==product.id)" class=" absolute top-[50%] translate-y-[-50%] right-2">
@@ -254,6 +254,7 @@ export default{
                 size_extra_payment:this.selectItemPrice,
             })
             .then(res => {
+                this.$store.dispatch('fetchNavbarContent');
                 this.$router.push({name:'checkout'});
             })
         },
@@ -271,7 +272,7 @@ export default{
             .then(res => {
                 this.notification.message = "The product has been add to cart successfully !";
                 this.notification.type = "success";
-                this.$router.go()
+                this.$store.dispatch('fetchNavbarContent');
             })
         },
         addWishlist(slug){
@@ -279,6 +280,7 @@ export default{
             .then(res => {
                 this.notification.message = "The product has been add to wishlist successfully !";
                 this.notification.type = "success";
+                this.$store.dispatch('fetchNavbarContent');
             })
             .catch(errors => {
                 this.errorsMessageHandle(errors.response.data.errors);

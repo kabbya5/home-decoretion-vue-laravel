@@ -102,6 +102,7 @@ export default{
         axios.get('/admin/contact/page/settings')
         .then(res => {
             this.loading = 'loading';
+            this.createForm = false;
             this.contactSetting = res.data;
             this.loading = false;
             if(res.data.length > 0){

@@ -6,21 +6,42 @@
         <div class="my-6 grid grid-cols-4 gap-4">
             <div class="col-span-2 lg:col-span-1">
                 <div class="shoping-report relative z-10 border border-gray-200 mt-3 p-4 bg-white drop-shadow-sm transition duration-300">
-                    <a href="#"> 
+                    <router-link :to="{name:'adminOrders'}"> 
                         <div class="flex justify-between">
                             <div class="flex flex-col">
-                                <i class="fas fa-archive text-3xl text-orange-300"></i>
-                                <h4 class="text-black mt-4 text-2xl"> 3.721 </h4>
+                                <i class="fa-solid fa-cart-shopping text-3xl text-orange-300"></i>
+                                <h4 class="text-black mt-4 text-2xl"> {{ orderCompare.orders  }} </h4>
+                                <span class="mt-2 text-gray-500"> New Orders </span>
+                            </div>
+                            <div>
+                                <span class="rounded-full  px-2 py-1 bg-red-600 text-white">
+                                    {{ orderCompare.orderDiffFormLast }}%
+                                    <i v-if="orderCompare.is_increase" class="fas fa-angle-up ml-1"></i>
+                                    <i v-else class="fas fa-angle-down ml-1"></i>
+                                </span>
+                            </div>  
+                        </div>
+                    </router-link>
+                </div>    
+            </div>
+            <div class="col-span-2 lg:col-span-1">
+                <div class="shoping-report relative z-10 border border-gray-200 mt-3 p-4 bg-white drop-shadow-sm transition duration-300">
+                    <router-link :to="{name:'adminUsers'}">
+                        <div class="flex justify-between">
+                            <div class="flex flex-col">
+                                <i class="fa-regular fa-user text-3xl text-orange-300"></i>
+                                <h4 class="text-black mt-4 text-2xl"> {{ userCompare.users }} </h4>
                                 <span class="mt-2 text-gray-500"> New Orders </span>
                             </div>
                             <div>
                                 <span class="rounded-full px-2 py-1 bg-red-600  text-white">
-                                    2%
-                                    <i class="fas fa-angle-down ml-1"></i>
+                                    {{userCompare.userDiffFormLast}}%
+                                    <i v-if="userCompare.isIncrease" class="fas fa-angle-up ml-1"></i>
+                                    <i v-else class="fas fa-angle-down ml-1"></i>
                                 </span>
                             </div>  
                         </div>
-                    </a>
+                    </router-link>
                 </div>
                    
             </div>
@@ -70,13 +91,14 @@
                         <div class="flex justify-between">
                             <div class="flex flex-col">
                                 <i class="fas fa-archive text-3xl text-orange-300"></i>
-                                <h4 class="text-black mt-4 text-2xl"> 3.721 </h4>
+                                <h4 class="text-black mt-4 text-2xl"> {{ orderCompare.orders  }} </h4>
                                 <span class="mt-2 text-gray-500"> New Orders </span>
                             </div>
                             <div>
                                 <span class="rounded-full px-2 py-1 bg-red-600  text-white">
-                                    2%
-                                    <i class="fas fa-angle-down ml-1"></i>
+                                    {{ orderCompare.orderDiffFormLast }}%
+                                    <i v-if="orderCompare.is_increase" class="fas fa-angle-down ml-1"></i>
+                                    <i v-else class="fas fa-angle-down ml-1"></i>
                                 </span>
                             </div>  
                         </div>
@@ -147,7 +169,7 @@
 
                         <td class="py-4 px-6">
                             <router-link :to="{name:'adminOrderDetails',params:{slug:order.slug}}" class="py-1 px-2 bg-orange-500 text-white mr-4">
-                                <i class="fa-regular fa-pen-to-square"></i>
+                                <i class="fa-regular fa-eye"></i>
                             </router-link> 
                         </td>
                     </tr>
@@ -159,10 +181,10 @@
         <!-- Top saleing product  -->
 
         <div class="flex my-4">
-            <h4 class="text-black font-semibold mx-4 my-6 capitalize"> Top saleing product </h4>
+            <h4 class="text-black font-semibold mx-4 mt-10 capitalize"> Most popular products </h4>
         </div>
 
-        <div class="my-10 overflow-x-auto relative shadow-md sm:rounded-lg">
+        <div class="mt-10 overflow-x-auto relative shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -196,7 +218,7 @@
                                      {{ product.product_title }} 
                                 </router-link>
                                 <div class="flex mx-4">
-                                    <img v-for="img in product.images" :key="img.id"  :src="img.product_img" :alt="img.product_img_name"
+                                    <img v-for="img in product.images" :key="img.id"  :src="'/'+img.product_img" :alt="img.product_img_name"
                                     class="w-12 h-10 rounded-full -ml-2 transition duration-300 hover:scale-[1.2]">
                                 </div>
                             </div>   
@@ -230,6 +252,16 @@
             return{
                 orders: [],
                 products:[],
+                orderCompare:{
+                    orders:'',
+                    isIncrease:'',
+                    orderDiffFormLast:'', //Order different from last week
+                },
+                userCompare:{
+                    users:'',
+                    isIncrease:'',
+                    userDiffFormLast:'', 
+                }
             }
         },
         created(){
@@ -237,6 +269,13 @@
             .then(res =>{
                 this.orders = res.data['orders'];
                 this.products = res.data['products'];
+                this.orderCompare.orders = res.data['currentWeekOrders'];
+                this.orderCompare.isIncrease = res.data['isOrderIncrease'];
+                this.orderCompare.orderDiffFormLast = res.data['weekPerOrder'];
+
+                this.userCompare.users = res.data['currentWeekUsers'];
+                this.userCompare.isIncrease = res.data['isUserIncrease'];
+                this.userCompare.userDiffFormLast = res.data['currentWeekUsers'];
             });
         }
     }

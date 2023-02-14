@@ -61,18 +61,6 @@
 
         <!-- more button  -->
 
-        <div v-if="allentryegoriesLength > showentryegoriesLength" @click="loadMore">
-            <div class="text-right pt-3 text-gray-500 capitalize font-semibold">
-                {{ allentryegoriesLength - showentryegoriesLength }} more entryegory
-            </div>
-            <div  class="flex justify-center my-4">
-                <button  class="uppercase bg-indigo-800 px-4 py-2 rounded-lg text-white
-                transition duration-300 hover:bg-indigo-600">
-                    {{ btnMessage }}
-                    <i class="fa-solid fa-repeat ml-1"></i>
-                </button>
-            </div>
-        </div>
 
         <!-- modal -->
         <div v-if="modal" class="fixed modal left-0 top-0 z-[50] w-full h-screen bg-gray-200/60">

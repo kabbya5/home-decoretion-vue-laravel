@@ -38,7 +38,7 @@ class NewContactNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url = url('/admin/contact/'.$this->contact['id']);
+        $url = url('/admin/message');
 
         return (new MailMessage)
             ->from($this->contact['contact_email'])

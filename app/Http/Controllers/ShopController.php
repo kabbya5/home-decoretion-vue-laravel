@@ -6,13 +6,14 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Category;
 use App\Models\Childcategory;
+use App\Models\Slider;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     public function shopPageContents(){
-        $categories = Category::with('products')->orderBy('viewCount','desc')->get();
+        $categories = Category::with('products')->orderBy('view_count','desc')->get();
         $popularProducts = Product::orderBy('view_count','desc')->limit(15)->get();
         return response()->json([
             'categories' => $categories,
@@ -89,6 +90,19 @@ class ShopController extends Controller
 
         return response()->json([
             'subCatProducts' => $childCategoryProduct,
+            'relatedProducts' => $relatedProducts,
+        ]);
+    }
+
+    public function sliderProduct($slug){
+        $slider = Slider::with('products.category')->where('slug',$slug)->first();
+        $sliderProduct = $slider->products;
+        $product = $sliderProduct[0];
+
+        $relatedProducts = $this->relatedProducts($product);
+
+        return response()->json([
+            'sliderProducts' => $sliderProduct,
             'relatedProducts' => $relatedProducts,
         ]);
     }

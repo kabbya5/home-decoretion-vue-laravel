@@ -63,7 +63,7 @@
                     <p v-if="errors.contact_description" class="text-red-500"> {{errors.contact_description[0]}} </p>
                 </div>
                 
-                <button class="my-4 py-1 px-6 capitalize bg-blue-600 text-white rounded-lg text-xl"> send Message</button>
+                <button class="my-4 py-1 px-6 capitalize bg-blue-600 text-white rounded-lg text-xl"> {{contactSetting.contact_button_text}} </button>
             </form>
         </div>
 
@@ -87,13 +87,7 @@ export default{
         return{
             loading: 'loading...',
             contactSentSuccessMessage:true,
-            contact:{
-                contact_name:'kabbya',
-                contact_phone:'01721597157',
-                contact_email:'kabbya@gmail.com',
-                contact_subject: 'email_testing',
-                contact_description:'Fundpress site thoughtfully designed for real humans which means the best user experience for your entire community of donors, fundraisers, customers, and staff.', 
-            },
+            contact:{},
             errors:{},
             contactSetting:[],
             notification:{
@@ -114,6 +108,7 @@ export default{
             })
             .catch(errors =>{
                 this.errors = errors.response.data.errors;
+                this.loading = false;
             })
         }
     },

@@ -17,7 +17,9 @@
     >
       <swiper-slide v-for="slider in sliders" :key="slider.id">
         <div class="relative w-full h-[400px] md:h-[600px] xl:h-[700px]">  
+          <router-link :to="{name:'sliderShopPage',params:{sliderSlug:slider.slug}}">
             <img :src="slider.sliderImg" class="object-cover h-full w-full block brightness-75"> 
+          </router-link>
             <div id="editor" class="absolute flex flex-col justify-center items-center  bottom-[50%] translate-y-[50%] z-10 text-white left-[20%]">
               <div class="ql-snow">
                 <p class="ql-editor" v-html="slider.sliderText"></p>
@@ -127,4 +129,5 @@
     transform: translate(0);
   }
 }
+
 </style>

@@ -1,15 +1,5 @@
 <?php
 
-use App\Http\Controllers\Backend\BrandController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ColorController;
-use App\Http\Controllers\Backend\ProductController;
-use App\Http\Controllers\Backend\ProductImageController;
-use App\Http\Controllers\Backend\SizeController;
-use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\Backend\SubcategoryController;
-use App\Http\Controllers\HomePageController;
-use App\Http\Controllers\NavbarRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

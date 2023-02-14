@@ -11,7 +11,6 @@ use Session;
 
 class ShoppingCartController extends Controller
 {
-
     public function cartContent(){
         $siteSetting = SiteSetting::first();
         $carts = Cart::content();
