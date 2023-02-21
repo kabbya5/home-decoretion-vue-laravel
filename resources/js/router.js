@@ -54,6 +54,8 @@ import CouponIndex from './view/admin/coupon/CouponIndex.vue';
 import HomepageEntry from './view/admin/pagesetting/homePage/HomepageEntry.vue';
 import ContactPageSetting from './view/admin/pagesetting/ContactPageSetting.vue';
 import PagesIndex from "./view/admin/pages/Index.vue";
+import DevelopmentPageTitle from "./view/admin/pagesetting/developmentPage/Title.vue";
+import DevelopmentPageSlider from "./view/admin/pagesetting/developmentPage/Slider.vue";
 
 //UserDetails 
 import UserIndex from './view/admin/users/UsersIndex.vue';
@@ -79,8 +81,8 @@ const routes = [
   },
   // user 
   {
-    path:'/orders/:slug',component:UserOrders,
-    name:'orders'
+    path:'/users/orders',component:UserOrders,
+    name:'user-orders'
   },
   {
     path:'/order/:slug', component:UserOrderDetails,
@@ -104,7 +106,7 @@ const routes = [
   },
   // ShopPage
   {
-    path:'/shop/page/products', name:'shop-page',
+    path:'/shop/page/:status/products', name:'shop-page',
     component:ShopPage
   },
   {
@@ -245,6 +247,15 @@ const routes = [
     path:'/admin/pages/index', name:'adminPageIndex',
     component:PagesIndex,
   },
+{
+  path:'/admin/development/page/setting/title', name:'development-page-title',
+  component:DevelopmentPageTitle,
+},
+{
+  path:'/admin/development/page/slider', name:'development-page-slider',
+  component:DevelopmentPageSlider,
+},
+  
   // coupon 
 
   {

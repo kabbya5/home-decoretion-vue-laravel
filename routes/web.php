@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\ContactPageSettingController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DeliverySettingController;
+use App\Http\Controllers\Backend\DevelopmentPageController;
 use App\Http\Controllers\Backend\HomepageSettingController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\OrderController;
@@ -139,6 +140,14 @@ function(){
     Route::post('/contact/page/settings','store');
     Route::put('/contact/page/settings/{contactPageSetting}','update');
     Route::get('/contact/page/settings/','index');
+  });
+
+  //development page or extra page 
+
+  Route::controller(DevelopmentPageController::class)->group(function(){
+    Route::post('/development/page/title/create','storeTitle');
+    Route::get('/development/page/title/index','titleIndex');
+    Route::put('/development/page/title/update/{id}','titleUpdate');
   });
 
 

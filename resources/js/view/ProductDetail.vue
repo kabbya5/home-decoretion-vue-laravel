@@ -198,8 +198,8 @@
                             <i class="fa-solid fa-arrow-right flex items-center
                                 px-4 bg-gray-800 text-white"></i>
                         </div>
-                        <div class="categories my-4 pr-2 bg-white text-gray-600 font-semibold">
-                            <div v-for="relatedProduct in relatedProducts" :key="relatedProduct.id" class="flex justify-between items-center border px-4 py-1">
+                        <div class="categories my-10  pr-2 bg-white text-gray-600 font-semibold">
+                            <div v-for="relatedProduct in relatedProducts" :key="relatedProduct.id" class="flex justify-between items-center border px-4">
                                 <div class="flex w-full">
                                     <div class="w-full">
                                         <router-link :to="{name:'product-detail',params:{slug:relatedProduct.slug}}"  class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ relatedProduct.product_title }} </router-link>
@@ -212,7 +212,7 @@
                                        </div>
                                     </div>
                                     <div class="">
-                                        <img class="w-20 h-20 rounded-md" :src="relatedProduct.image_url" :alt="relatedProduct.product_title">
+                                        <img class="w-20 h-20 rounded-md" :src="'/'+ relatedProduct.image_url" :alt="relatedProduct.product_title">
                                     </div>
                                 </div>  
                             </div>
@@ -228,9 +228,9 @@
                         </div>
                         <div class="my-4 pr-2 bg-white text-gray-600 font-semibold">
                             <div v-for="resentView in resentViewProducts" :key="resentView.id" class="flex justify-between items-center border px-4 py-1">
-                                <div v-if="resentView.product" class="flex w-full">
+                                <div v-if="resentView.product" class="pt-6 flex w-full">
                                     <div class="w-full">
-                                        <router-link :to="{name:'product-detail',params:{slug:resentView.product.slug}}"  class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ resentView.product_title }} </router-link>
+                                        <router-link :to="{name:'product-detail',params:{slug:resentView.product.slug}}"  class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ resentView.product.product_title }} </router-link>
                                         <div v-if="resentView.product.discount_price" class="flex items-center my-4">
                                             <del> {{ resentView.product.price }} TK </del>
                                            <span class="mx-4 text-red-500 font-bold text-xl"> {{ resentView.product.discount_price }}  TK </span>   
@@ -310,10 +310,24 @@ export default {
         }
   },
   created(){
+    let des = document.querySelector('meta[name="description"]');
+    let tags = document.querySelector('meta[name="robots"]');
+    let verify = document.querySelector('meta[name="verify-v1"]');
+    let shareImage = document.querySelector('meta[property="og:image"]');
     let slug = this.$route.params.slug;
     axios.get('/product/' + slug)
     .then( res =>{
         this.product = res.data['product'];
+
+        //meta tag
+        des.setAttribute('content',this.product.short_text);
+        let tagsArray = [];
+        this.product.tags.forEach((value,index) =>{
+            tagsArray.push(value.tag_name);
+        })
+        tags.setAttribute('content', tagsArray);
+        verify.setAttribute('content',this.product.product_title)
+        shareImage.setAttribute('content','/'+this.product.image_url)
         let length = this.product.all_images.length;
         this.productImages = this.product.all_images.slice(1,length);
         this.relatedProducts = res.data['relatedProducts'];

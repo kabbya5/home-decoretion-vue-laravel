@@ -15,12 +15,10 @@ class ShoppingCartController extends Controller
         $siteSetting = SiteSetting::first();
         $carts = Cart::content();
         $total = Cart::subtotal();
-        $resentProducts = Session::get('resentView.product');
         return response()->json([
             'carts' => $carts,
             'siteSetting' => $siteSetting,
             'subtotal' => $total,
-            'resentProduct' => (object) $resentProducts,
         ]);
     }
     public function addCart(Request $request,Product $product){

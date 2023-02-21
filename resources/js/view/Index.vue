@@ -7,7 +7,7 @@
         <!-- End banner  -->
 
         <!-- Entery  -->
-        <div class="entery container mx-auto my-10">
+        <div class="entery container mx-auto my-10  md:my-20">
             <div class="grid grid-cols-4 gap-4 border-2 border-gray-200 py-6">
                 <div v-for="entry in entries" :key="entry.id" class="col-span-2 md:col-span-2 lg:col-span-1">
                     <div class="flex flex-col md:flex-row items-center justify-center">
@@ -22,14 +22,14 @@
         </div>
 
         <!-- Category  -->
-        <div class="my-5 container mx-auto" id="category">
+        <div class="my-10 container mx-auto" id="category">
             <div class="my-8 text-center">
                 <h4 class="text-black uppercase font-bold text-left text-xl">
                     All Popular Category 
                 </h4>
             </div>
 
-            <div class="grid grid-cols-6 gap-2">
+            <div class="grid grid-cols-6 gap-6">
                 <div class="bg-white h-[200px] md:h-full lg:h-[405px] col-span-2 md:row-span-2 md:col-span-2 xl:col-span-2">
                     <router-link v-if="firstCategory.slug" :to="{name:'categoryShopPage',params:{catSlug:firstCategory.slug}}">
                         <div class="h-full relative overflow-hidden">
@@ -74,14 +74,14 @@
         <!-- END Category  -->
 
         <!-- Popular tags  -->
-        <div class="my-5 container mx-auto" id="category">
+        <div class="my-10 md:my-32 container mx-auto" id="category">
             <div class="my-8 text-left">
                 <h4 class="text-black uppercase font-bold text-xl">
                     All Popular Tags
                 </h4>
             </div>
 
-            <div class="grid grid-cols-6 gap-4">
+            <div class="grid grid-cols-6 gap-8">
                 <div v-for="tag in tags" :key="tag.id" class="bg-white col-span-3 md:col-span-2 xl:col-span-1">
                     <router-link v-if="tag.slug" :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}">
                         <div class="h-[200px]  w-full relative overflow-hidden">
@@ -107,11 +107,12 @@
         <!-- End Popular tags  -->
 
         <!-- Free Shipping Product  -->
-        <div class="my-5 container mx-auto" id="category">
-            <div class="my-8 flex justifiy-between">
+        <div class="my-10 md:my-20 container mx-auto" id="category">
+            <div class="my-8 flex justify-between">
                 <h4 class="text-black uppercase font-bold text-xl">
                     Free shipping product 
                 </h4>
+                <router-link class="text-orange-500" :to="{name:'shop-page',params:{status:'free-shipping-products'}}"> <i class="fa-solid fa-arrow-right-long fa-2x"></i> </router-link>
             </div>
 
             <Product :products="freeShippingProducts" />
@@ -119,11 +120,12 @@
         </div>
 
         <!-- Week Sale Product  -->
-        <div class="my-5 container mx-auto" id="category">
-            <div class="my-8 flex justifiy-between">
+        <div class="my-10 md:my-20 container mx-auto" id="category">
+            <div class="my-8 flex justify-between">
                 <h4 class="text-black uppercase font-bold text-xl">
                     Best Week Sale Products 
                 </h4>
+                <router-link class="text-orange-500" :to="{name:'shop-page',params:{status:'week-sales'}}"> <i class="fa-solid fa-arrow-right-long fa-2x"></i> </router-link>
             </div>
 
             <Product :products="bestWeekSaleProducts" />
@@ -132,11 +134,12 @@
 
         <!-- Recomadation  -->
 
-        <div class="my-5 container mx-auto" id="category">
-            <div class="my-8 flex justifiy-between">
+        <div class="my-10 md:my-20 container mx-auto" id="category">
+            <div class="my-8 flex justify-between items-center">
                 <h4 class="text-black uppercase font-bold text-xl">
                     Recomadation products
                 </h4>
+                <router-link class="text-orange-500" :to="{name:'shop-page',params:{status:'all'}}"> <i class="fa-solid fa-arrow-right-long fa-2x"></i> </router-link>
             </div>
             <div class="my-8">
                 <Product :products="resentProducts" />
@@ -210,16 +213,19 @@ components:{Slider,Product,Footer, LoadingVue},
     
     axios.get('/get/hom/page/content')
     .then(res =>{
+        this.loading = true;
         this.sliders = res.data['sliders'];
         this.entries = res.data['entrySection'];
         this.tags = res.data['popularTags'];
         this.freeShippingProducts = res.data['freeShippingProducts'];
         this.bestWeekSaleProducts = res.data['bestWeekSaleproducts'];
-        this.resentProducts = res.data['resentProducts']
+        this.resentProducts = res.data['resentProducts'];
+        this.loading = false;
         
     });
     axios.get('/get/cateogry/index/' + this.windowWidth)
     .then(res => {
+        this.loading = true;
         this.categories = res.data['categories']
         this.firstCategory = res.data['firstCategory'];
         this.showCategories = res.data['showCategories'];
@@ -229,3 +235,4 @@ components:{Slider,Product,Footer, LoadingVue},
   }
 };
 </script>
+

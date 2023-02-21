@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ResentViewProduct;
 use App\Models\SiteSetting;
 use Auth;
+use Session;
 
 class ProductDetailController extends Controller
 {
@@ -20,7 +21,7 @@ class ProductDetailController extends Controller
         ->where('id', '!=', $product->id) 
         ->get();
 
-        $resent_products = $this->resentViewProducts();
+        $resent_products = $this->resentViewProducts($product);
 
 
         $this->add_product_on_resent_view_table($product->id,$product);
@@ -52,7 +53,7 @@ class ProductDetailController extends Controller
         }
     }
 
-    private function resentViewProducts(){
+    private function resentViewProducts($product){
         if(Auth::id()){
             $resent_products = ResentViewProduct::with('product')->where('user_id',Auth::id())->latest()->take(10)->get();
             return $resent_products;

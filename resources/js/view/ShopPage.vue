@@ -14,7 +14,7 @@
             <div class="overflow-y-hidden min-w-[250px] my-10 mr-4 hidden lg:block">
                 <h2 class="capitalize mx-2 hidden lg:block lg:mx-0 text-gray-700 font-bold text-[20px]"> FIlter</h2>
                 <!-- //popular category  -->
-                <div v-if="categories.length > 0" class="header w-full border-2 border-gray-200 mt-2 bg-wihte">
+                <div v-if="categories.length > 0" class="header w-full border-2 border-gray-200 py-6 bg-wihte">
                     <div class="flex justify-between bg-gray-600">
                         <h3 class="uppercase text-white font-bold px-2 py-2">
                             popular categories
@@ -22,8 +22,8 @@
                         <i class="fa-solid fa-arrow-right flex items-center
                             px-4 bg-gray-800 text-white"></i>
                     </div>
-                    <div class="categories my-4 pr-2 bg-white text-gray-600 font-semibold">
-                        <div v-for="cat in categories" :key="cat.id" class="flex justify-between border px-4 py-1">
+                    <div class="pt-6 categories my-4 pr-2 bg-white text-gray-600 font-semibold">
+                        <div v-for="cat in categories" :key="cat.id" class="flex justify-between border px-4 py-2 mt-4">
                             <router-link :to="{name:'categoryShopPage',params:{catSlug:cat.slug}}" class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ cat.categoryName }} </router-link>
                             <span class="text-gray-400"> ({{ cat.products.length }}) </span>
                         </div>
@@ -39,8 +39,8 @@
                         <i class="fa-solid fa-arrow-right flex items-center
                             px-4 bg-gray-800 text-white"></i>
                     </div>
-                    <div class="categories my-4 pr-2 bg-white text-gray-600 font-semibold">
-                        <div v-for="product in popularProducts" :key="product.id" class="flex justify-between items-center border px-4 py-1">
+                    <div class="categories my-6 pr-2 bg-white text-gray-600 font-semibold">
+                        <div v-for="product in popularProducts" :key="product.id" class="flex justify-between items-center border px-4 py-2 mt-4">
                             <router-link :to="{name:'product-detail',params:{slug:product.slug}}" class="capitalize text-gray-600 duration-300 transition hover:text-gray-800 hover:underline"> {{ product.product_title }} </router-link>
                             <img class="w-10 h-10 rounded-full" :src="'/'+product.image_url" :alt="product.product_title">
                         </div>
@@ -51,24 +51,24 @@
 
                 <div class="my-8">
                     <div class="flex flex-wrap shop-nav">
-                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                        <button @click="shopPageProduct('all')" class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
                             :class="{'active':acitveNav == 'all'}"> all Prdoucts 
                         </button>
 
-                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                        <button @click="shopPageProduct('new-arrivals')"  class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
                             :class="{'active':acitveNav == 'new-arrivals'}"> New arrivals  
                         </button>
 
-                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
-                            :class="{'active':acitveNav == 'best-sellers'}"> Best sales  
+                        <button @click="shopPageProduct('best-sales')"  class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'best-sales'}"> Best sales  
                         </button>
 
-                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                        <button @click="shopPageProduct('popular-products')" class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
                             :class="{'active':acitveNav == 'popular-products'}"> popular products  
                         </button>
 
-                        <button class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
-                            :class="{'active':acitveNav == 'free-shipping-products '}"> free shipping products  
+                        <button @click="shopPageProduct('free-shipping-products')" class="capitalize mx-2 my-2 text-slate-600 font-semibold transiton duration-300 hover:text-black"
+                            :class="{'active':acitveNav == 'free-shipping-products'}"> free shipping products  
                         </button>
         
                     </div>
@@ -106,7 +106,7 @@
                 <!-- relatedProducts  -->
                 <div v-if="relatedProducts.length >0">
                     <div class="flex justify-between">
-                        <h2 class="capitalize text-gray-700 text-xl my-4 font-bold"> related Products</h2>
+                        <h2 class="capitalize text-gray-700 text-xl my-4 font-bold"> Best Selling Products</h2>
                         <span class="px-4 text-xl text-gray-600 uppercase"> all ({{ relatedProducts.length }}) </span>
                     </div>
                     
@@ -164,7 +164,7 @@ export default{
 
             // top-nave-status 
 
-            acitveNav:'all',
+            acitveNav:'',
 
             loadMorebtnMessage:'Load More'
         }
@@ -185,6 +185,7 @@ export default{
             
         },
         shopPageProduct(status){
+            this.acitveNav = status;
             axios.get('/get/shop/products/'+ status)
             .then(res =>{
                 this.allProducts = res.data['products'];
@@ -271,7 +272,7 @@ export default{
             this.sliderProducts(this.$route.params.sliderSlug);
         }
         else{
-            this.shopPageProduct('all');
+            this.shopPageProduct(this.$route.params.status);
         }
         
     }

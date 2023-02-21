@@ -22,10 +22,27 @@ class ShopController extends Controller
     }
 
     public function shopPageProducts($status){
-        if($status == 'all'){
+        if($status == 'all' || $status == 'popular-products'){
             $prdoucts = Product::OrderBy('view_count','desc')->take(50)->with('category')->get();
 
-            $relatedProducts = Product::OrderBy('top_rated','desc')->take(12)->with('category')->get();
+            $relatedProducts = Product::OrderBy('view_count','desc')->where('top_rated',1)->take(12)->with('category')->get();
+        }
+        elseif($status == 'best-sales'){
+            $prdoucts = Product::OrderBy('view_count','desc')->where('top_rated',1)->take(50)->with('category')->get();
+
+            $relatedProducts = Product::OrderBy('view_count','desc')->where('top_rated',1)->take(12)->with('category')->get();
+        }elseif($status == 'new-arrivals'){
+            $prdoucts = Product::latest()->OrderBy('view_count','desc')->take(50)->with('category')->get();
+
+            $relatedProducts = Product::OrderBy('view_count','desc')->where('top_rated',1)->take(12)->with('category')->get();
+        }elseif($status =='free-shipping-products'){
+            $prdoucts = Product::latest()->OrderBy('view_count','desc')->where('free_shipping',1)->take(50)->with('category')->get();
+
+            $relatedProducts = Product::OrderBy('view_count','desc')->where('top_rated',1)->take(12)->with('category')->get();
+        }elseif($status == 'week-sales'){
+            $prdoucts = Product::latest()->OrderBy('view_count','desc')->where('is_weekly_sale',1)->take(50)->with('category')->get();
+
+            $relatedProducts = Product::OrderBy('view_count','desc')->where('top_rated',1)->take(12)->with('category')->get();
         }
 
         return response()->json([

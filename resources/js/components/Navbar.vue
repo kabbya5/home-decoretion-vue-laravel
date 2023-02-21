@@ -7,7 +7,7 @@
                     <div class="flex justify-between items-center">
                         <router-link :to="{name:'home'}" href="" class="flex items-center">
                             <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
-                            <span class="hidden md:block self-center text-xl font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
+                            <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
                         </router-link>
                         <div class="lg:hidden">
                             <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">    
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </nav>
-            <div v-if="responsiveNav" id="responsive-nav" class="fixed z-[100] top-0 left-0 shadow-md bg-slate-200/60 z-50 w-full overflow-auto">
+            <div v-if="responsiveNav" id="responsive-nav" class="fixed z-[100] top-0 left-0 shadow-md bg-slate-200/60 w-full overflow-auto">
                 <div class="w-[330px] bg-white">
                     <button @click='responsiveNav = !responsiveNav' type="button" class="mx-2 my-2 w-full text-right
                         transition duration-300 text-black hover:text-red-900"> 
@@ -167,27 +167,27 @@
                             <div class="w-full md:w-auto md:order-1">
                                 <ul class="responsive-nav my-4 h-screen">
                                     <li class="my-4">
-                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'home'}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'home'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                             Home
                                         </router-link>
                                     </li>
                                     <li class="my-4">
-                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'other-page',params:{slug:'somthing'}}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'other-page',params:{slug:'somthing'}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                             new-page 
                                         </router-link>
                                     </li>
                                     <li class="my-4">
-                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'shop-page'}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'shop-page',params:{status:'all'}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                             Shop page
                                         </router-link>
                                     </li>
                                     <li v-if="!currentUser">
-                                        <router-link @click="responsiveNav =!responsiveNav"  to="/login"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        <router-link @click="responsiveNav =!responsiveNav"  to="/login"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                             Login/Register
                                         </router-link>
                                     </li>
                                     <li v-if="currentUser">
-                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                        <router-link @click="responsiveNav =!responsiveNav" :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                             Resent view
                                         </router-link>
                                     </li>
@@ -203,11 +203,11 @@
             <!-- laptop -->
             
             <!-- TOP NAV -->
-            <nav class="py-4 hidden lg:block  px-1 z-50 bg-white md:px-4 fixed top-0 w-full border-b-2 border-gray-200" id="top-nav">
-                <div class="flex justify-between items-center">
+            <nav class="py-4 hidden lg:block  px-1 z-50 bg-white md:px-4 fixed top-0 w-full shadow" id="top-nav">
+                <div class="flex justify-between items-center mb-3">
                     <router-link :to="{name:'home'}" href="" class="flex items-center">
                         <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
-                        <span class="hidden md:block self-center text-xl font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
+                        <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
                     </router-link>
                     <div>
                         <ul>
@@ -262,20 +262,21 @@
                     </button>
                 </div>
             </nav>
+
             <!-- BOTTOM NAV -->
 
-            <div class="xl:container xl:mx-auto">
+            <div class="xl:container xl:mx-auto py-4">
                 <nav class="hidden px-1 overflow-hidden lg:mt-[90px]  md:px-4 lg:block" id="bottom-nav">
                     <div class="flex flex-wrap justify-between items-center mx-auto">
                         <div class="justify-between items-center w-full md:flex md:w-auto md:order-1">
                             <ul class="mid-nav my-4 flex flex-col md:flex-row md:space-x-4 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                                 <li>
-                                    <router-link :to="{name:'home'}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link :to="{name:'home'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                         Home
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'other-page',params:{slug:'somthing'}}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link :to="{name:'other-page',params:{slug:'somthing'}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                         new-page 
                                     </router-link>
                                 </li>
@@ -284,54 +285,55 @@
                                 @mouseleave="showSubcategory = false"
                                 class="relative z-40">
 
-                                    <router-link :to="{name:'categoryShopPage',params:{catSlug:cat.slug}}"  class="text-xl block py-2 pl-2 text-slate-500 font-bold capitalize">
+                                    <router-link :to="{name:'categoryShopPage',params:{catSlug:cat.slug}}"  class="text-md block py-2 px-2 text-slate-500 font-bold capitalize">
                                        {{ cat.categoryName }}
                                     </router-link>
-
-                                    <div v-if="(showSubcategory === cat.id && cat.subcategories.length > 0)" class="child-category absolute top-[100%] w-screen z-10 border-t-2 border-gray-200">
+                                    <div v-if="(showSubcategory === cat.id && cat.subcategories.length > 0)" class="child-category absolute top-[100%] w-full z-10 border-t-2 border-green-800">
                                         <div class="flex mb-10 bg-white px-4">
                                             <div class="py-9 fixed left-0 right-2 w-screen">
-                                            <ul class="subcat-ul  flex  bg-gray-100  py-2">
-                                                <li  v-for="subcat in cat.subcategories" :key="subcat.id"
-                                                    class="pl-2 py-2 font-bold text-black"> 
-                                                    <router-link @click="responsiveNav = false" :to="{name:'subCategoryShopPage',params:{subCatSlug:subcat.slug}}" class="ml-4 capitalize">
-                                                        {{subcat.subCatName}}
-                                                    </router-link>
-                                                    <ul class="childcat-ul px-2 bg-gray-100 z-50 py-2">
-                                                            <li  v-for="childcat in subcat.childcategories" :key="childcat.id"
-                                                                class="my-1 py-2 px-2">
-                                                                <router-link @click="responsiveNav = false" :to="{name:'childCategoryShopPage',params:{childCatSlug:childcat.slug}}" class="ml-4 capitalize">
-                                                                    {{ childcat.childCatName }}
-                                                                </router-link>
-                                                            </li>
+                                                <div class="container mx-auto pr-4">
+                                                    <ul class="subcat-ul  flex  bg-gray-100  py-2">
+                                                        <li  v-for="subcat in cat.subcategories" :key="subcat.id"
+                                                            class="px-2 py-2 font-bold text-black"> 
+                                                            <router-link @click="responsiveNav = false" :to="{name:'subCategoryShopPage',params:{subCatSlug:subcat.slug}}" class="ml-4 capitalize">
+                                                                {{subcat.subCatName}}
+                                                            </router-link>
+                                                            <ul class="childcat-ul px-2 bg-gray-100 z-50 py-2">
+                                                                    <li  v-for="childcat in subcat.childcategories" :key="childcat.id"
+                                                                        class="my-1 py-2 px-2">
+                                                                        <router-link @click="responsiveNav = false" :to="{name:'childCategoryShopPage',params:{childCatSlug:childcat.slug}}" class="ml-4 capitalize">
+                                                                            {{ childcat.childCatName }}
+                                                                        </router-link>
+                                                                    </li>
+                                                            </ul>
+                                                        </li>
+                                                
                                                     </ul>
-                                                </li>
-                                           
-                                            </ul>
-                                           
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                                 
                                 <li>
-                                    <router-link :to="{name:'shop-page'}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link :to="{name:'shop-page',params:{status:'all'}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                         Shop page
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'contact'}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link :to="{name:'contact'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                         Contact
                                     </router-link>
                                 </li>
     
                                 <li v-if="!currentUser">
-                                    <router-link  to="/login"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link  to="/login"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                         Login/Register
                                     </router-link>
                                 </li>
                                 <li v-if="currentUser">
-                                    <router-link  :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-xl block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link  :to="{name:'resent-view-product',params:{slug:currentUser.slug}}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
                                         Resent view
                                     </router-link>
                                 </li>
@@ -340,13 +342,13 @@
                         </div>
                         <div class="mid-nav justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                             <ul class="flex flex-col items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                                <li v-if="notifications">
-                                    <router-link :to="{name:'orders', params:{slug:currentUser.slug}}" class="relative block py-1 pl-3 pr-4 text-white rounded hover:text-gray-100"> 
+                                <li class="mb-3">
+                                    <router-link :to="{name:'user-orders'}" class="relative block py-1 pl-3 pr-4 text-white rounded hover:text-gray-100"> 
                                         <i class="fa-solid fa-bell fa-2x"></i>
                                         <span class="bg-[#FE0000] text-white w-[17px] h-[17px] rounded-full absolute flex items-center justify-center top-0 right-3"> {{ notifications }} </span>
                                     </router-link>
                                 </li>
-                                <li v-if="currentUser" class="mb-2">
+                                <li v-if="currentUser" class="mb-4">
                                     <router-link :to="{name:'user-dashboard',params:{userSlug:currentUser.slug}}" class="flex items-center justify-center w-10 h-10 bg-gray-200  font-bold rounded-full hover:bg-gray-300"
                                     > 
                                         <img v-if="currentUser.profile_img" :src="'/' + currentUser.profile_img" :alt="currentUser.user_name" class="w-full h-full rounded-full">

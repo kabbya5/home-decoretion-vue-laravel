@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-[90px] md:mt-0 md:py-10 text-center">
+    <div class="mt-[90px] md:mt-0 container md:py-10 text-center">
         <h2 class="text-gray-800 font-bold capitalize text-2xl">
             wishlist 
         </h2>

@@ -5,7 +5,7 @@
                 Shopping Cart 
             </h2>
 
-            <div class="my-6">
+            <div class="my-6 md:mb-20">
                 <router-link :to="{name:'home'}" class="text-gray-600 font-semibold">
                     Home  /
                 </router-link>
@@ -125,11 +125,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="my-10">
-            <h2 class="text-gray-900 font-bold text-[18px] mx-4"> Resently Views </h2>
-            <Product class="my-4" :products="resentViewProducts" />
         </div>
 
         <LoadingVue v-if="loading" :loading="loading" />

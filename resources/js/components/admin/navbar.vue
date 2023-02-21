@@ -37,9 +37,9 @@
                         </router-link>
                     </li>
 
-                     <!-- product  -->
+                    <!-- product  -->
     
-                     <li class="w-full text-gray-800  py-1 my-2 transition
+                    <li class="w-full text-gray-800  py-1 my-2 transition
                         duration-300 hover:bg-gray-300" :class="{'active': link=='product'}">
                         <button @click="activelink(link=='product' ?null:'product')" type="button" class=" block uppercase text-md w-full flex justify-between">
                             <div>
@@ -258,6 +258,64 @@
                         </ul>
                     </li>
 
+                    <!-- development page setiing  -->
+                    <li class="w-full text-gray-800  py-1 my-2 transition
+                        duration-300 hover:bg-gray-300" :class="{'active': link=='extra-page'}">
+                        <button @click="activelink(link=='extra-page' ?null:'extra-page')" type="button" class="uppercase text-md w-full flex justify-between">
+                            <div>
+                                <i class="fa-regular fa-square-plus text-lg px-2"></i>
+                                Extra Page 
+                            </div>
+                        
+                        <i class="fa-solid fa-arrow-down text-lg mr-4"></i>
+                    </button>
+                    
+                    <ul v-show="link=='extra-page'" class="flex flex-col w-full mt-4">
+                        <li class="w-full  py-1 transition my-1
+                            duration-300 hover:bg-gray-300">
+                            <router-link :to="{name:'development-page-title'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-gear text-lg px-2"></i>
+                                Title
+                            </router-link>
+                        </li>
+                        <li class="w-full  py-1 transition my-1
+                            duration-300 hover:bg-gray-300">
+                            <router-link :to="{name:'development-page-slider'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-photo-film text-lg px-2"></i>
+                                Slider
+                            </router-link>
+                        </li>
+                        <li class="w-full   transition 
+                            duration-300 hover:bg-gray-300">
+                            <router-link :to="{name:'adminPrdouctCreate'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-box-open text-lg px-2"></i>
+                                Title and header
+                            </router-link>
+
+                        </li>
+                        <li class="w-full  py-1 transition my-1
+                            duration-300 hover:bg-gray-300">
+                            <router-link to="/admin/product/size/index" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-sitemap text-lg px-2"></i>
+                                Size
+                            </router-link>
+                        </li>
+                        <li class="w-full  py-1 transition my-1
+                            duration-300 hover:bg-gray-300">
+                            <router-link to="/admin/product/color/index" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-palette text-lg px-2"></i>
+                                color
+                            </router-link>
+                        </li>
+                        <li class="w-full   transition 
+                            duration-300 hover:bg-gray-300">
+                            <router-link :to="{name:'adminTags'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-tag text-lg px-2"></i>
+                                Tags
+                            </router-link>
+                        </li>
+                    </ul>
+                    </li>
                     
                 </ul>
             </div>
