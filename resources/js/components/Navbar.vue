@@ -204,74 +204,76 @@
             
             <!-- TOP NAV -->
             <nav class="py-4 hidden lg:block  px-1 z-50 bg-white md:px-4 fixed top-0 w-full shadow" id="top-nav">
-                <div class="flex justify-between items-center mb-3">
-                    <router-link :to="{name:'home'}" href="" class="flex items-center">
-                        <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
-                        <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
-                    </router-link>
-                    <div>
-                        <ul>
-                            <li class="border-2 px-2 w-full md:w-96 xl:w-[600px] relative">
-                                <form @mouseenter="(search=true)" @mouseleave="(search=false)" class="w-full">
-                                    <div class="flex items-center">
-                                        <input v-model="searchKeyword" type="search" class="px-4 text-gray-500 font-bold bg-transparent w-full py-2 
-                                            focus:outline-none"
-                                            placeholder="Search..">
-                                            <i class="fa-solid fa-magnifying-glass text-gray-500 font-bold text-2xl"></i>
-                                    </div>
-                                    <div v-if="search" class="absolute w-full bg-white -mx-2 px-2">
-                                        <ul v-if="(tags.length > 0)" class="overflow-x-auto">
-                                            <li v-for="tag in tags" :key="tag.id" class="my-2"> 
-                                               <router-link :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center py-2">
-                                                    <img v-if="tag.image" class="w-20 h-20 mx-4 rounded-md" :src="tag.image.product_img" :alt="tag.tag_name">
-                                                    {{ tag.tag_name }}
-                                               </router-link>
-                                            </li>    
-                                        </ul>
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>    
+                <div class="xl:container xl:mx-auto">
+                    <div class="flex justify-between items-center mb-3">
+                        <router-link :to="{name:'home'}" href="" class="flex items-center">
+                            <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
+                            <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
+                        </router-link>
+                        <div>
+                            <ul>
+                                <li class="border-1 px-2 w-full md:w-96 xl:w-[600px] relative">
+                                    <form @mouseenter="(search=true)" @mouseleave="(search=false)" class="w-full">
+                                        <div class="flex items-center">
+                                            <input v-model="searchKeyword" type="search" class="px-4 text-gray-500 font-bold bg-transparent w-full py-2 
+                                                focus:outline-none"
+                                                placeholder="Search..">
+                                                <i class="fa-solid fa-magnifying-glass text-gray-500 font-bold text-2xl"></i>
+                                        </div>
+                                        <div v-if="search" class="absolute w-full bg-white -mx-2 px-2">
+                                            <ul v-if="(tags.length > 0)" class="overflow-x-auto">
+                                                <li v-for="tag in tags" :key="tag.id" class="my-2"> 
+                                                   <router-link :to="{name:'tagShopPage',params:{tagSlug:tag.slug}}" class="border-b-2 border-gray-200 flex items-center py-2">
+                                                        <img v-if="tag.image" class="w-20 h-20 mx-4 rounded-md" :src="tag.image.product_img" :alt="tag.tag_name">
+                                                        {{ tag.tag_name }}
+                                                   </router-link>
+                                                </li>    
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>    
+                        </div>
+                        <div class="hidden lg:block">
+                            <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">    
+                                <li>
+                                    <router-link v-if="wishlistCount" :to="{name:'wishlist'}" class="block py-2 pr-4 pl-3 text-black  font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                                        <i class="fa-regular fa-heart fa-2x relative">
+                                            <span class="absolute top-[-21px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                                {{ wishlistCount }}
+                                            </span>
+                                        </i>
+                                    </router-link>
+                                </li>
+                                <li class="">
+                                    <router-link :to="{name:'cart-content'}" class="block py-2 pr-4 pl-3 text-black font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
+                                        <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                            <span  class="absolute top-[-20px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
+                                                {{ cart.count }}
+                                            </span>
+                                        </i>
+                                        {{ cart.subtotal }} TK 
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </div>
+                        <button @click='responsiveNav = !responsiveNav' type="button" class="inline-flex justify-center items-center mr-2 
+                            transition duration-300 text-gray-500 font-bold hover:text-gray-900">
+                            <i class="fa-solid fa-bars fa-2x"></i>
+                        </button>
                     </div>
-                    <div class="hidden lg:block">
-                        <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">    
-                            <li>
-                                <router-link v-if="wishlistCount" :to="{name:'wishlist'}" class="block py-2 pr-4 pl-3 text-black  font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                    <i class="fa-regular fa-heart fa-2x relative">
-                                        <span class="absolute top-[-21px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
-                                            {{ wishlistCount }}
-                                        </span>
-                                    </i>
-                                </router-link>
-                            </li>
-                            <li class="">
-                                <router-link :to="{name:'cart-content'}" class="block py-2 pr-4 pl-3 text-black font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
-                                    <i class="fa-solid fa-cart-shopping fa-2x relative">
-                                        <span  class="absolute top-[-20px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
-                                            {{ cart.count }}
-                                        </span>
-                                    </i>
-                                    {{ cart.subtotal }} TK 
-                                </router-link>
-                            </li>
-                        </ul>
-                    </div>
-                    <button @click='responsiveNav = !responsiveNav' type="button" class="inline-flex justify-center items-center mr-2 
-                        transition duration-300 text-gray-500 font-bold hover:text-gray-900">
-                        <i class="fa-solid fa-bars fa-2x"></i>
-                    </button>
                 </div>
             </nav>
 
             <!-- BOTTOM NAV -->
 
             <div class="xl:container xl:mx-auto py-4">
-                <nav class="hidden px-1 overflow-hidden lg:mt-[90px]  md:px-4 lg:block" id="bottom-nav">
+                <nav class="hidden px-1 overflow-hidden lg:mt-[90px]  md:px-4 lg:block xl:px-0"  id="bottom-nav">
                     <div class="flex flex-wrap justify-between items-center mx-auto">
                         <div class="justify-between items-center w-full md:flex md:w-auto md:order-1">
                             <ul class="mid-nav my-4 flex flex-col md:flex-row md:space-x-4 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                                 <li>
-                                    <router-link :to="{name:'home'}"  class="text-md block py-2 pr-4 pl-3 text-gray-500 font-bold  capitalize">
+                                    <router-link :to="{name:'home'}"  class="text-md block py-2 pr-4 text-gray-500 font-bold  capitalize">
                                         Home
                                     </router-link>
                                 </li>
@@ -341,20 +343,28 @@
                             
                         </div>
                         <div class="mid-nav justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                            <ul class="flex flex-col items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
+                            <ul v-if="currentUser" class="flex flex-col items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                                 <li class="mb-3">
                                     <router-link :to="{name:'user-orders'}" class="relative block py-1 pl-3 pr-4 text-white rounded hover:text-gray-100"> 
                                         <i class="fa-solid fa-bell fa-2x"></i>
                                         <span class="bg-[#FE0000] text-white w-[17px] h-[17px] rounded-full absolute flex items-center justify-center top-0 right-3"> {{ notifications }} </span>
                                     </router-link>
                                 </li>
-                                <li v-if="currentUser" class="mb-4">
+                                <li v-if="currentUser.is_admin=='admin'" class="mb-4">
+                                    <router-link :to="{name:'adminDashboard'}" class="flex items-center justify-center w-10 h-10 bg-gray-200  font-bold rounded-full hover:bg-gray-300"
+                                    > 
+                                        <img v-if="currentUser.profile_img" :src="'/' + currentUser.profile_img" :alt="currentUser.user_name" class="w-full h-full rounded-full">
+                                        <i v-else  class="fa-regular fa-user text-2xl"></i>
+                                    </router-link>
+                                </li>
+                                <li v-else class="mb-4">
                                     <router-link :to="{name:'user-dashboard',params:{userSlug:currentUser.slug}}" class="flex items-center justify-center w-10 h-10 bg-gray-200  font-bold rounded-full hover:bg-gray-300"
                                     > 
                                         <img v-if="currentUser.profile_img" :src="'/' + currentUser.profile_img" :alt="currentUser.user_name" class="w-full h-full rounded-full">
                                         <i v-else  class="fa-regular fa-user text-2xl"></i>
                                     </router-link>
                                 </li>
+                                
                             </ul>
                         </div>
                     </div>

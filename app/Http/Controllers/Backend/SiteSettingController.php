@@ -114,6 +114,7 @@ class SiteSettingController extends Controller
             $request->validate([
                 'link_url' => 'required',
                 'link_icon' => 'required',
+                'media_name' => 'required',
             ])
         );
     }
@@ -124,6 +125,7 @@ class SiteSettingController extends Controller
             $request->validate([
                 'link_url' => 'required',
                 'link_icon' => 'required',
+                'media_name' => 'required',
             ])
         );
     }

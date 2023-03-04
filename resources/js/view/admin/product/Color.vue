@@ -134,7 +134,7 @@ export default{
             this.btnMessage = 'load more'
         },
         createcolor(){
-            axios.post('/api/admin/product/color/create',this.color)
+            axios.post('/admin/product/color/create',this.color)
             .then(response => {
                 this.notification.type = 'success',
                 this.notification.message = 'color has been Created SuccessFully';
@@ -157,7 +157,7 @@ export default{
             };
         },
         updatecolor(){
-            axios.put('/api/admin/product/color/update/' + this.color.id,this.color)
+            axios.put('/admin/product/color/update/' + this.color.id,this.color)
             .then(response => {
                 
                 this.notification.type = 'edit',
@@ -170,7 +170,7 @@ export default{
             });
         },
         reloadcolor(){
-            axios.get('/api/admin/product/color')
+            axios.get('/admin/product/color')
             .then(res =>{
                 this.notification.deleteId = null;
                 this.notification.type = 'success';

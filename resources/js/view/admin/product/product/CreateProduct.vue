@@ -506,7 +506,7 @@ export default ({
                 { insert: 'Grey', attributes: { color: '#ccc' } },
             ])
         )
-        const productDetails = ref('<h1> product details  here </h1>')
+        const productDetails = ref()
         return { contentDelta, productDetails}
     },
     methods:{

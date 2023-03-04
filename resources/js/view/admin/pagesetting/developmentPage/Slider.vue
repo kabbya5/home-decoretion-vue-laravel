@@ -67,7 +67,7 @@
         <!-- modal -->
         <div v-if="modal" class="fixed z-50 top-0 left-0  w-full h-screen bg-gray-300/60">
             <div class="flex flex-col items-center justify-center">
-                <div class="w-full px-4 py-8  bg-white">
+                <div class="w-[700px] px-4 py-8  bg-white">
                     <button @click='modal=!modal' class="w-full text-right block">
                         <i class="fa-solid fa-xmark border-gray-400 border-2 py-3 px-4  rounded-full transition duration hover:text-white hover:bg-black"></i>
                     </button>
@@ -77,7 +77,7 @@
                         
                                 <div class="flex w-full">
                                     <div class="flex flex-col w-full">
-                                        <label for="name" class="my-2 mx-4 text-gray-500 font-semibold"> Uniqe slider Name </label>
+                                        <label for="name" class="my-2  text-gray-500 font-semibold capitalize"> Uniqe slider Name </label>
                                         <input type="text" placeholder="slider Name"
                                         :class="{'border-1 border-red-500':errors.sliderName}"
                                         class="my-2 px-4 py-2 border-2 focus:outline-none
@@ -86,10 +86,10 @@
                                         <p v-if="errors.sliderName" class="text-red-500"> {{ errors.sliderName[0] }} </p>
                                     </div>
                                     <div class="flex flex-col w-full">
-                                        <label for="image" class="my-2 mx-4 text-gray-500 font-semibold"> Button Text  </label>
+                                        <label for="image" class="my-2 mx-4 text-gray-500 font-semibold capitalize"> Button Text  </label>
                                         <div class="flex justify-between items-center w-full">
                                             <input type="text" placeholder="slider Button Text"
-                                                class="my-2 px-4 py-2 border-2 focus:outline-none
+                                                class="my-2 px-4 py-2 border-2 focus:outline-none w-full ml-4
                                                 focus:border-gray-300" 
                                                 :class="{'border-1 border-red-500':errors.sliderImg}"
                                                 v-model="slider.buttonText">
@@ -97,8 +97,61 @@
                                         <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
                                     </div>
                                 </div>
+
+                                <div class="flex w-full mt-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="name" class="my-2  text-gray-500 font-semibold capitalize"> Project Status </label>
+                                        <input type="text" placeholder="resenly complete/working"
+                                        :class="{'border-1 border-red-500':errors.status}"
+                                        class="my-2 px-4 py-2 border-2 focus:outline-none
+                                            focus:border-gray-300" v-model="slider.status">
+        
+                                        <p v-if="errors.status" class="text-red-500"> {{ errors.status[0] }} </p>
+                                    </div>
+                                    <div class="flex flex-col w-full">
+                                        <label for="image" class="my-2 mx-4 text-gray-500 font-semibold capitalize"> Project type </label>
+                                        <div class="flex justify-between items-center w-full">
+                                            <input type="text" placeholder="slider Button Text"
+                                                class="my-2 px-4 py-2 border-2 focus:outline-none w-full ml-4
+                                                focus:border-gray-300" 
+                                                :class="{'border-1 border-red-500':errors.project_type}"
+                                                v-model="slider.project_type">
+                                        </div>
+                                        <p v-if="errors.project_type" class="text-red-500"> {{ errors.project_type[0] }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex w-full mt-4">
+                                    <div class="flex flex-col w-full">
+                                        <label for="image" class="my-2 mx-4 text-gray-500 font-semibold capitalize"> slider Image </label>
+                                        <div class="flex justify-between items-center w-full">
+                                            <input type="file" placeholder="slider Image"
+                                                class="my-2 px-4 py-2 border-2 focus:outline-none
+                                                focus:border-gray-300" 
+                                                :class="{'border-1 border-red-500':errors.sliderImg}"
+                                                @change="onFileChange">
+        
+                                            <img class="ml-2 w-14 h-14 rounded-full" :src="slider.sliderImg ? slider.sliderImg :'/' + slider.oldImg" alt="">
+                                            <input type="hidden" v-model="oldImg">
+                                        </div>
+                                        <p v-if="errors.sliderImg" class="text-red-500"> {{ errors.sliderImg[0] }}</p>
+                                    </div>
+
+                                    <div class="flex flex-col w-full">
+                                        <label for="image" class="my-2 mx-4 text-gray-500 font-semibold capitalize"> designer name </label>
+                                        <div class="flex justify-between items-center w-full">
+                                            <input type="text" placeholder="Designer Name"
+                                                class="my-2 px-4 py-2 border-2 focus:outline-none w-full ml-4
+                                                focus:border-gray-300" 
+                                                :class="{'border-1 border-red-500':errors.designer_name}"
+                                                v-model="slider.designer_name">
+                                        </div>
+                                        <p v-if="errors.designer_name" class="text-red-500"> {{ errors.designer_name[0] }}</p>
+                                    </div>
+                                </div>
+
                                 <div class="flex flex-col w-full">
-                                    <label for="image" class="my-2 mx-4 text-gray-500 font-semibold"> slider Image </label>
+                                    <label for="image" class="my-2 mx-4 text-gray-500 font-semibold capitalize"> slider Image </label>
                                     <div class="flex justify-between items-center w-full">
                                         <input type="file" placeholder="slider Image"
                                             class="my-2 px-4 py-2 border-2 focus:outline-none
@@ -128,21 +181,6 @@
                                     </button>
                                 </div>
                             </form>
-                        </div>
-                        <div class="col-span-2 md:col-span-1">
-                            <div class="my-4 bg-white w-full"> 
-                                <p class="text-center my-2"> preview</p>
-                                <div class="relative w-full">
-                                    <img class="block object-cover w-full h-600 brightness-75" :src="slider.sliderImg ? slider.sliderImg : '/' + slider.oldImg" alt="">
-                                    <div class="absolute flex flex-col justify-center items-center bottom-[50%] translate-y-[50%] z-10 text-white left-[20%]">
-                                        <div class="ql-snow">
-                                            <p class="ql-editor" v-html="contentHTML"></p>
-                                        </div>
-                        
-                                        <button class="my-4 px-4 py-2 bg-white text-gray-600 font-bold uppercase rounded-md transition duration-300 hover:bg-gray-200 hover:scale-[1.05]"> {{ slider.buttonText }} </button>
-                                    </div> 
-                                </div>
-                            </div>
                         </div>
                     </div>     
                 </div>

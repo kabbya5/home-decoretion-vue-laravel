@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('developmentpageimages', function (Blueprint $table) {
             $table->id();
+            $table->string('page_image_name');
+            $table->string('page_image');
             $table->timestamps();
         });
     }

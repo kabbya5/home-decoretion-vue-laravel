@@ -13,11 +13,14 @@ use App\Http\Controllers\Backend\ColorController;
 use App\Http\Controllers\Backend\ContactPageSettingController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DeliverySettingController;
+use App\Http\Controllers\Backend\DevelopmentPageCategoryController;
 use App\Http\Controllers\Backend\DevelopmentPageController;
+use App\Http\Controllers\Backend\DevelopmentPageValueController;
 use App\Http\Controllers\Backend\HomepageSettingController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PageController;
+use App\Http\Controllers\Backend\PageImageController;
 use App\Http\Controllers\Backend\ProductImageController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\TagController;
@@ -51,9 +54,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes(['verify' => true]);
-// Auth::routes('');
 
-// Route::get('/email/verify', [HomeController::class,'verifyEmail']);
 
 Route::get('/', function () {
     return view('home');
@@ -150,6 +151,24 @@ function(){
     Route::put('/development/page/title/update/{id}','titleUpdate');
   });
 
+  Route::controller(PageImageController::class)->group(function(){
+    Route::get('/developmnet/page/image/index','index');
+    Route::post('/development/page/image/create','store');
+    Route::put('/development/page/image/update/{developmentpageimage}','update');
+    Route::delete('/developmnet/page/image/delete/{developmentpageimage}','destroy');
+  });
+
+  Route::controller(DevelopmentPageCategoryController::class)->group(function(){
+    Route::get('/development/page/category/index','index');
+    Route::post('/developmnet/page/category/store','store');
+    Route::put('/development/page/category/update/{category}', 'update');
+  });
+
+  Route::controller(DevelopmentPageValueController::class)->group(function(){
+    Route::get('/development/page/values','index');
+    Route::post('/development/page/value/store','store');
+  });
+
 
 
 
@@ -172,6 +191,7 @@ function(){
     Route::get('/product/color','index');
     Route::put('/product/color/update/{color}','update');
   });
+
 
   // Sizes 
   Route::controller(SizeController::class)->group(function(){

@@ -264,6 +264,17 @@
                 }
             }
         },
+        mounted() {
+            if (localStorage.getItem('reloaded')) {
+                localStorage.removeItem('reloaded');
+                this.loading = false;
+            } else {
+                this.loading = true;
+                localStorage.setItem('reloaded', '1');
+                location.reload();
+                
+            }
+        },
         created(){
             axios.get('/admin/dashboard/content')
             .then(res =>{

@@ -15,6 +15,9 @@
                 <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                     <tr>
                         <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
+                            Link Nane
+                         </th>
+                        <th scope="col" class="py-3 px-6 bg-gray-50 dark:bg-gray-800">
                            Link Url
                         </th>
                         <th scope="col" class="py-3 px-6">
@@ -28,8 +31,11 @@
                 <tbody>
                     <tr v-for="link in socialMediaLinks" :key="link.id" class="border-b border-gray-200 dark:border-gray-700">
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                            {{ link.link_url }}
+                            {{ link.media_name }}
                         </th>
+                        <td scope="row" class="py-4 px-6 font-medium whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                            {{ link.link_url }}
+                        </td>
                         <td class="py-4 px-6">
                             {{link.link_icon}} <i class="mx-2 text-black" :class="link.link_icon"></i>
                         </td>
@@ -53,6 +59,16 @@
                     </button>
                     
                     <form @submit.prevent="formCreate ? createSocialMediaLink() : updateSocialMediaLink()" class="w-full">
+                        <div class="flex flex-col my-4">
+                            <label for="media_name" class="my-3 mx-4 text-lg text-gray-500 capitalize"> Social Media Name </label>
+                            <input type="text" placeholder="Social Media  Name"
+                            class="px-4 py-2 border-2 border-gray-200 text-graya-400 focus:outline-none"
+                            :class="{'border-1 border-red-500':errors.media_name}"
+                            v-model="socialMediaLink.media_name">
+
+                            <p v-if="errors.media_name" class="text-red-500">{{ errors.media_name[0] }}</p>
+                        </div>
+
                         <div class="flex flex-col my-4">
                             <label for="link_url" class="my-3 mx-4 text-lg text-gray-500 capitalize"> Social Media Link url </label>
                             <input type="text" placeholder="Social Media Link Name"
@@ -131,12 +147,15 @@ export default{
             this.modal = true;
             this.errors = {};
         },
-         updateSocialMediaLink(){
+        updateSocialMediaLink(){
             axios.put('/admin/site/setting/social/midia/links/update/'+ this.socialMediaLink.id,this.socialMediaLink)
             .then(res =>{
                 this.modal = false;
                 this.notification.type ='success',
                 this.notification.message = " The site Setting has been updated successfully";
+            })
+            .catch(errors =>{
+                this.errors = errors.response.data.errors;
             })
         },
     },

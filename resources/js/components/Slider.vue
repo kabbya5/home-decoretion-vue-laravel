@@ -10,7 +10,7 @@
       @swiper="onSwiper"
       @slideChange="onSlideChange"
       :autoplay ="{
-        delay:300,
+        delay:7000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
     }"
@@ -61,7 +61,7 @@
         return {
           onSwiper,
           onSlideChange,
-          modules: [Navigation, Pagination, Scrollbar, A11y],
+          modules: [Navigation, Pagination, Scrollbar, A11y,Autoplay],
         };
       },
       data(){

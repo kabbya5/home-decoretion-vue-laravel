@@ -17,8 +17,9 @@
                     <h2 class="mb-6 text-center text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">Help center</h2>
                     <ul class="text-gray-500 dark:text-gray-400 text-center">
                         <li v-for="link in socialLinks" :key="link.id" class="mb-4">
-                            <a target="blank" :href="link.link_url" class="hover:underline">
+                            <a target="blank" :href="link.link_url" class="hover:underline flex items-center justify-center">
                                 <i :class="link.link_icon"></i>
+                                <span class="ml-4"> {{link.media_name}}</span>
                             </a>
                         </li>
                     </ul>  

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="navbar flex">
+        <div class="navbar flex overflow-auto">
             <div v-if="showsideNav" class="fixed z-10 w-[280px] bg-gray-200/60 h-screen border-r-2 border-gray-300 bg-gray-100 py-3 px-2 flex
                 flex-col">
                 <div class="logo flex items-center justify-center">
@@ -9,7 +9,7 @@
                 <ul class="flex flex-col w-full mt-10">
                     <li class="w-full  py-1 transition
                         duration-300 hover:bg-gray-300">
-                        <router-link to="/admin/dashboard" class=" block uppercase text-md text-gray-800 w-full">
+                        <router-link :to="{name:'adminDashboard'}" class=" block uppercase text-md text-gray-800 w-full">
                             <i class="fa-solid fa-home text-lg px-2"></i>
                             Dashboard
                         </router-link>
@@ -205,7 +205,7 @@
                             <li class="w-full  py-1 transition my-1
                                 duration-300 hover:bg-gray-300">
                                 <router-link :to="{name:'adminSocialMediaLink'}" class="py-1 block uppercase text-md text-gray-800 w-full">
-                                    <i class="fa-solid fa-photo-film text-lg px-2"></i>
+                                    <i class="fa-solid fa-camera-rotate text-lg px-2"></i>
                                     Social Media links
                                 </router-link>
                             </li>
@@ -287,24 +287,23 @@
                         </li>
                         <li class="w-full   transition 
                             duration-300 hover:bg-gray-300">
-                            <router-link :to="{name:'adminPrdouctCreate'}" class="py-1 block uppercase text-md text-gray-800 w-full">
-                                <i class="fa-solid fa-box-open text-lg px-2"></i>
-                                Title and header
+                            <router-link :to="{name:'development-page-image'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-photo-film text-lg px-2"></i>
+                                image
                             </router-link>
 
                         </li>
-                        <li class="w-full  py-1 transition my-1
-                            duration-300 hover:bg-gray-300">
-                            <router-link to="/admin/product/size/index" class="py-1 block uppercase text-md text-gray-800 w-full">
-                                <i class="fa-solid fa-sitemap text-lg px-2"></i>
-                                Size
+                        <li class="w-full  py-1 transition my-1 duration-300 hover:bg-gray-300">
+                            <router-link :to="{name:'development-page-category'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-list-ul text-lg px-2"></i>
+                                category 
                             </router-link>
                         </li>
                         <li class="w-full  py-1 transition my-1
                             duration-300 hover:bg-gray-300">
-                            <router-link to="/admin/product/color/index" class="py-1 block uppercase text-md text-gray-800 w-full">
-                                <i class="fa-solid fa-palette text-lg px-2"></i>
-                                color
+                            <router-link :to="{name:'development-page-value'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                                <i class="fa-solid fa-heart text-lg px-2"></i>
+                                our value
                             </router-link>
                         </li>
                         <li class="w-full   transition 
@@ -315,10 +314,10 @@
                             </router-link>
                         </li>
                     </ul>
-                    </li>
-                    
+                    </li>    
                 </ul>
             </div>
+
             <div class="w-full bg-white py-3 px-2 md:px-4" 
                 :class="{'ml-[280px]':showsideNav}">
                 <div class="flex justify-between items-center">

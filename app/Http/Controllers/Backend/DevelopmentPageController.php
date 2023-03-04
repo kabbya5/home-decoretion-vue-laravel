@@ -41,7 +41,7 @@ class DevelopmentPageController extends Controller
 
             
             if($image_type == 'bg_img'){
-                $img = Image::make($img)->resize(800,1200); 
+                $img = Image::make($img)->resize(800,1400); 
             }
 
             $img->save(public_path('/media/page/') . $image_name);

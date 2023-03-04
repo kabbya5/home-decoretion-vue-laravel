@@ -56,6 +56,9 @@ import ContactPageSetting from './view/admin/pagesetting/ContactPageSetting.vue'
 import PagesIndex from "./view/admin/pages/Index.vue";
 import DevelopmentPageTitle from "./view/admin/pagesetting/developmentPage/Title.vue";
 import DevelopmentPageSlider from "./view/admin/pagesetting/developmentPage/Slider.vue";
+import DevelopmentPageImage from "./view/admin/pagesetting/developmentPage/Image.vue";
+import DevelopmentPageCategory from "./view/admin/pagesetting/developmentPage/Category.vue";
+import DevelopmentPageValue from './view/admin/pagesetting/developmentPage/OurValue.vue';
 
 //UserDetails 
 import UserIndex from './view/admin/users/UsersIndex.vue';
@@ -154,7 +157,7 @@ const routes = [
 
   // admin section 
   {
-    path:'/admin/dashboard', name:'adminDashboard',
+    path:'/admin/system/dashboard/', name:'adminDashboard',
     component:AdminDashboard,
   },
   {
@@ -247,14 +250,27 @@ const routes = [
     path:'/admin/pages/index', name:'adminPageIndex',
     component:PagesIndex,
   },
-{
-  path:'/admin/development/page/setting/title', name:'development-page-title',
-  component:DevelopmentPageTitle,
-},
-{
-  path:'/admin/development/page/slider', name:'development-page-slider',
-  component:DevelopmentPageSlider,
-},
+  {
+    path:'/admin/development/page/setting/title', name:'development-page-title',
+    component:DevelopmentPageTitle,
+  },
+  {
+    path:'/admin/development/page/slider', name:'development-page-slider',
+    component:DevelopmentPageSlider,
+  },
+  {
+    path:'/admin/development/page/image', name:'development-page-image',
+    component:DevelopmentPageImage,
+  },
+
+  {
+    path:'/admin/development/page/catgory', name:'development-page-category',
+    component:DevelopmentPageCategory,
+  },
+  {
+    path:'/admin/development/page/value', name:'development-page-value',
+    component:DevelopmentPageValue,
+  },
   
   // coupon 
 
