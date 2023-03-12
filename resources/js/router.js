@@ -59,6 +59,7 @@ import DevelopmentPageSlider from "./view/admin/pagesetting/developmentPage/Slid
 import DevelopmentPageImage from "./view/admin/pagesetting/developmentPage/Image.vue";
 import DevelopmentPageCategory from "./view/admin/pagesetting/developmentPage/Category.vue";
 import DevelopmentPageValue from './view/admin/pagesetting/developmentPage/OurValue.vue';
+import DevelopmentPageProject from './view/admin/pagesetting/developmentPage/Project.vue';
 
 //UserDetails 
 import UserIndex from './view/admin/users/UsersIndex.vue';
@@ -270,6 +271,10 @@ const routes = [
   {
     path:'/admin/development/page/value', name:'development-page-value',
     component:DevelopmentPageValue,
+  },
+  {
+    path:'/admin/development/page/project', name:'development-page-project',
+    component:DevelopmentPageProject,
   },
   
   // coupon 

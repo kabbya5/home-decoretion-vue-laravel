@@ -25,4 +25,18 @@ class DevelopmentPageValueController extends Controller
 
         DevelopmentPageValue::create($data);
     }
+
+    public function update(Request $request,DevelopmentPageValue $value){
+        $request->validate([
+            'title' => 'required',
+            'icon'  => 'required',
+            'section_type' => 'required',
+            'description' => 'required|min:100|max:200',
+            'position' => 'required|integer',
+        ]);
+
+        $data = $request->all();
+
+        $value->update($data);
+    }
 }

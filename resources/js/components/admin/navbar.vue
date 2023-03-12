@@ -308,9 +308,9 @@
                         </li>
                         <li class="w-full   transition 
                             duration-300 hover:bg-gray-300">
-                            <router-link :to="{name:'adminTags'}" class="py-1 block uppercase text-md text-gray-800 w-full">
+                            <router-link :to="{name:'development-page-project'}" class="py-1 block uppercase text-md text-gray-800 w-full">
                                 <i class="fa-solid fa-tag text-lg px-2"></i>
-                                Tags
+                                projects
                             </router-link>
                         </li>
                     </ul>

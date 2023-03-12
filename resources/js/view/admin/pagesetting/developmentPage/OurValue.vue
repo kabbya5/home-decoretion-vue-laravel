@@ -178,11 +178,8 @@ export default{
             this.section = section;
         },
         updatesection(){
-            axios.put('/admin/hompage/section/update/' + this.section.id, this.section)
+            axios.put('/admin/development/page/value/update/' + this.section.id, this.section)
             .then(response => {
-                
-                this.notification.type = 'edit',
-                this.notification.message = 'sectionegory has been updated SuccessFully';
                 this.reloadsection();
                 this.modal = !this.modal;
             

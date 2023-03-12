@@ -203,22 +203,22 @@
             <!-- laptop -->
             
             <!-- TOP NAV -->
-            <nav class="py-4 hidden lg:block  px-1 z-50 bg-white md:px-4 fixed top-0 w-full shadow" id="top-nav">
+            <nav class="py-4 hidden lg:block  px-1 z-50 bg-blue-800 md:px-4 fixed top-0 w-full shadow" id="top-nav">
                 <div class="xl:container xl:mx-auto">
                     <div class="flex justify-between items-center mb-3">
                         <router-link :to="{name:'home'}" href="" class="flex items-center">
                             <img :src="siteSetting.title_image" class="mr-3 h-10" :alt="siteSetting.page_title" />
-                            <span class="hidden md:block self-center text-md font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
+                            <span class="hidden md:block self-center text-md text-gray-100 font-semibold whitespace-nowrap">{{ siteSetting.page_title }}</span>
                         </router-link>
                         <div>
                             <ul>
-                                <li class="border-1 px-2 w-full md:w-96 xl:w-[600px] relative">
+                                <li class="border-2 border-blue-700 px-2 w-full md:w-96 xl:w-[600px] relative">
                                     <form @mouseenter="(search=true)" @mouseleave="(search=false)" class="w-full">
                                         <div class="flex items-center">
-                                            <input v-model="searchKeyword" type="search" class="px-4 text-gray-500 font-bold bg-transparent w-full py-2 
+                                            <input v-model="searchKeyword" type="search" class="px-4 text-gray-100 font-bold bg-transparent w-full py-2  
                                                 focus:outline-none"
                                                 placeholder="Search..">
-                                                <i class="fa-solid fa-magnifying-glass text-gray-500 font-bold text-2xl"></i>
+                                                <i class="fa-solid fa-magnifying-glass text-gray-100 font-bold text-2xl"></i>
                                         </div>
                                         <div v-if="search" class="absolute w-full bg-white -mx-2 px-2">
                                             <ul v-if="(tags.length > 0)" class="overflow-x-auto">
@@ -238,7 +238,7 @@
                             <ul class="flex items-center md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">    
                                 <li>
                                     <router-link v-if="wishlistCount" :to="{name:'wishlist'}" class="block py-2 pr-4 pl-3 text-black  font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
-                                        <i class="fa-regular fa-heart fa-2x relative">
+                                        <i class="fa-regular fa-heart fa-2x relative text-gray-100">
                                             <span class="absolute top-[-21px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
                                                 {{ wishlistCount }}
                                             </span>
@@ -247,7 +247,7 @@
                                 </li>
                                 <li class="">
                                     <router-link :to="{name:'cart-content'}" class="block py-2 pr-4 pl-3 text-black font-bold rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"> 
-                                        <i class="fa-solid fa-cart-shopping fa-2x relative">
+                                        <i class="fa-solid fa-cart-shopping fa-2x relative text-gray-100">
                                             <span  class="absolute top-[-20px] right-[-20px] bg-orange-600 w-8 h-8 flex items-center justify-center text-sm rounded-full text-white">
                                                 {{ cart.count }}
                                             </span>

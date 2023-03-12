@@ -167,6 +167,7 @@ function(){
   Route::controller(DevelopmentPageValueController::class)->group(function(){
     Route::get('/development/page/values','index');
     Route::post('/development/page/value/store','store');
+    Route::put('/development/page/value/update/{value}','update');
   });
 
 
